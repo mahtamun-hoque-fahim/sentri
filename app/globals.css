@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-display: 'DM Serif Display';
+  --font-body:    'DM Sans';
+  --font-mono:    'JetBrains Mono';
+
+  --color-primary:   #006341;
+  --color-secondary: #004D32;
+  --color-highlight: #F9D74C;
+  --color-accent:    #C5A059;
+  --color-surface:   #FFFFFF;
+  --color-bg:        #F7F9F8;
+  --color-text:      #1A1F1E;
+  --color-sub:       #667085;
+  --color-muted:     #E8EDEB;
+  --color-danger:    #D93025;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body), sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--color-muted); }
+::-webkit-scrollbar-thumb { background: #b0c4bc; border-radius: 99px; }
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Vault pattern background */
+.vault-pattern {
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(0,99,65,0.07) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* Shimmer skeleton */
+.shimmer {
+  background: linear-gradient(90deg, #e8edeb 25%, #f0f5f2 50%, #e8edeb 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+@keyframes fade-up {
+  0%   { opacity: 0; transform: translateY(14px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-fade-up { animation: fade-up 0.45s ease both; }
+.animate-fade-in { animation: fade-in 0.3s ease both; }
+
+/* Stagger delays */
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.10s; }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.20s; }
+.delay-5 { animation-delay: 0.25s; }
