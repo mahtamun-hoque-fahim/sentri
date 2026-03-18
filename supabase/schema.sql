@@ -178,3 +178,78 @@ CREATE TRIGGER item_history_set_owner
 
 -- Sessions: auto-log on sign-in via trigger
 -- (Alternatively populate from your app's sign-in flow)
+
+-- ============================================================
+-- Phase 3 additions
+-- ============================================================
+
+-- ─── Vault Members ──────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS vault_members (
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  vault_id   UUID NOT NULL REFERENCES vaults(id) ON DELETE CASCADE,
+  user_id    UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  role       TEXT NOT NULL DEFAULT 'viewer' CHECK (role IN ('owner','editor','viewer')),
+  -- ECDH-wrapped vault symmetric key for this member
+  encrypted_vault_key TEXT,
+  wrap_iv             TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(vault_id, user_id)
+);
+
+ALTER TABLE vault_members ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Members see their memberships"
+  ON vault_members FOR SELECT
+  USING (user_id = auth.uid());
+
+CREATE POLICY "Vault owners manage members"
+  ON vault_members FOR ALL
+  USING (
+    vault_id IN (SELECT id FROM vaults WHERE owner_id = auth.uid())
+  );
+
+-- ─── Vault Invites ───────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS vault_invites (
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  vault_id   UUID NOT NULL REFERENCES vaults(id) ON DELETE CASCADE,
+  email      TEXT NOT NULL,
+  status     TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','accepted','declined')),
+  created_by UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE vault_invites ENABLE ROW LEVEL SECURITY;
+
+-- Auto-set created_by
+CREATE OR REPLACE FUNCTION set_invite_created_by()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.created_by = auth.uid();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS vault_invites_set_creator ON vault_invites;
+CREATE TRIGGER vault_invites_set_creator
+  BEFORE INSERT ON vault_invites
+  FOR EACH ROW EXECUTE FUNCTION set_invite_created_by();
+
+-- Vault owner can manage invites they created
+CREATE POLICY "Owners manage invites"
+  ON vault_invites FOR ALL
+  USING (created_by = auth.uid());
+
+-- Invitees can see and update their own pending invites
+CREATE POLICY "Invitees see their invites"
+  ON vault_invites FOR SELECT
+  USING (email = (SELECT email FROM profiles WHERE id = auth.uid()));
+
+CREATE POLICY "Invitees update their invites"
+  ON vault_invites FOR UPDATE
+  USING (email = (SELECT email FROM profiles WHERE id = auth.uid()));
+
+-- ─── Indexes ────────────────────────────────────────────────
+CREATE INDEX IF NOT EXISTS idx_vault_members_vault ON vault_members (vault_id);
+CREATE INDEX IF NOT EXISTS idx_vault_members_user  ON vault_members (user_id);
+CREATE INDEX IF NOT EXISTS idx_vault_invites_vault ON vault_invites (vault_id);
+CREATE INDEX IF NOT EXISTS idx_vault_invites_email ON vault_invites (email);

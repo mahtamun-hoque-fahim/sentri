@@ -16,9 +16,11 @@ const VAULT_NAV = [
 ];
 
 const TOOLS_NAV = [
-  { href: "/generator",  icon: "⚡",  label: "Generator"  },
-  { href: "/watchtower", icon: "🛡",   label: "Watchtower" },
-  { href: "/settings",   icon: "⚙",   label: "Settings"   },
+  { href: "/generator",     icon: "⚡",  label: "Generator"     },
+  { href: "/watchtower",    icon: "🛡",   label: "Watchtower"    },
+  { href: "/shared",        icon: "👥",  label: "Shared Vaults" },
+  { href: "/emergency-kit", icon: "🆘",  label: "Emergency Kit" },
+  { href: "/settings",      icon: "⚙",   label: "Settings"      },
 ];
 
 function NavLink({ href, icon, label, exact = false }: { href: string; icon: string; label: string; exact?: boolean }) {

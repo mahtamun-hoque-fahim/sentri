@@ -11,6 +11,7 @@ import Header from "@/components/layout/Header";
 import PasswordField from "@/components/vault/PasswordField";
 import TOTPDisplay from "@/components/vault/TOTPDisplay";
 import ItemHistory from "@/components/vault/ItemHistory";
+import ShareItemModal from "@/components/sharing/ShareItemModal";
 
 type CopyState = Record<string, boolean>;
 
@@ -31,6 +32,8 @@ export default function VaultItemPage() {
   const [copied,   setCopied]   = useState<CopyState>({});
   const [editData, setEditData] = useState<VaultItemData | null>(null);
   const [editTitle,setEditTitle]= useState("");
+
+  const [showShare, setShowShare] = useState(false);
 
   useEffect(() => { loadItem(); }, [id, vaultKey]); // eslint-disable-line
 
@@ -176,6 +179,11 @@ export default function VaultItemPage() {
           <div className="flex-1" />
           {!editing ? (
             <>
+              <button onClick={() => setShowShare(true)}
+                className="px-4 py-1.5 rounded-lg border text-sm font-medium hover:bg-sentri-muted transition-colors"
+                style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+                Share
+              </button>
               <button onClick={() => setEditing(true)}
                 className="px-4 py-1.5 rounded-lg border text-sm font-medium hover:bg-sentri-muted transition-colors"
                 style={{ borderColor: "#E8EDEB", color: "#1A1F1E" }}>Edit</button>
@@ -377,6 +385,10 @@ export default function VaultItemPage() {
           <span>Updated {new Date(item.updated_at).toLocaleDateString()}</span>
         </div>
       </div>
+
+      {showShare && item && (
+        <ShareItemModal item={item} onClose={() => setShowShare(false)} />
+      )}
     </>
   );
 }
