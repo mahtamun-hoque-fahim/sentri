@@ -4,15 +4,14 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useVaultStore } from "@/store/vault";
 import Sidebar from "@/components/layout/Sidebar";
+import InactivityLock from "@/components/layout/InactivityLock";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router     = useRouter();
   const isUnlocked = useVaultStore((s) => s.isUnlocked);
 
   useEffect(() => {
-    if (!isUnlocked) {
-      router.replace("/signin");
-    }
+    if (!isUnlocked) router.replace("/signin");
   }, [isUnlocked, router]);
 
   if (!isUnlocked) {
@@ -29,6 +28,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <main className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         {children}
       </main>
+      <InactivityLock />
     </div>
   );
 }

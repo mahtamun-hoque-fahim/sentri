@@ -147,3 +147,34 @@ CREATE INDEX IF NOT EXISTS idx_vault_items_type      ON vault_items (item_type);
 CREATE INDEX IF NOT EXISTS idx_vault_items_updated   ON vault_items (updated_at DESC);
 CREATE INDEX IF NOT EXISTS idx_item_history_item_id  ON item_history (item_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_user_id      ON sessions (user_id);
+
+-- ============================================================
+-- Phase 2 additions — run these if upgrading from Phase 1
+-- ============================================================
+
+-- Ensure item_history owner_id column exists with RLS
+DO $$ BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'item_history' AND column_name = 'owner_id'
+  ) THEN
+    ALTER TABLE item_history ADD COLUMN owner_id UUID REFERENCES profiles(id) ON DELETE CASCADE;
+  END IF;
+END $$;
+
+-- Auto-populate owner_id on insert from auth.uid()
+CREATE OR REPLACE FUNCTION set_item_history_owner()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.owner_id = auth.uid();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+DROP TRIGGER IF EXISTS item_history_set_owner ON item_history;
+CREATE TRIGGER item_history_set_owner
+  BEFORE INSERT ON item_history
+  FOR EACH ROW EXECUTE FUNCTION set_item_history_owner();
+
+-- Sessions: auto-log on sign-in via trigger
+-- (Alternatively populate from your app's sign-in flow)
