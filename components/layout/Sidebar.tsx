@@ -19,6 +19,7 @@ const TOOLS_NAV = [
   { href: "/generator",     icon: "⚡",  label: "Generator"     },
   { href: "/watchtower",    icon: "🛡",   label: "Watchtower"    },
   { href: "/shared",        icon: "👥",  label: "Shared Vaults" },
+  { href: "/import",        icon: "📥",  label: "Import"        },
   { href: "/emergency-kit", icon: "🆘",  label: "Emergency Kit" },
   { href: "/settings",      icon: "⚙",   label: "Settings"      },
 ];
