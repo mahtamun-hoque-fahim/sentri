@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn, useAuth } from "@clerk/nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SigninForm() {
   const { signIn, setActive, isLoaded } = useSignIn();
+  const { isSignedIn }  = useAuth();
   const router  = useRouter();
   const params  = useSearchParams();
 
@@ -15,6 +16,11 @@ export default function SigninForm() {
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState("");
   const [welcome, setWelcome] = useState(false);
+
+  // Already signed in → go straight to unlock
+  useEffect(() => {
+    if (isSignedIn) router.replace("/unlock");
+  }, [isSignedIn, router]);
 
   useEffect(() => { if (params.get("welcome") === "1") setWelcome(true); }, [params]);
 

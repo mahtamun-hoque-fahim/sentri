@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSignUp } from "@clerk/nextjs";
+import { useSignUp, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { generateSecretKey, generateSalt, deriveKey, encryptData, uint8ToBase64 } from "@/lib/crypto";
 import { api } from "@/lib/api";
@@ -11,7 +11,13 @@ type Step = "form" | "verify" | "key-reveal" | "done";
 
 export default function SignupPage() {
   const { signUp, setActive, isLoaded } = useSignUp();
+  const { isSignedIn } = useAuth();
   const router  = useRouter();
+
+  // Already signed in → go to unlock
+  useEffect(() => {
+    if (isSignedIn) router.replace("/unlock");
+  }, [isSignedIn, router]);
 
   const [step,      setStep]      = useState<Step>("form");
   const [email,     setEmail]     = useState("");
