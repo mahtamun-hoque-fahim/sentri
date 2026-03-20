@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import { importShareKeyFromFragment, } from "@/lib/sharing";
 import { decryptData } from "@/lib/crypto";
 import { ItemType, VaultItemData } from "@/types/vault";
@@ -49,28 +49,19 @@ export default function SharePage() {
   async function load() {
     setStatus("loading");
     try {
-      const supabase = createClient();
-      const { data: row, error } = await supabase
-        .from("secure_shares")
-        .select("*")
-        .eq("id", shareId)
-        .single();
+      // Fetch from API (handles expiry + view count atomically)
+      let share: { id: string; encryptedShareData: string; shareIv: string; expiresAt: string; viewsLeft: number };
+      try {
+        share = await api.shares.get(shareId) as typeof share;
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : "";
+        if (msg === "expired")   { setStatus("expired");   return; }
+        if (msg === "exhausted") { setStatus("exhausted"); return; }
+        setStatus("error"); return;
+      }
 
-      if (error || !row) { setStatus("error"); return; }
-
-      const share = row as ShareRow;
-
-      if (new Date(share.expires_at) < new Date()) { setStatus("expired"); return; }
-      if (share.view_count >= share.max_views)      { setStatus("exhausted"); return; }
-
-      setViewsLeft(share.max_views - share.view_count - 1);
-      setExpiresAt(share.expires_at);
-
-      // Increment view count
-      await supabase
-        .from("secure_shares")
-        .update({ view_count: share.view_count + 1 })
-        .eq("id", shareId);
+      setViewsLeft(share.viewsLeft);
+      setExpiresAt(share.expiresAt);
 
       // Get key from URL fragment
       setStatus("decrypting");
@@ -78,7 +69,7 @@ export default function SharePage() {
       if (!fragment) { setStatus("error"); return; }
 
       const shareKey = await importShareKeyFromFragment(fragment);
-      const result   = await decryptData<SharedPayload>(shareKey, share.encrypted_share_data, share.share_iv);
+      const result   = await decryptData<SharedPayload>(shareKey, share.encryptedShareData, share.shareIv);
       setPayload(result);
       setStatus("ready");
     } catch {

@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useVaultStore } from "@/store/vault";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import { encryptData } from "@/lib/crypto";
 import {
   detectFormat, parse1Password, parseBitwarden,
@@ -105,7 +105,6 @@ export default function ImportPage() {
 
     for (const item of toImport) {
       try {
-        const supabase = createClient();
         const { ciphertext: encData,  iv: dataIV  } = await encryptData(vaultKey, item.data);
         const { ciphertext: encTitle, iv: titleIV } = await encryptData(vaultKey, item.title);
 
@@ -117,20 +116,14 @@ export default function ImportPage() {
           } catch { /* ignore */ }
         }
 
-        const { data: row, error } = await supabase
-          .from("vault_items")
-          .insert({
-            item_type:       item.item_type,
-            encrypted_data:  encData,
-            iv:              dataIV,
-            title_encrypted: encTitle,
-            title_iv:        titleIV,
-            favicon_url,
-          })
-          .select()
-          .single();
-
-        if (error) throw error;
+        const row = await api.items.create({
+          itemType:       item.item_type,
+          encryptedData:  encData,
+          iv:             dataIV,
+          titleEncrypted: encTitle,
+          titleIv:        titleIV,
+          faviconUrl:     favicon_url,
+        }) as { id: string; created_at: string; updated_at: string };
 
         addItem({
           id:          row.id,

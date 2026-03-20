@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import Header from "@/components/layout/Header";
 
 interface VaultRow {
@@ -36,18 +36,12 @@ export default function SharedVaultsPage() {
 
   async function load() {
     setLoading(true);
-    const supabase = createClient();
-    const { data: user } = await supabase.auth.getUser();
-    const uid = user.user?.id ?? "";
-    setUserId(uid);
-
-    const [{ data: vaultData }, { data: inviteData }] = await Promise.all([
-      supabase.from("vaults").select("*").order("created_at", { ascending: false }),
-      supabase.from("vault_invites").select("*, vault:vaults(name)").eq("status", "pending"),
+    const [vaultData, inviteData] = await Promise.all([
+      api.vaults.list() as Promise<VaultRow[]>,
+      api.invites.list() as Promise<InviteRow[]>,
     ]);
-
-    setVaults((vaultData as VaultRow[]) ?? []);
-    setInvites((inviteData as InviteRow[]) ?? []);
+    setVaults(vaultData ?? []);
+    setInvites((inviteData ?? []).filter((i: InviteRow) => i.status === "pending"));
     setLoading(false);
   }
 
@@ -56,12 +50,7 @@ export default function SharedVaultsPage() {
     setCreating(true);
     setError("");
     try {
-      const supabase = createClient();
-      const { error: err } = await supabase.from("vaults").insert({
-        name:       newName.trim(),
-        vault_type: "shared",
-      });
-      if (err) throw err;
+      await api.vaults.create({ name: newName.trim(), vaultType: "shared" });
       setNewName("");
       await load();
     } catch (err: unknown) {
@@ -72,14 +61,12 @@ export default function SharedVaultsPage() {
   }
 
   async function acceptInvite(inviteId: string) {
-    const supabase = createClient();
-    await supabase.from("vault_invites").update({ status: "accepted" }).eq("id", inviteId);
+    await api.invites.update(inviteId, { status: "accepted" });
     await load();
   }
 
   async function declineInvite(inviteId: string) {
-    const supabase = createClient();
-    await supabase.from("vault_invites").update({ status: "declined" }).eq("id", inviteId);
+    await api.invites.update(inviteId, { status: "declined" });
     setInvites((i) => i.filter((inv) => inv.id !== inviteId));
   }
 

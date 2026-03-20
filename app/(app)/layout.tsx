@@ -2,22 +2,26 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 import { useVaultStore } from "@/store/vault";
 import Sidebar from "@/components/layout/Sidebar";
 import InactivityLock from "@/components/layout/InactivityLock";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const router     = useRouter();
-  const isUnlocked = useVaultStore((s) => s.isUnlocked);
+  const router       = useRouter();
+  const { isSignedIn, isLoaded } = useAuth();
+  const isUnlocked   = useVaultStore((s) => s.isUnlocked);
 
   useEffect(() => {
-    if (!isUnlocked) router.replace("/signin");
-  }, [isUnlocked, router]);
+    if (!isLoaded) return;
+    if (!isSignedIn) { router.replace("/signin"); return; }
+    if (!isUnlocked) { router.replace("/unlock"); return; }
+  }, [isLoaded, isSignedIn, isUnlocked, router]);
 
-  if (!isUnlocked) {
+  if (!isLoaded || !isSignedIn || !isUnlocked) {
     return (
       <div className="min-h-screen vault-pattern flex items-center justify-center">
-        <div className="text-sentri-sub text-sm">Redirecting…</div>
+        <div className="text-sentri-sub text-sm">Loading…</div>
       </div>
     );
   }

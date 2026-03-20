@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { useVaultStore } from "@/store/vault";
-import { createClient } from "@/lib/supabase";
 import Header from "@/components/layout/Header";
 
 const LOCK_OPTIONS = [
@@ -19,15 +19,9 @@ export default function SettingsPage() {
   const autoLockMinutes = useVaultStore((s) => s.autoLockMinutes);
   const setAutoLock     = useVaultStore((s) => s.setAutoLock);
   const [saved,  setSaved]  = useState(false);
-  const [email,  setEmail]  = useState("");
-  const [loaded, setLoaded] = useState(false);
-
-  // Load email on first render
-  useEffect(() => {
-    createClient().auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
-      if (data.user?.email) { setEmail(data.user.email); setLoaded(true); }
-    });
-  }, []);
+  const { user } = useUser();
+  const email  = user?.primaryEmailAddress?.emailAddress ?? "";
+  const loaded = !!user;
 
   function handleLockChange(v: number) {
     setAutoLock(v);

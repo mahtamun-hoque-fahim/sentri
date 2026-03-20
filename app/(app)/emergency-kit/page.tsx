@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase";
+import { useUser } from "@clerk/nextjs";
 import { generateEmergencyKitPDF } from "@/lib/pdf";
 import Header from "@/components/layout/Header";
 
@@ -12,11 +12,8 @@ export default function EmergencyKitPage() {
   const [generated,  setGenerated]  = useState(false);
   const [error,      setError]      = useState("");
 
-  useEffect(() => {
-    createClient().auth.getUser().then(({ data }: { data: { user: { email?: string } | null } }) => {
-      if (data.user?.email) setEmail(data.user.email);
-    });
-  }, []);
+  const { user } = useUser();
+  useEffect(() => { if (user?.primaryEmailAddress?.emailAddress) setEmail(user.primaryEmailAddress.emailAddress); }, [user]);
 
   async function handleGenerate() {
     if (!secretKey.trim()) {

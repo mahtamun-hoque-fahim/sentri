@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import Header from "@/components/layout/Header";
 
 interface SessionRow {
@@ -43,31 +43,23 @@ export default function SessionsPage() {
 
   async function load() {
     setLoading(true);
-    const supabase = createClient();
-    const { data, error: err } = await supabase
-      .from("sessions")
-      .select("*")
-      .order("last_active", { ascending: false });
-
-    if (err) setError("Could not load sessions.");
-    setSessions((data as SessionRow[]) ?? []);
+    const data = await api.sessions.list() as SessionRow[];
+    setSessions(data ?? []);
     setLoading(false);
   }
 
   async function revoke(id: string) {
     setRevoking(id);
-    const supabase = createClient();
-    await supabase.from("sessions").delete().eq("id", id);
+    await api.sessions.delete(id);
     setSessions((s) => s.filter((row) => row.id !== id));
     setRevoking(null);
   }
 
   async function revokeAll() {
     if (!confirm("Revoke all other sessions? You will remain signed in here.")) return;
-    const supabase  = createClient();
-    const { data: user } = await supabase.auth.getUser();
-    if (!user.user) return;
-    await supabase.from("sessions").delete().neq("id", sessions[0]?.id ?? "none");
+    // Revoke all other sessions
+    const others = sessions.slice(1);
+    await Promise.all(others.map((s) => api.sessions.delete(s.id)));
     setSessions((s) => s.slice(0, 1));
   }
 

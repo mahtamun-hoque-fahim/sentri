@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useVaultStore } from "@/store/vault";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import { encryptData } from "@/lib/crypto";
 import { ItemType, VaultItemData } from "@/types/vault";
 import Header from "@/components/layout/Header";
@@ -70,35 +70,23 @@ export default function NewItemPage() {
     setLoading(true);
 
     try {
-      const supabase  = createClient();
-      const data      = buildItemData();
-
+      const data = buildItemData();
       const { ciphertext: encData,  iv: dataIV  } = await encryptData(vaultKey, data);
       const { ciphertext: encTitle, iv: titleIV } = await encryptData(vaultKey, title);
 
-      // Get favicon for logins
       let favicon_url: string | null = null;
       if (type === "login" && url) {
-        try {
-          const domain   = new URL(url).hostname;
-          favicon_url    = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
-        } catch { /* ignore */ }
+        try { favicon_url = `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`; } catch { /* ignore */ }
       }
 
-      const { data: row, error: insertError } = await supabase
-        .from("vault_items")
-        .insert({
-          item_type:       type,
-          encrypted_data:  encData,
-          iv:              dataIV,
-          title_encrypted: encTitle,
-          title_iv:        titleIV,
-          favicon_url,
-        })
-        .select()
-        .single();
-
-      if (insertError) throw insertError;
+      const row = await api.items.create({
+        itemType:       type,
+        encryptedData:  encData,
+        iv:             dataIV,
+        titleEncrypted: encTitle,
+        titleIv:        titleIV,
+        faviconUrl:     favicon_url,
+      }) as { id: string; created_at: string; updated_at: string };
 
       // Add decrypted item to in-memory store
       addItem({

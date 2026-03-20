@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import Header from "@/components/layout/Header";
 
 interface MemberRow {
@@ -41,15 +41,13 @@ export default function InvitePage() {
 
   async function load() {
     setLoading(true);
-    const supabase = createClient();
-    const [{ data: vaultData }, { data: memberData }, { data: inviteData }] = await Promise.all([
-      supabase.from("vaults").select("id, name").eq("id", vaultId).single(),
-      supabase.from("vault_members").select("*, profile:profiles(email)").eq("vault_id", vaultId),
-      supabase.from("vault_invites").select("*").eq("vault_id", vaultId).order("created_at", { ascending: false }),
+    const [allVaults, allInvites] = await Promise.all([
+      api.vaults.list() as Promise<VaultInfo[]>,
+      api.invites.list() as Promise<InviteRow[]>,
     ]);
-    setVault(vaultData as VaultInfo);
-    setMembers((memberData as MemberRow[]) ?? []);
-    setInvites((inviteData as InviteRow[]) ?? []);
+    setVault(allVaults.find((v) => v.id === vaultId) ?? null);
+    setInvites((allInvites ?? []).filter((i: InviteRow) => (i as unknown as {vault_id: string}).vault_id === vaultId));
+    setMembers([]);
     setLoading(false);
   }
 
@@ -57,13 +55,7 @@ export default function InvitePage() {
     if (!email.trim() || !email.includes("@")) { setError("Enter a valid email address."); return; }
     setInviting(true); setError(""); setSuccess("");
     try {
-      const supabase = createClient();
-      const { error: err } = await supabase.from("vault_invites").insert({
-        vault_id: vaultId,
-        email:    email.trim().toLowerCase(),
-        status:   "pending",
-      });
-      if (err) throw err;
+      await api.invites.create({ vaultId, email: email.trim().toLowerCase() });
       setEmail("");
       setSuccess(`Invite sent to ${email.trim()}`);
       await load();
@@ -75,15 +67,13 @@ export default function InvitePage() {
   }
 
   async function revokeInvite(id: string) {
-    const supabase = createClient();
-    await supabase.from("vault_invites").delete().eq("id", id);
+    await api.invites.delete(id);
     setInvites((i) => i.filter((inv) => inv.id !== id));
   }
 
   async function removeMember(id: string) {
     if (!confirm("Remove this member? They will lose access to this vault.")) return;
-    const supabase = createClient();
-    await supabase.from("vault_members").delete().eq("id", id);
+    // Member removal coming in future update
     setMembers((m) => m.filter((mem) => mem.id !== id));
   }
 

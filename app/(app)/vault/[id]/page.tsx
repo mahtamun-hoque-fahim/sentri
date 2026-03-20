@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { useVaultStore } from "@/store/vault";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import { decryptData, encryptData } from "@/lib/crypto";
 import { VaultItemRow, DecryptedVaultItem, VaultItemData } from "@/types/vault";
 import Header from "@/components/layout/Header";
@@ -46,11 +46,8 @@ export default function VaultItemPage() {
       setLoading(false); return;
     }
     try {
-      const supabase = createClient();
-      const { data: row, error: err } = await supabase
-        .from("vault_items").select("*").eq("id", id).single();
-      if (err || !row) throw new Error("Item not found.");
-      const r = row as VaultItemRow;
+      const r = await api.items.get(id) as VaultItemRow;
+      if (!r) throw new Error("Item not found.");
       const data  = await decryptData<VaultItemData>(vaultKey, r.encrypted_data, r.iv);
       const title = await decryptData<string>(vaultKey, r.title_encrypted, r.title_iv);
       const decrypted: DecryptedVaultItem = {
@@ -67,22 +64,13 @@ export default function VaultItemPage() {
     if (!vaultKey || !item || !editData) return;
     setSaving(true); setError("");
     try {
-      const supabase = createClient();
-
-      // Save current version to history BEFORE overwriting
-      await supabase.from("item_history").insert({
-        item_id:        item.id,
-        encrypted_data: await encryptData(vaultKey, item.data).then((r) => r.ciphertext),
-        iv:             await encryptData(vaultKey, item.data).then((r) => r.iv),
-      });
+      // Save history first
+      const hist1 = await encryptData(vaultKey, item.data);
+      await api.history.create({ itemId: item.id, encryptedData: hist1.ciphertext, iv: hist1.iv }).catch(() => {});
 
       const { ciphertext: encData,  iv: dataIV  } = await encryptData(vaultKey, editData);
       const { ciphertext: encTitle, iv: titleIV } = await encryptData(vaultKey, editTitle);
-      const { error: updateError } = await supabase.from("vault_items").update({
-        encrypted_data: encData, iv: dataIV, title_encrypted: encTitle, title_iv: titleIV,
-        updated_at: new Date().toISOString(),
-      }).eq("id", id);
-      if (updateError) throw updateError;
+      await api.items.update(id, { encryptedData: encData, iv: dataIV, titleEncrypted: encTitle, titleIv: titleIV });
 
       const updated: DecryptedVaultItem = {
         ...item, title: editTitle, data: editData, updated_at: new Date().toISOString(),
@@ -97,8 +85,7 @@ export default function VaultItemPage() {
     if (!confirm("Delete this item permanently? This cannot be undone.")) return;
     setDeleting(true);
     try {
-      const supabase = createClient();
-      await supabase.from("vault_items").delete().eq("id", id);
+      await api.items.delete(id);
       removeItem(id); router.push("/dashboard");
     } catch { setError("Failed to delete."); setDeleting(false); }
   }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useVaultStore } from "@/store/vault";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import { decryptData } from "@/lib/crypto";
 import { VaultItemData } from "@/types/vault";
 
@@ -28,15 +28,8 @@ export default function ItemHistory({ itemId }: ItemHistoryProps) {
   async function load() {
     if (!vaultKey) return;
     setLoading(true);
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("item_history")
-      .select("id, encrypted_data, iv, changed_at")
-      .eq("item_id", itemId)
-      .order("changed_at", { ascending: false })
-      .limit(10);
-
-    setRows((data as HistoryRow[]) ?? []);
+    const data = await api.history.list(itemId) as HistoryRow[];
+    setRows(data ?? []);
     setLoading(false);
   }
 

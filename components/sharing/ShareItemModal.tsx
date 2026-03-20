@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase";
+import { api } from "@/lib/api";
 import { encryptData } from "@/lib/crypto";
 import {
   generateShareKey,
@@ -48,22 +48,14 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
       const { ciphertext, iv } = await encryptData(shareKey, sharePayload);
 
       // 3. Store encrypted payload + metadata in DB
-      const supabase   = createClient();
-      const expiresAt  = new Date(Date.now() + expiry * 3_600_000).toISOString();
-
-      const { data: row, error: dbErr } = await supabase
-        .from("secure_shares")
-        .insert({
-          item_id:             item.id,
-          encrypted_share_data: ciphertext,
-          share_iv:            iv,
-          expires_at:          expiresAt,
-          max_views:           maxViews,
-        })
-        .select("id")
-        .single();
-
-      if (dbErr) throw dbErr;
+      const expiresAt = new Date(Date.now() + expiry * 3_600_000).toISOString();
+      const row = await api.shares.create({
+        itemId:             item.id,
+        encryptedShareData: ciphertext,
+        shareIv:            iv,
+        expiresAt,
+        maxViews:           maxViews,
+      }) as { id: string };
 
       // 4. Build share URL — key in fragment, never hits server
       const base = window.location.origin;
