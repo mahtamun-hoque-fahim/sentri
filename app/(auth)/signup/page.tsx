@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSignUp, useAuth } from "@clerk/nextjs";
+import { useSignUp, useAuth, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { generateSecretKey, generateSalt, deriveKey, encryptData, uint8ToBase64 } from "@/lib/crypto";
 import { api } from "@/lib/api";
@@ -12,6 +12,7 @@ type Step = "form" | "verify" | "key-reveal" | "done";
 export default function SignupPage() {
   const { signUp, setActive, isLoaded } = useSignUp();
   const { isSignedIn } = useAuth();
+  const { session } = useClerk();
   const router  = useRouter();
 
   // Already signed in → go to unlock
@@ -74,17 +75,35 @@ export default function SignupPage() {
       const vaultKey = await deriveKey(password, secretKey, salt);
       const { ciphertext, iv } = await encryptData(vaultKey, { canary: "sentri-ok" });
 
-      // Activate Clerk session
+      // Activate Clerk session — after this resolves, session is live in memory
       await setActive({ session: signUp.createdSessionId });
 
-      // Save profile to Neon via API
-      await api.profile.create({
-        email,
-        secretKeyHint:     secretKey.slice(-4),
-        encryptedVaultKey: ciphertext,
-        vaultKeySalt:      uint8ToBase64(salt),
-        vaultKeyIv:        iv,
+      // Get a fresh JWT from the now-active session (available immediately in memory,
+      // even before the session cookie propagates to the browser)
+      const token = await session?.getToken();
+
+      if (!token) throw new Error("Could not get session token after activation.");
+
+      // Save profile using Bearer token so we don't depend on the session cookie
+      const profileRes = await fetch("/api/auth/complete-signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          email,
+          secretKeyHint:     secretKey.slice(-4),
+          encryptedVaultKey: ciphertext,
+          vaultKeySalt:      uint8ToBase64(salt),
+          vaultKeyIv:        iv,
+        }),
       });
+
+      if (!profileRes.ok) {
+        const errData = await profileRes.json().catch(() => ({ error: "Profile creation failed" }));
+        throw new Error(errData.error ?? "Profile creation failed");
+      }
 
       router.push("/unlock?welcome=1");
     } catch (err: unknown) {
