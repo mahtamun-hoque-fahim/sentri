@@ -24,6 +24,7 @@ export default function SignupPage() {
   const [confirm,   setConfirm]   = useState("");
   const [code,      setCode]      = useState("");
   const [secretKey, setSecretKey] = useState("");
+  const [sessionId, setSessionId] = useState<string | null>(null);
   const [agreed,    setAgreed]    = useState(false);
   const [copied,    setCopied]    = useState(false);
   const [loading,   setLoading]   = useState(false);
@@ -53,6 +54,8 @@ export default function SignupPage() {
     try {
       const result = await signUp.attemptEmailAddressVerification({ code });
       if (result.status !== "complete") throw new Error("Verification incomplete.");
+      // Store sessionId now — signUp.createdSessionId may be null later
+      setSessionId(result.createdSessionId);
       // Generate Secret Key now
       const sk = generateSecretKey();
       setSecretKey(sk);
@@ -73,12 +76,14 @@ export default function SignupPage() {
       const vaultKey = await deriveKey(password, secretKey, salt);
       const { ciphertext, iv } = await encryptData(vaultKey, { canary: "sentri-ok" });
 
+      if (!sessionId) throw new Error("Missing sessionId. Please try signing up again.");
+
       // Save profile BEFORE activating session — pass sessionId for server verification
       const profileRes = await fetch("/api/auth/complete-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sessionId:         signUp.createdSessionId,
+          sessionId,
           email,
           secretKeyHint:     secretKey.slice(-4),
           encryptedVaultKey: ciphertext,
@@ -93,7 +98,7 @@ export default function SignupPage() {
       }
 
       // Activate session AFTER profile is saved
-      await setActive({ session: signUp.createdSessionId });
+      await setActive({ session: sessionId });
 
       router.push("/unlock?welcome=1");
     } catch (err: unknown) {
