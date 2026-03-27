@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import { api } from "@/lib/api";
 import { deriveKey, decryptData, base64ToUint8 } from "@/lib/crypto";
 import { useVaultStore } from "@/store/vault";
@@ -12,6 +12,7 @@ function UnlockForm() {
   const router      = useRouter();
   const params      = useSearchParams();
   const { user, isLoaded } = useUser();
+  const { signOut } = useClerk();
   const setVaultKey = useVaultStore((s) => s.setVaultKey);
 
   const [secretKey, setSecretKey] = useState("");
@@ -29,11 +30,12 @@ function UnlockForm() {
 
     try {
       // Fetch encrypted vault key from Neon
-      const profile = await api.profile.get() as {
-        encrypted_vault_key: string;
-        vault_key_salt: string;
-        vault_key_iv: string;
-      };
+      let profile: { encrypted_vault_key: string; vault_key_salt: string; vault_key_iv: string };
+      try {
+        profile = await api.profile.get() as typeof profile;
+      } catch {
+        throw new Error("Vault setup incomplete. Please sign out and create a new account.");
+      }
 
       // Derive key from master password + secret key
       const salt = base64ToUint8(profile.vault_key_salt);
@@ -106,7 +108,17 @@ function UnlockForm() {
 
           {error && (
             <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-              style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>{error}</div>
+              style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>
+              {error}
+              {error.includes("Vault setup incomplete") && (
+                <button
+                  onClick={() => signOut({ redirectUrl: "/signup" })}
+                  className="block mt-2 underline font-medium"
+                  style={{ color: "#D93025" }}>
+                  Sign out and create a new account →
+                </button>
+              )}
+            </div>
           )}
 
           <form onSubmit={handleUnlock} className="flex flex-col gap-4">

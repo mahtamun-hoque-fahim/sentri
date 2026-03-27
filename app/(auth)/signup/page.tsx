@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useSignUp, useAuth, useClerk } from "@clerk/nextjs";
+import { useSignUp, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { generateSecretKey, generateSalt, deriveKey, encryptData, uint8ToBase64 } from "@/lib/crypto";
 import { api } from "@/lib/api";
@@ -12,7 +12,6 @@ type Step = "form" | "verify" | "key-reveal" | "done";
 export default function SignupPage() {
   const { signUp, setActive, isLoaded } = useSignUp();
   const { isSignedIn } = useAuth();
-  const { session } = useClerk();
   const router  = useRouter();
 
   // Already signed in → go to unlock
@@ -75,16 +74,19 @@ export default function SignupPage() {
       const vaultKey = await deriveKey(password, secretKey, salt);
       const { ciphertext, iv } = await encryptData(vaultKey, { canary: "sentri-ok" });
 
-      // Activate Clerk session — after this resolves, session is live in memory
+      // Activate Clerk session
       await setActive({ session: signUp.createdSessionId });
 
-      // Get a fresh JWT from the now-active session (available immediately in memory,
-      // even before the session cookie propagates to the browser)
-      const token = await session?.getToken();
+      // Force a fresh token with skipCache: true — this is the official Clerk
+      // pattern to ensure the session token is fully minted and available
+      // immediately, before the session cookie propagates in the browser.
+      // window.Clerk.session is updated synchronously after setActive resolves.
+      const clerkSession = (window as unknown as { Clerk?: { session?: { getToken: (opts?: { skipCache?: boolean }) => Promise<string | null> } } }).Clerk?.session;
+      const token = clerkSession ? await clerkSession.getToken({ skipCache: true }) : null;
 
-      if (!token) throw new Error("Could not get session token after activation.");
+      if (!token) throw new Error("Could not get session token. Please try again.");
 
-      // Save profile using Bearer token so we don't depend on the session cookie
+      // Save profile using Bearer token — bypasses session cookie timing issue
       const profileRes = await fetch("/api/auth/complete-signup", {
         method: "POST",
         headers: {
