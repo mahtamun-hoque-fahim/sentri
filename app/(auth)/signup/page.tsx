@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useSignUp, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { generateSecretKey, generateSalt, deriveKey, encryptData, uint8ToBase64 } from "@/lib/crypto";
-import { api } from "@/lib/api";
 
 type Step = "form" | "verify" | "key-reveal" | "done";
 
@@ -74,26 +73,12 @@ export default function SignupPage() {
       const vaultKey = await deriveKey(password, secretKey, salt);
       const { ciphertext, iv } = await encryptData(vaultKey, { canary: "sentri-ok" });
 
-      // Activate Clerk session
-      await setActive({ session: signUp.createdSessionId });
-
-      // Force a fresh token with skipCache: true — this is the official Clerk
-      // pattern to ensure the session token is fully minted and available
-      // immediately, before the session cookie propagates in the browser.
-      // window.Clerk.session is updated synchronously after setActive resolves.
-      const clerkSession = (window as unknown as { Clerk?: { session?: { getToken: (opts?: { skipCache?: boolean }) => Promise<string | null> } } }).Clerk?.session;
-      const token = clerkSession ? await clerkSession.getToken({ skipCache: true }) : null;
-
-      if (!token) throw new Error("Could not get session token. Please try again.");
-
-      // Save profile using Bearer token — bypasses session cookie timing issue
+      // Save profile BEFORE activating session — pass sessionId for server verification
       const profileRes = await fetch("/api/auth/complete-signup", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          sessionId:         signUp.createdSessionId,
           email,
           secretKeyHint:     secretKey.slice(-4),
           encryptedVaultKey: ciphertext,
@@ -106,6 +91,9 @@ export default function SignupPage() {
         const errData = await profileRes.json().catch(() => ({ error: "Profile creation failed" }));
         throw new Error(errData.error ?? "Profile creation failed");
       }
+
+      // Activate session AFTER profile is saved
+      await setActive({ session: signUp.createdSessionId });
 
       router.push("/unlock?welcome=1");
     } catch (err: unknown) {
