@@ -73,7 +73,7 @@ export default function SignupPage() {
     try {
       // Derive vault key and encrypt canary
       const salt     = generateSalt();
-      const vaultKey = await deriveKey(password, secretKey, salt);
+      const vaultKey = await deriveKey(password, secretKey.replace(/-/g, "").toUpperCase(), salt);
       const { ciphertext, iv } = await encryptData(vaultKey, { canary: "sentri-ok" });
 
       if (!sessionId) throw new Error("Missing sessionId. Please try signing up again.");
