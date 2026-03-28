@@ -41,9 +41,9 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
 
       // 2. Re-encrypt item data with the share key
       const sharePayload = {
-        title:     item.title,
-        item_type: item.item_type,
-        data:      item.data,
+        title:    item.title,
+        itemType: item.itemType,
+        data:     item.data,
       };
       const { ciphertext, iv } = await encryptData(shareKey, sharePayload);
 

@@ -48,11 +48,11 @@ export default function VaultItemPage() {
     try {
       const r = await api.items.get(id) as VaultItemRow;
       if (!r) throw new Error("Item not found.");
-      const data  = await decryptData<VaultItemData>(vaultKey, r.encrypted_data, r.iv);
-      const title = await decryptData<string>(vaultKey, r.title_encrypted, r.title_iv);
+      const data  = await decryptData<VaultItemData>(vaultKey, r.encryptedData, r.iv);
+      const title = await decryptData<string>(vaultKey, r.titleEncrypted, r.titleIv);
       const decrypted: DecryptedVaultItem = {
-        id: r.id, title: title as unknown as string, item_type: r.item_type,
-        favicon_url: r.favicon_url, created_at: r.created_at, updated_at: r.updated_at, data,
+        id: r.id, title: title as unknown as string, itemType: r.itemType,
+        faviconUrl: r.faviconUrl, createdAt: r.createdAt, updatedAt: r.updatedAt, data,
       };
       setItem(decrypted); setEditData(data); setEditTitle(title as unknown as string);
     } catch (err: unknown) {
@@ -73,7 +73,7 @@ export default function VaultItemPage() {
       await api.items.update(id, { encryptedData: encData, iv: dataIV, titleEncrypted: encTitle, titleIv: titleIV });
 
       const updated: DecryptedVaultItem = {
-        ...item, title: editTitle, data: editData, updated_at: new Date().toISOString(),
+        ...item, title: editTitle, data: editData, updatedAt: new Date().toISOString(),
       };
       setItem(updated); updateItem(id, updated); setEditing(false);
     } catch (err: unknown) {
@@ -204,11 +204,11 @@ export default function VaultItemPage() {
           <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "#E8EDEB" }}>
             <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
               style={{ background: "rgba(0,99,65,0.07)" }}>
-              {item.favicon_url
+              {item.faviconUrl
                 ? /* eslint-disable-next-line @next/next/no-img-element */
-                  <img src={item.favicon_url} alt="" className="w-6 h-6 rounded"
+                  <img src={item.faviconUrl} alt="" className="w-6 h-6 rounded"
                     onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
-                : { login: "🔑", card: "💳", note: "📄", ssh_key: "🖥", api_credential: "⚡" }[item.item_type]}
+                : { login: "🔑", card: "💳", note: "📄", ssh_key: "🖥", api_credential: "⚡" }[item.itemType]}
             </div>
             {editing ? (
               <input type="text" value={editTitle} onChange={(e) => setEditTitle(e.target.value)}
@@ -216,7 +216,7 @@ export default function VaultItemPage() {
             ) : (
               <div>
                 <p className="font-semibold text-sentri-text">{item.title}</p>
-                <p className="text-xs text-sentri-sub capitalize mt-0.5">{item.item_type.replace("_", " ")}</p>
+                <p className="text-xs text-sentri-sub capitalize mt-0.5">{item.itemType.replace("_", " ")}</p>
               </div>
             )}
           </div>
@@ -367,9 +367,9 @@ export default function VaultItemPage() {
         </div>
 
         <div className="mt-4 flex items-center gap-4 text-xs text-sentri-sub px-1">
-          <span>Created {new Date(item.created_at).toLocaleDateString()}</span>
+          <span>Created {new Date(item.createdAt).toLocaleDateString()}</span>
           <span>·</span>
-          <span>Updated {new Date(item.updated_at).toLocaleDateString()}</span>
+          <span>Updated {new Date(item.updatedAt).toLocaleDateString()}</span>
         </div>
       </div>
 

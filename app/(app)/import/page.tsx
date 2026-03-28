@@ -123,16 +123,16 @@ export default function ImportPage() {
           titleEncrypted: encTitle,
           titleIv:        titleIV,
           faviconUrl:     favicon_url,
-        }) as { id: string; created_at: string; updated_at: string };
+        }) as { id: string; createdAt: string; updatedAt: string };
 
         addItem({
-          id:          row.id,
-          title:       item.title,
-          item_type:   item.item_type,
-          favicon_url,
-          created_at:  row.created_at,
-          updated_at:  row.updated_at,
-          data:        item.data,
+          id:        row.id,
+          title:     item.title,
+          itemType:  item.item_type as import("@/types/vault").ItemType,
+          faviconUrl: favicon_url,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          data:      item.data,
         });
         done++;
       } catch (err) {

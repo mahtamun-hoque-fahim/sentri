@@ -19,7 +19,7 @@ interface ShareRow {
 
 interface SharedPayload {
   title:     string;
-  item_type: ItemType;
+  itemType: ItemType;
   data:      VaultItemData;
 }
 
@@ -218,11 +218,11 @@ export default function SharePage() {
             <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "#E8EDEB" }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
                 style={{ background: "rgba(0,99,65,0.07)" }}>
-                {TYPE_ICON[payload.item_type]}
+                {TYPE_ICON[payload.itemType]}
               </div>
               <div>
                 <p className="font-semibold text-sentri-text">{payload.title}</p>
-                <p className="text-xs text-sentri-sub capitalize mt-0.5">{payload.item_type.replace("_", " ")}</p>
+                <p className="text-xs text-sentri-sub capitalize mt-0.5">{payload.itemType.replace("_", " ")}</p>
               </div>
             </div>
 

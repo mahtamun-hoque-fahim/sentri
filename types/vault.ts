@@ -56,21 +56,21 @@ export interface CustomField {
   secret: boolean;
 }
 
-// ─── DB Row ──────────────────────────────────────────────────────────────────
+// ─── DB Row (camelCase — matches Drizzle ORM output) ─────────────────────────
 
 export interface VaultItemRow {
   id: string;
-  vault_id: string;
-  owner_id: string;
-  item_type: ItemType;
-  encrypted_data: string;
+  vaultId: string;
+  ownerId: string;
+  itemType: ItemType;
+  encryptedData: string;
   iv: string;
-  title_encrypted: string;
-  title_iv: string;
-  favicon_url: string | null;
-  last_used_at: string | null;
-  created_at: string;
-  updated_at: string;
+  titleEncrypted: string;
+  titleIv: string;
+  faviconUrl: string | null;
+  lastUsedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ─── Decrypted item (in memory only) ─────────────────────────────────────────
@@ -78,23 +78,23 @@ export interface VaultItemRow {
 export interface DecryptedVaultItem {
   id: string;
   title: string;
-  item_type: ItemType;
-  favicon_url: string | null;
-  created_at: string;
-  updated_at: string;
+  itemType: ItemType;
+  faviconUrl: string | null;
+  createdAt: string;
+  updatedAt: string;
   data: VaultItemData;
 }
 
-// ─── Profile ─────────────────────────────────────────────────────────────────
+// ─── Profile (camelCase — matches Drizzle ORM output) ────────────────────────
 
 export interface Profile {
-  id: string;
+  clerkUserId: string;
   email: string;
-  secret_key_hint: string | null;
-  encrypted_vault_key: string;
-  vault_key_salt: string;
-  vault_key_iv: string;
-  created_at: string;
+  secretKeyHint: string | null;
+  encryptedVaultKey: string;
+  vaultKeySalt: string;
+  vaultKeyIv: string;
+  createdAt: string;
 }
 
 // ─── Password strength ───────────────────────────────────────────────────────

@@ -17,7 +17,7 @@ interface ItemCardProps {
 }
 
 export default function ItemCard({ item }: ItemCardProps) {
-  const meta = TYPE_META[item.item_type];
+  const meta = TYPE_META[item.itemType];
 
   // Extract subtitle based on type
   let subtitle = "";
@@ -44,9 +44,9 @@ export default function ItemCard({ item }: ItemCardProps) {
         className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shrink-0"
         style={{ background: `${meta.color}12` }}
       >
-        {item.favicon_url ? (
+        {item.faviconUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.favicon_url} alt="" className="w-5 h-5 rounded" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+          <img src={item.faviconUrl} alt="" className="w-5 h-5 rounded" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
         ) : (
           meta.icon
         )}

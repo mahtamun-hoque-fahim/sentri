@@ -26,7 +26,7 @@ function ageInDays(dateStr: string) {
 
 export default function WatchtowerContent() {
   const items    = useVaultStore((s) => s.items);
-  const logins   = items.filter((i) => i.item_type === "login" && i.data.type === "login");
+  const logins   = items.filter((i) => i.itemType === "login" && i.data.type === "login");
 
   const [scanning,  setScanning]  = useState(false);
   const [done,      setDone]      = useState(false);
@@ -72,7 +72,7 @@ export default function WatchtowerContent() {
       }
 
       // 3. Old password (>90 days since last update)
-      const age = ageInDays(item.updated_at);
+      const age = ageInDays(item.updatedAt);
       if (age > 90) {
         found.push({
           itemId:    item.id,

@@ -86,16 +86,16 @@ export default function NewItemPage() {
         titleEncrypted: encTitle,
         titleIv:        titleIV,
         faviconUrl:     favicon_url,
-      }) as { id: string; created_at: string; updated_at: string };
+      }) as { id: string; createdAt: string; updatedAt: string };
 
       // Add decrypted item to in-memory store
       addItem({
-        id:          row.id,
+        id:        row.id,
         title,
-        item_type:   type,
-        favicon_url,
-        created_at:  row.created_at,
-        updated_at:  row.updated_at,
+        itemType:  type,
+        faviconUrl: favicon_url,
+        createdAt: row.createdAt,
+        updatedAt: row.updatedAt,
         data,
       });
 

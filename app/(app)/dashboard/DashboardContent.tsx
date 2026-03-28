@@ -24,9 +24,9 @@ const STATS = [
 ];
 
 interface RawItem {
-  id: string; item_type: ItemType; encrypted_data: string; iv: string;
-  title_encrypted: string; title_iv: string; favicon_url: string | null;
-  created_at: string; updated_at: string;
+  id: string; itemType: ItemType; encryptedData: string; iv: string;
+  titleEncrypted: string; titleIv: string; faviconUrl: string | null;
+  createdAt: string; updatedAt: string;
 }
 
 export default function DashboardContent() {
@@ -46,10 +46,10 @@ export default function DashboardContent() {
       if (!rows?.length) { setItems([]); setLoaded(true); return; }
       const decrypted = await Promise.all(rows.map(async (row): Promise<DecryptedVaultItem | null> => {
         try {
-          const data  = await decryptData<VaultItemData>(vaultKey!, row.encrypted_data, row.iv);
-          const title = await decryptData<string>(vaultKey!, row.title_encrypted, row.title_iv);
-          return { id: row.id, title: title as unknown as string, item_type: row.item_type,
-            favicon_url: row.favicon_url, created_at: row.created_at, updated_at: row.updated_at, data };
+          const data  = await decryptData<VaultItemData>(vaultKey!, row.encryptedData, row.iv);
+          const title = await decryptData<string>(vaultKey!, row.titleEncrypted, row.titleIv);
+          return { id: row.id, title: title as unknown as string, itemType: row.itemType,
+            faviconUrl: row.faviconUrl, createdAt: row.createdAt, updatedAt: row.updatedAt, data };
         } catch { return null; }
       }));
       setItems(decrypted.filter(Boolean) as DecryptedVaultItem[]);
@@ -61,7 +61,7 @@ export default function DashboardContent() {
 
   const filtered = useMemo(() => {
     let list = items;
-    if (filter) list = list.filter((i) => i.item_type === filter);
+    if (filter) list = list.filter((i) => i.itemType === filter);
     if (search) {
       const q = search.toLowerCase();
       list = list.filter((i) => i.title.toLowerCase().includes(q) ||
@@ -83,7 +83,7 @@ export default function DashboardContent() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
             {STATS.map((stat) => {
               const keys  = stat.key.split(",");
-              const count = items.filter((i) => keys.includes(i.item_type)).length;
+              const count = items.filter((i) => keys.includes(i.itemType)).length;
               return (
                 <div key={stat.key} className="flex items-center gap-3 p-3.5 bg-white rounded-xl border animate-fade-up"
                   style={{ borderColor: "#E8EDEB" }}>

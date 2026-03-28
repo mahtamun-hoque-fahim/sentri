@@ -30,7 +30,7 @@ function UnlockForm() {
 
     try {
       // Fetch encrypted vault key from Neon
-      let profile: { encrypted_vault_key: string; vault_key_salt: string; vault_key_iv: string };
+      let profile: { encryptedVaultKey: string; vaultKeySalt: string; vaultKeyIv: string };
       try {
         profile = await api.profile.get() as typeof profile;
       } catch {
@@ -38,13 +38,13 @@ function UnlockForm() {
       }
 
       // Derive key from master password + secret key
-      const salt = base64ToUint8(profile.vault_key_salt);
+      const salt = base64ToUint8(profile.vaultKeySalt);
       const sk   = secretKey.replace(/-/g, "").toUpperCase();
       const derivedKey = await deriveKey(password, sk, salt);
 
       // Verify canary
       try {
-        await decryptData<{ canary: string }>(derivedKey, profile.encrypted_vault_key, profile.vault_key_iv);
+        await decryptData<{ canary: string }>(derivedKey, profile.encryptedVaultKey, profile.vaultKeyIv);
       } catch {
         throw new Error("Incorrect Master Password or Secret Key.");
       }
