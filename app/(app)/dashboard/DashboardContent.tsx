@@ -10,6 +10,7 @@ import Header from "@/components/layout/Header";
 import ItemCard from "@/components/vault/ItemCard";
 import EmptyVault from "@/components/vault/EmptyVault";
 import VaultSkeleton from "@/components/vault/VaultSkeleton";
+import { Key, CreditCard, FileText, Zap } from "lucide-react";
 
 const FILTER_LABELS: Record<string, string> = {
   login: "Logins", card: "Cards", note: "Notes",
@@ -17,10 +18,10 @@ const FILTER_LABELS: Record<string, string> = {
 };
 
 const STATS = [
-  { key: "login",               label: "Logins",  icon: "🔑", color: "#006341" },
-  { key: "card",                label: "Cards",   icon: "💳", color: "#C5A059" },
-  { key: "note",                label: "Notes",   icon: "📄", color: "#667085" },
-  { key: "ssh_key,api_credential", label: "SSH/API", icon: "⚡", color: "#004D32" },
+  { key: "login",                  label: "Logins",  Icon: Key,        color: "#00FF94" },
+  { key: "card",                   label: "Cards",   Icon: CreditCard, color: "#00D4FF" },
+  { key: "note",                   label: "Notes",   Icon: FileText,   color: "#8892A4" },
+  { key: "ssh_key,api_credential", label: "SSH/API", Icon: Zap,        color: "#7B61FF" },
 ];
 
 interface RawItem {
@@ -33,9 +34,9 @@ export default function DashboardContent() {
   const searchParams = useSearchParams();
   const filter       = searchParams.get("filter") as ItemType | null;
   const { vaultKey, items, setItems, setLoading, isLoading } = useVaultStore();
-  const [search, setSearch]   = useState("");
-  const [loaded, setLoaded]   = useState(false);
-  const [error,  setError]    = useState("");
+  const [search, setSearch] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const [error,  setError]  = useState("");
 
   useEffect(() => { if (vaultKey) loadItems(); }, [vaultKey]); // eslint-disable-line
 
@@ -85,12 +86,15 @@ export default function DashboardContent() {
               const keys  = stat.key.split(",");
               const count = items.filter((i) => keys.includes(i.itemType)).length;
               return (
-                <div key={stat.key} className="flex items-center gap-3 p-3.5 bg-white rounded-xl border animate-fade-up"
-                  style={{ borderColor: "#E8EDEB" }}>
-                  <span className="text-xl">{stat.icon}</span>
+                <div key={stat.key} className="flex items-center gap-3 p-3.5 rounded-xl border animate-fade-up"
+                  style={{ background: "#0F1117", borderColor: "#2A3244" }}>
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                    style={{ background: `${stat.color}12`, border: `1px solid ${stat.color}22` }}>
+                    <stat.Icon size={14} style={{ color: stat.color }} />
+                  </div>
                   <div>
-                    <p className="text-xl font-semibold text-sentri-text leading-none">{count}</p>
-                    <p className="text-xs text-sentri-sub mt-0.5">{stat.label}</p>
+                    <p className="text-xl font-bold leading-none font-mono" style={{ color: stat.color }}>{count}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "#8892A4" }}>{stat.label}</p>
                   </div>
                 </div>
               );
@@ -99,13 +103,15 @@ export default function DashboardContent() {
         )}
         {error && (
           <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-            style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>{error}</div>
+            style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
         )}
         {isLoading && <VaultSkeleton count={6} />}
         {!isLoading && loaded && items.length === 0 && !search && <EmptyVault />}
         {!isLoading && loaded && filtered.length === 0 && search && (
           <div className="text-center py-16">
-            <p className="text-sentri-sub text-sm">No results for &ldquo;<span className="font-medium text-sentri-text">{search}</span>&rdquo;</p>
+            <p className="text-sm font-mono" style={{ color: "#8892A4" }}>
+              No results for <span className="font-bold" style={{ color: "#E8EDF5" }}>&ldquo;{search}&rdquo;</span>
+            </p>
           </div>
         )}
         {!isLoading && filtered.length > 0 && (

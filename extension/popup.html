@@ -5,23 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sentri</title>
   <style>
-    /* ── Reset ─────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── Tokens ─────────────────────────────────────── */
     :root {
-      --green:    #006341;
-      --dark-g:   #004D32;
-      --text:     #1A1F1E;
-      --sub:      #667085;
-      --muted:    #E8EDEB;
-      --bg:       #F7F9F8;
-      --surface:  #FFFFFF;
-      --danger:   #D93025;
-      --yellow:   #F9D74C;
-      --radius:   12px;
-      --font:     'Segoe UI', system-ui, -apple-system, sans-serif;
-      --mono:     'Cascadia Code', 'Fira Code', monospace;
+      --green:   #00FF94;
+      --green-d: #00CC77;
+      --purple:  #7B61FF;
+      --cyan:    #00D4FF;
+      --bg:      #080B12;
+      --surf:    #0F1117;
+      --surf2:   #161B27;
+      --surf3:   #1E2535;
+      --border:  #2A3244;
+      --text:    #E8EDF5;
+      --sub:     #8892A4;
+      --danger:  #FF4D6A;
+      --warn:    #FFB547;
+      --radius:  10px;
+      --font:    'Segoe UI', system-ui, -apple-system, sans-serif;
+      --mono:    'Cascadia Code', 'Fira Code', 'Consolas', monospace;
     }
 
     body {
@@ -33,164 +35,223 @@
       color: var(--text);
       font-size: 13px;
       overflow: hidden;
+      background-image:
+        linear-gradient(rgba(0,255,148,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,148,0.025) 1px, transparent 1px);
+      background-size: 32px 32px;
     }
 
-    /* ── Screens ─────────────────────────────────────── */
-    .screen { display: none; flex-direction: column; height: 100%; }
+    .screen { display: none; flex-direction: column; height: 100%; min-height: 480px; }
     .screen.active { display: flex; }
 
-    /* ── Header ─────────────────────────────────────── */
+    /* ── Header ── */
     .header {
       display: flex; align-items: center; gap: 10px;
-      padding: 14px 16px 12px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--muted);
+      padding: 12px 14px 10px;
+      background: var(--surf);
+      border-bottom: 1px solid var(--border);
     }
     .logo {
-      width: 28px; height: 28px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--green), var(--dark-g));
+      width: 26px; height: 26px; border-radius: 7px;
+      background: linear-gradient(135deg, var(--green), var(--green-d));
       display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 700; font-size: 12px; flex-shrink: 0;
+      color: #080B12; font-weight: 800; font-size: 12px; flex-shrink: 0;
+      box-shadow: 0 0 10px rgba(0,255,148,0.3);
     }
-    .header-title { font-size: 15px; font-weight: 600; color: var(--green); flex: 1; }
-    .header-site  { font-size: 11px; color: var(--sub); max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .header-title {
+      font-size: 15px; font-weight: 700; color: var(--green); flex: 1;
+      letter-spacing: -0.3px;
+    }
+    .header-site {
+      font-size: 10px; color: var(--sub); max-width: 140px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      font-family: var(--mono);
+    }
     .lock-btn {
       background: none; border: none; cursor: pointer;
-      color: var(--sub); font-size: 16px; padding: 4px;
-      border-radius: 6px; transition: background 0.15s;
+      color: var(--sub); padding: 5px; border-radius: 6px;
+      transition: all 0.15s; display: flex; align-items: center;
     }
-    .lock-btn:hover { background: var(--muted); }
+    .lock-btn:hover { background: var(--surf3); color: var(--danger); }
 
-    /* ── Search ─────────────────────────────────────── */
+    /* ── Search ── */
     .search-wrap {
-      padding: 10px 12px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--muted);
+      padding: 8px 12px;
+      background: var(--surf);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .search-icon {
+      position: absolute; left: 22px; top: 50%;
+      transform: translateY(-50%); pointer-events: none;
+      color: var(--sub);
     }
     .search-input {
-      width: 100%; padding: 7px 12px 7px 32px;
-      border: 1px solid var(--muted); border-radius: 8px;
-      background: var(--bg); font-size: 12px; outline: none;
-      font-family: var(--font);
+      width: 100%; padding: 7px 10px 7px 30px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--surf2); font-size: 12px; outline: none;
+      font-family: var(--font); color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .search-wrap { position: relative; }
-    .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-size: 13px; pointer-events: none; }
+    .search-input:focus {
+      border-color: rgba(0,255,148,0.4);
+      box-shadow: 0 0 0 2px rgba(0,255,148,0.08);
+    }
+    .search-input::placeholder { color: var(--sub); }
 
-    /* ── Item list ──────────────────────────────────── */
+    /* ── Items ── */
     .items-list {
-      flex: 1; overflow-y: auto;
-      padding: 8px;
+      flex: 1; overflow-y: auto; padding: 8px;
       display: flex; flex-direction: column; gap: 3px;
     }
-    .items-list::-webkit-scrollbar { width: 4px; }
-    .items-list::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 99px; }
+    .items-list::-webkit-scrollbar { width: 3px; }
+    .items-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
 
     .item-row {
       display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px; border-radius: 10px;
-      background: var(--surface);
-      border: 1px solid var(--muted);
+      padding: 9px 11px; border-radius: 9px;
+      background: var(--surf2); border: 1px solid var(--border);
       cursor: pointer; transition: all 0.15s;
     }
-    .item-row:hover { border-color: var(--green); background: rgba(0,99,65,0.03); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,99,65,0.08); }
-    .item-icon { width: 34px; height: 34px; border-radius: 8px; background: rgba(0,99,65,0.08); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-    .item-icon img { width: 18px; height: 18px; border-radius: 4px; }
-    .item-info { flex: 1; min-width: 0; }
-    .item-title { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .item-sub   { font-size: 11px; color: var(--sub); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
-    .fill-btn {
-      padding: 5px 10px; border-radius: 7px; font-size: 11px; font-weight: 600;
-      background: linear-gradient(135deg, var(--green), var(--dark-g));
-      color: #fff; border: none; cursor: pointer; white-space: nowrap;
-      transition: opacity 0.15s;
+    .item-row:hover {
+      border-color: rgba(0,255,148,0.3);
+      box-shadow: 0 0 12px rgba(0,255,148,0.06);
+      transform: translateY(-1px);
     }
-    .fill-btn:hover { opacity: 0.88; }
+    .item-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(0,255,148,0.08); border: 1px solid rgba(0,255,148,0.12);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .item-icon img { width: 16px; height: 16px; border-radius: 3px; }
+    .item-icon svg { width: 14px; height: 14px; }
+    .item-info { flex: 1; min-width: 0; }
+    .item-title {
+      font-weight: 700; font-size: 12px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: var(--text);
+    }
+    .item-sub {
+      font-size: 10px; color: var(--sub); font-family: var(--mono);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px;
+    }
+    .fill-btn {
+      padding: 4px 9px; border-radius: 6px; font-size: 10px; font-weight: 700;
+      background: linear-gradient(135deg, var(--green), var(--green-d));
+      color: #080B12; border: none; cursor: pointer; white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .fill-btn:hover { box-shadow: 0 0 10px rgba(0,255,148,0.4); }
 
-    /* ── Footer ─────────────────────────────────────── */
+    /* ── Footer ── */
     .footer {
-      padding: 10px 12px;
-      background: var(--surface);
-      border-top: 1px solid var(--muted);
-      display: flex; gap: 6px;
+      padding: 8px 10px;
+      background: var(--surf);
+      border-top: 1px solid var(--border);
+      display: flex; gap: 5px;
     }
     .footer-btn {
-      flex: 1; padding: 8px;
-      border-radius: 8px; font-size: 12px; font-weight: 500;
-      border: 1px solid var(--muted);
-      background: var(--bg); cursor: pointer;
-      color: var(--sub); transition: all 0.15s;
-      text-align: center;
+      flex: 1; padding: 7px 4px;
+      border-radius: 7px; font-size: 11px; font-weight: 600;
+      border: 1px solid var(--border); background: var(--surf2);
+      cursor: pointer; color: var(--sub); transition: all 0.15s; text-align: center;
     }
-    .footer-btn:hover { background: var(--muted); color: var(--text); }
+    .footer-btn:hover { border-color: rgba(0,255,148,0.3); color: var(--green); background: rgba(0,255,148,0.04); }
 
-    /* ── Unlock screen ──────────────────────────────── */
+    /* ── Unlock ── */
     .unlock-body {
       flex: 1; display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 24px 20px; gap: 16px;
+      padding: 20px 18px; gap: 13px;
     }
-    .unlock-icon { font-size: 40px; }
-    .unlock-title { font-size: 17px; font-weight: 600; text-align: center; }
+    .unlock-icon-wrap {
+      width: 52px; height: 52px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,255,148,0.08); border: 1px solid rgba(0,255,148,0.2);
+      box-shadow: 0 0 20px rgba(0,255,148,0.1);
+    }
+    .unlock-icon-wrap svg { width: 24px; height: 24px; color: var(--green); }
+    .unlock-title { font-size: 17px; font-weight: 700; text-align: center; color: var(--text); }
     .unlock-sub   { font-size: 12px; color: var(--sub); text-align: center; line-height: 1.5; }
-    .field-group { width: 100%; display: flex; flex-direction: column; gap: 3px; }
-    .field-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--sub); }
-    .field-input {
-      width: 100%; padding: 9px 12px; border-radius: 8px;
-      border: 1px solid var(--muted); background: var(--bg);
-      font-size: 12px; outline: none; font-family: var(--font);
-      transition: box-shadow 0.15s;
+    .field-group  { width: 100%; display: flex; flex-direction: column; gap: 3px; }
+    .field-label  { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sub); font-family: var(--mono); }
+    .field-input  {
+      width: 100%; padding: 8px 10px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surf2);
+      font-size: 12px; outline: none; font-family: var(--font); color: var(--text);
+      transition: border-color 0.15s, box-shadow 0.15s;
     }
-    .field-input:focus { box-shadow: 0 0 0 3px rgba(0,99,65,0.18); }
-    .mono-input { font-family: var(--mono); letter-spacing: 0.05em; font-size: 11px; }
+    .field-input::placeholder { color: var(--sub); }
+    .field-input:focus {
+      border-color: rgba(0,255,148,0.4);
+      box-shadow: 0 0 0 2px rgba(0,255,148,0.08);
+    }
+    .mono-input { font-family: var(--mono); letter-spacing: 0.04em; font-size: 10px; }
     .primary-btn {
       width: 100%; padding: 10px;
-      background: linear-gradient(135deg, var(--green), var(--dark-g));
-      color: #fff; border: none; border-radius: 9px;
-      font-size: 13px; font-weight: 600; cursor: pointer;
-      transition: opacity 0.15s;
+      background: linear-gradient(135deg, var(--green), var(--green-d));
+      color: #080B12; border: none; border-radius: 9px;
+      font-size: 13px; font-weight: 800; cursor: pointer; transition: all 0.15s;
+      letter-spacing: -0.2px;
     }
-    .primary-btn:hover { opacity: 0.9; }
-    .primary-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .error-msg { width: 100%; padding: 8px 12px; border-radius: 8px; font-size: 12px; text-align: center; background: rgba(217,48,37,0.07); color: var(--danger); border: 1px solid rgba(217,48,37,0.2); }
+    .primary-btn:hover { box-shadow: 0 0 18px rgba(0,255,148,0.4); }
+    .primary-btn:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+    .error-msg {
+      width: 100%; padding: 8px 12px; border-radius: 8px; font-size: 11px;
+      text-align: center; background: rgba(255,77,106,0.08);
+      color: var(--danger); border: 1px solid rgba(255,77,106,0.25);
+    }
 
-    /* ── Detail screen ──────────────────────────────── */
-    .detail-body { flex: 1; overflow-y: auto; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-    .detail-card { background: var(--surface); border-radius: 10px; border: 1px solid var(--muted); overflow: hidden; }
-    .detail-field { padding: 10px 14px; display: flex; flex-direction: column; gap: 3px; border-bottom: 1px solid var(--bg); }
+    /* ── Detail ── */
+    .detail-body { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .detail-card { background: var(--surf2); border-radius: 9px; border: 1px solid var(--border); overflow: hidden; }
+    .detail-field { padding: 9px 12px; display: flex; flex-direction: column; gap: 3px; border-bottom: 1px solid var(--surf3); }
     .detail-field:last-child { border-bottom: none; }
-    .detail-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sub); }
+    .detail-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--sub); font-family: var(--mono); }
     .detail-value-row { display: flex; align-items: center; gap: 8px; }
-    .detail-value { flex: 1; font-size: 13px; word-break: break-all; }
+    .detail-value { flex: 1; font-size: 12px; word-break: break-all; color: var(--text); }
     .detail-value.blurred { filter: blur(4px); user-select: none; }
     .copy-btn {
-      padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;
-      border: 1px solid var(--muted); background: transparent;
+      padding: 3px 7px; border-radius: 5px; font-size: 9px; font-weight: 700;
+      border: 1px solid var(--border); background: var(--surf3);
       cursor: pointer; color: var(--sub); white-space: nowrap; transition: all 0.15s;
+      font-family: var(--mono);
     }
-    .copy-btn.copied { border-color: var(--green); color: var(--green); background: rgba(0,99,65,0.07); }
-    .show-btn { font-size: 10px; color: var(--sub); cursor: pointer; background: none; border: none; }
+    .copy-btn.copied { border-color: rgba(0,255,148,0.4); color: var(--green); background: rgba(0,255,148,0.08); }
+    .show-btn { font-size: 10px; color: var(--sub); cursor: pointer; background: none; border: none; display: flex; }
 
-    /* ── Empty state ─────────────────────────────────── */
+    /* ── Empty ── */
     .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 24px; color: var(--sub); text-align: center; }
-    .empty-icon { font-size: 32px; }
-    .empty-title { font-size: 14px; font-weight: 600; color: var(--text); }
-    .empty-sub { font-size: 12px; line-height: 1.5; }
+    .empty-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(0,255,148,0.07); border: 1px solid rgba(0,255,148,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto; }
+    .empty-title { font-size: 14px; font-weight: 700; color: var(--text); }
+    .empty-sub { font-size: 11px; line-height: 1.5; }
 
-    /* ── Animations ─────────────────────────────────── */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .fade-up { animation: fadeUp 0.25s ease both; }
+    /* ── Animations ── */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp 0.22s ease both; }
+
+    /* ── Type badge ── */
+    .type-badge {
+      font-size: 9px; padding: 2px 6px; border-radius: 4px;
+      font-weight: 700; font-family: var(--mono); white-space: nowrap;
+    }
   </style>
 </head>
 <body>
 
-  <!-- ── Unlock Screen ───────────────────────────────── -->
+  <!-- Unlock Screen -->
   <div id="screen-unlock" class="screen active">
     <div class="header">
       <div class="logo">S</div>
       <span class="header-title">Sentri</span>
     </div>
     <div class="unlock-body">
-      <div class="unlock-icon">🔐</div>
+      <div class="unlock-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
       <p class="unlock-title">Unlock your vault</p>
       <p class="unlock-sub">Enter your credentials to decrypt and autofill passwords.</p>
 
@@ -204,7 +265,7 @@
       </div>
       <div class="field-group">
         <label class="field-label">Secret Key</label>
-        <input id="u-secret" class="field-input mono-input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX" />
+        <input id="u-secret" class="field-input mono-input" type="text" placeholder="XXXX-XXXX-XXXX-XXXX-XXXX" />
       </div>
 
       <div id="unlock-error" class="error-msg" style="display:none;"></div>
@@ -212,36 +273,49 @@
     </div>
   </div>
 
-  <!-- ── Vault List Screen ───────────────────────────── -->
+  <!-- Vault List Screen -->
   <div id="screen-vault" class="screen">
     <div class="header">
       <div class="logo">S</div>
       <div style="flex:1; min-width:0;">
         <div class="header-title">Sentri</div>
-        <div class="header-site" id="current-site">sentri.app</div>
+        <div class="header-site" id="current-site"></div>
       </div>
-      <button class="lock-btn" id="lock-btn" title="Lock vault">🔒</button>
+      <button class="lock-btn" id="lock-btn" title="Lock vault">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </button>
     </div>
 
     <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input id="search-input" class="search-input" placeholder="Search vault…" style="padding-left: 32px;" />
+      <span class="search-icon">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </span>
+      <input id="search-input" class="search-input" placeholder="Search vault…" />
     </div>
 
     <div id="items-list" class="items-list"></div>
 
     <div class="footer">
       <button class="footer-btn" id="btn-open-vault">Open Vault ↗</button>
-      <button class="footer-btn" id="btn-new-item">+ New Item</button>
-      <button class="footer-btn" id="btn-generator">⚡ Generate</button>
+      <button class="footer-btn" id="btn-new-item">+ New</button>
+      <button class="footer-btn" id="btn-generator">Generate</button>
     </div>
   </div>
 
-  <!-- ── Item Detail Screen ─────────────────────────── -->
+  <!-- Item Detail Screen -->
   <div id="screen-detail" class="screen">
     <div class="header">
-      <button id="back-btn" style="background:none;border:none;cursor:pointer;font-size:18px;color:var(--sub);padding:2px 6px 2px 0;">‹</button>
-      <div class="logo" id="detail-icon">🔑</div>
+      <button id="back-btn" style="background:none;border:none;cursor:pointer;color:var(--sub);padding:2px 8px 2px 0;display:flex;align-items:center;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
+      </button>
+      <div class="item-icon" id="detail-icon" style="width:28px;height:28px;border-radius:7px;flex-shrink:0;"></div>
       <div style="flex:1;min-width:0;">
         <div class="header-title" id="detail-title" style="font-size:13px;">Item</div>
         <div class="header-site" id="detail-type">Login</div>

@@ -6,18 +6,19 @@ import { useVaultStore } from "@/store/vault";
 import { checkPasswordBreached, WatchtowerIssue } from "@/lib/hibp";
 import { getPasswordStrength } from "@/lib/crypto";
 import { DecryptedVaultItem } from "@/types/vault";
+import { Skull, AlertTriangle, RefreshCw, Clock, Shield, Search } from "lucide-react";
 
 const SEVERITY_META = {
-  critical: { color: "#D93025", bg: "rgba(217,48,37,0.07)",  border: "rgba(217,48,37,0.2)",  label: "Critical" },
-  warning:  { color: "#EA8C35", bg: "rgba(234,140,53,0.07)", border: "rgba(234,140,53,0.2)",  label: "Warning"  },
-  info:     { color: "#667085", bg: "rgba(102,112,133,0.07)",border: "rgba(102,112,133,0.2)", label: "Info"     },
+  critical: { color: "#FF4D6A", bg: "rgba(255,77,106,0.08)", border: "rgba(255,77,106,0.2)", label: "Critical" },
+  warning:  { color: "#FFB547", bg: "rgba(255,181,71,0.08)", border: "rgba(255,181,71,0.2)",  label: "Warning"  },
+  info:     { color: "#8892A4", bg: "rgba(136,146,164,0.08)",border: "rgba(136,146,164,0.2)", label: "Info"     },
 };
 
 const TYPE_META = {
-  breached: { icon: "💀", label: "Data breach" },
-  weak:     { icon: "⚠️", label: "Weak password" },
-  reused:   { icon: "🔄", label: "Reused password" },
-  old:      { icon: "🕐", label: "Old password" },
+  breached: { Icon: Skull,       label: "Data breach",      color: "#FF4D6A" },
+  weak:     { Icon: AlertTriangle, label: "Weak password",  color: "#FFB547" },
+  reused:   { Icon: RefreshCw,   label: "Reused password",  color: "#00D4FF" },
+  old:      { Icon: Clock,       label: "Old password",     color: "#8892A4" },
 };
 
 function ageInDays(dateStr: string) {
@@ -135,22 +136,22 @@ export default function WatchtowerContent() {
   const score = logins.length === 0 ? 100
     : Math.max(0, Math.round(100 - (counts.critical * 20 + counts.warning * 8 + counts.info * 3)));
 
-  const scoreColor = score >= 80 ? "#006341" : score >= 50 ? "#EA8C35" : "#D93025";
+  const scoreColor = score >= 80 ? "#00FF94" : score >= 50 ? "#FFB547" : "#FF4D6A";
   const scoreLabel = score >= 80 ? "Good" : score >= 50 ? "Fair" : "At risk";
 
   return (
     <div className="flex-1 px-6 py-6 max-w-3xl mx-auto w-full">
 
       {/* Hero card */}
-      <div className="bg-white rounded-2xl border p-6 mb-5 flex items-center gap-6"
-        style={{ borderColor: "#E8EDEB" }}>
+      <div className="rounded-2xl border p-6 mb-5 flex items-center gap-6"
+        style={{ background: "#0F1117", borderColor: "#2A3244" }}>
 
         {/* Score ring */}
         <div className="relative shrink-0">
           <svg width={96} height={96}>
-            <circle cx={48} cy={48} r={40} fill="none" stroke="#E8EDEB" strokeWidth={8} />
+            <circle cx={48} cy={48} r={40} fill="none" stroke="#1E2535" strokeWidth={8} />
             <circle cx={48} cy={48} r={40} fill="none"
-              stroke={done ? scoreColor : "#E8EDEB"} strokeWidth={8}
+              stroke={done ? scoreColor : "#1E2535"} strokeWidth={8}
               strokeDasharray={`${2 * Math.PI * 40}`}
               strokeDashoffset={`${2 * Math.PI * 40 * (1 - score / 100)}`}
               strokeLinecap="round"
@@ -159,21 +160,20 @@ export default function WatchtowerContent() {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold leading-none" style={{ color: done ? scoreColor : "#E8EDEB" }}>
+            <span className="text-2xl font-bold leading-none" style={{ color: done ? scoreColor : "#2A3244" }}>
               {done ? score : "—"}
             </span>
-            <span className="text-xs mt-0.5" style={{ color: done ? scoreColor : "#E8EDEB" }}>
+            <span className="text-xs mt-0.5" style={{ color: done ? scoreColor : "#2A3244" }}>
               {done ? scoreLabel : ""}
             </span>
           </div>
         </div>
 
         <div className="flex-1">
-          <h2 className="text-lg font-semibold text-sentri-text mb-1"
-            style={{ fontFamily: "'DM Serif Display', serif" }}>
+          <h2 className="text-lg font-bold mb-1" style={{ color: "#E8EDF5" }}>
             Security Score
           </h2>
-          <p className="text-sm text-sentri-sub mb-4">
+          <p className="text-sm mb-4" style={{ color: "#8892A4" }}>
             {logins.length === 0
               ? "No login items found. Add some passwords to scan."
               : done
@@ -187,18 +187,17 @@ export default function WatchtowerContent() {
 
           {scanning ? (
             <div className="flex flex-col gap-2">
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#E8EDEB" }}>
+              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#1E2535" }}>
                 <div className="h-full rounded-full transition-all"
-                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #006341, #2A8A58)" }} />
+                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #00FF94, #00CC77)" }} />
               </div>
-              <p className="text-xs text-sentri-sub">Checking breach database… {progress}%</p>
+              <p className="text-xs font-mono" style={{ color: "#8892A4" }}>Checking breach database… {progress}%</p>
             </div>
           ) : (
             <button
               onClick={scan}
               disabled={logins.length === 0}
-              className="px-5 py-2 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95 disabled:opacity-40"
-              style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}
+              className="px-5 py-2 rounded-xl text-sm font-bold transition-all hover:shadow-neon active:scale-95 disabled:opacity-40 btn-neon"
             >
               {done ? "Re-scan Vault" : "Scan Now"}
             </button>
@@ -209,14 +208,14 @@ export default function WatchtowerContent() {
         {done && issues.length > 0 && (
           <div className="hidden sm:flex flex-col gap-2 shrink-0">
             {[
-              { label: "Critical", count: counts.critical, color: "#D93025" },
-              { label: "Warning",  count: counts.warning,  color: "#EA8C35" },
-              { label: "Info",     count: counts.info,     color: "#667085" },
+              { label: "Critical", count: counts.critical, color: "#FF4D6A" },
+              { label: "Warning",  count: counts.warning,  color: "#FFB547" },
+              { label: "Info",     count: counts.info,     color: "#8892A4" },
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-2 text-xs">
                 <span className="w-2 h-2 rounded-full" style={{ background: s.color }} />
                 <span className="font-semibold" style={{ color: s.color }}>{s.count}</span>
-                <span className="text-sentri-sub">{s.label}</span>
+                <span className="font-mono" style={{ color: "#8892A4" }}>{s.label}</span>
               </div>
             ))}
           </div>
@@ -225,7 +224,7 @@ export default function WatchtowerContent() {
 
       {hibpError && (
         <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-          style={{ background: "#FFF9EC", borderColor: "rgba(234,140,53,0.3)", color: "#EA8C35" }}>
+          style={{ background: "rgba(255,181,71,0.06)", borderColor: "rgba(255,181,71,0.25)", color: "#FFB547" }}>
           ⚠ Could not reach the breach database. Some breach checks may have been skipped.
         </div>
       )}
@@ -240,9 +239,9 @@ export default function WatchtowerContent() {
               <button key={f} onClick={() => setFilter(f)}
                 className="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all capitalize"
                 style={{
-                  borderColor: filter === f ? "#006341" : "#E8EDEB",
-                  background:  filter === f ? "rgba(0,99,65,0.08)" : "#fff",
-                  color:       filter === f ? "#006341" : "#667085",
+                  borderColor: filter === f ? "rgba(0,255,148,0.4)" : "#2A3244",
+                  background:  filter === f ? "rgba(0,255,148,0.06)" : "#0F1117",
+                  color:       filter === f ? "#00FF94" : "#8892A4",
                 }}>
                 {f === "all" ? "All" : TYPE_META[f].label} ({count})
               </button>
@@ -259,29 +258,29 @@ export default function WatchtowerContent() {
             const type = TYPE_META[issue.type];
             return (
               <div key={`${issue.itemId}-${issue.type}`}
-                className="flex items-start gap-4 px-5 py-4 bg-white rounded-xl border animate-fade-up"
-                style={{ borderColor: "#E8EDEB", animationDelay: `${i * 0.04}s` }}>
+                className="flex items-start gap-4 px-5 py-4 rounded-xl border animate-fade-up"
+                style={{ background: "#0F1117", borderColor: "#2A3244", animationDelay: `${i * 0.04}s` }}>
 
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0"
                   style={{ background: sev.bg, border: `1px solid ${sev.border}` }}>
-                  {type.icon}
+                  <type.Icon size={16} style={{ color: type.color }} />
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-sm font-semibold text-sentri-text truncate">{issue.itemTitle}</p>
+                    <p className="text-sm font-bold truncate" style={{ color: "#E8EDF5" }}>{issue.itemTitle}</p>
                     <span className="text-xs px-2 py-0.5 rounded-full font-medium shrink-0"
                       style={{ background: sev.bg, color: sev.color }}>
                       {sev.label}
                     </span>
                   </div>
                   <p className="text-xs font-medium mb-0.5" style={{ color: sev.color }}>{type.label}</p>
-                  <p className="text-xs text-sentri-sub">{issue.detail}</p>
+                  <p className="text-xs font-mono" style={{ color: "#8892A4" }}>{issue.detail}</p>
                 </div>
 
                 <Link href={`/vault/${issue.itemId}`}
-                  className="text-xs px-3 py-1.5 rounded-lg border font-medium shrink-0 transition-colors hover:bg-sentri-bg"
-                  style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+                  className="text-xs px-3 py-1.5 rounded-lg border font-bold shrink-0 transition-all font-mono"
+                  style={{ borderColor: "#2A3244", color: "#8892A4", background: "#161B27" }}>
                   Fix →
                 </Link>
               </div>
@@ -293,24 +292,26 @@ export default function WatchtowerContent() {
       {/* All clear */}
       {done && issues.length === 0 && (
         <div className="text-center py-16">
-          <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
-            style={{ background: "rgba(0,99,65,0.07)" }}>🛡</div>
-          <h3 className="text-lg font-semibold text-sentri-text mb-1"
-            style={{ fontFamily: "'DM Serif Display', serif" }}>All clear</h3>
-          <p className="text-sm text-sentri-sub">No security issues found across your vault.</p>
+          <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4"
+            style={{ background: "rgba(0,255,148,0.07)", border: "1px solid rgba(0,255,148,0.12)" }}>
+            <Shield size={28} style={{ color: "#00FF94" }} />
+          </div>
+          <h3 className="text-lg font-bold mb-1" style={{ color: "#E8EDF5" }}>All clear</h3>
+          <p className="text-sm" style={{ color: "#8892A4" }}>No security issues found across your vault.</p>
         </div>
       )}
 
       {/* Pre-scan empty */}
       {!scanning && !done && logins.length > 0 && (
         <div className="text-center py-16">
-          <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
-            style={{ background: "rgba(0,99,65,0.07)" }}>🔍</div>
-          <h3 className="text-lg font-semibold text-sentri-text mb-2"
-            style={{ fontFamily: "'DM Serif Display', serif" }}>
+          <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4"
+            style={{ background: "rgba(0,255,148,0.07)", border: "1px solid rgba(0,255,148,0.12)" }}>
+            <Search size={28} style={{ color: "#00FF94" }} />
+          </div>
+          <h3 className="text-lg font-bold mb-2" style={{ color: "#E8EDF5" }}>
             Scan your vault
           </h3>
-          <p className="text-sm text-sentri-sub max-w-xs mx-auto">
+          <p className="text-sm max-w-xs mx-auto" style={{ color: "#8892A4" }}>
             Check for breached passwords, weak passwords, reused credentials, and old passwords.
           </p>
         </div>

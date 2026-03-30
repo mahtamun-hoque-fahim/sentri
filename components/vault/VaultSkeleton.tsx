@@ -4,8 +4,8 @@ export default function VaultSkeleton({ count = 5 }: { count?: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="flex items-center gap-4 px-5 py-4 bg-white rounded-xl border"
-          style={{ borderColor: "#E8EDEB", animationDelay: `${i * 0.06}s` }}
+          className="flex items-center gap-4 px-5 py-4  rounded-xl border"
+          style={{ borderColor: "#2A3244", animationDelay: `${i * 0.06}s` }}
         >
           <div className="shimmer w-10 h-10 rounded-xl shrink-0" />
           <div className="flex-1 flex flex-col gap-2">

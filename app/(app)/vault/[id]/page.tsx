@@ -100,9 +100,9 @@ export default function VaultItemPage() {
     <button type="button" onClick={() => copyField(label, value)}
       className="text-xs px-2.5 py-1 rounded-lg border transition-all"
       style={{
-        borderColor: copied[label] ? "#006341" : "#E8EDEB",
-        color:       copied[label] ? "#006341" : "#667085",
-        background:  copied[label] ? "rgba(0,99,65,0.06)" : "transparent",
+        borderColor: copied[label] ? "#00FF94" : "#2A3244",
+        color:       copied[label] ? "#00FF94" : "#8892A4",
+        background:  copied[label] ? "rgba(0,255,148,0.06)" : "transparent",
       }}>
       {copied[label] ? "✓ Copied" : "Copy"}
     </button>
@@ -112,15 +112,15 @@ export default function VaultItemPage() {
     const [show, setShow] = useState(!secret);
     return (
       <div>
-        <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1">{label}</p>
+        <p className="text-xs font-medium uppercase tracking-widest  mb-1">{label}</p>
         <div className="flex items-center gap-2">
-          <p className="flex-1 text-sm text-sentri-text break-all"
+          <p className="flex-1 text-sm  break-all"
             style={secret && !show ? { filter: "blur(5px)", userSelect: "none" } : {}}>
-            {value || <span className="text-sentri-sub italic">—</span>}
+            {value || <span className=" italic">—</span>}
           </p>
           {secret && (
             <button type="button" onClick={() => setShow((s) => !s)}
-              className="text-xs text-sentri-sub hover:text-sentri-text shrink-0">
+              className="text-xs  hover: shrink-0">
               {show ? "Hide" : "Show"}
             </button>
           )}
@@ -130,16 +130,16 @@ export default function VaultItemPage() {
     );
   }
 
-  const input   = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-shadow bg-sentri-bg";
-  const iStyle  = { borderColor: "#E8EDEB" };
-  const iFocus  = { onFocus: (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement>) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,99,65,0.18)"),
+  const input   = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-shadow ";
+  const iStyle  = { borderColor: "#2A3244" };
+  const iFocus  = { onFocus: (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement>) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.15)"),
                     onBlur:  (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement>) => (e.target.style.boxShadow = "none") };
 
   if (loading) return (
     <>
       <Header title="Item" showSearch={false} />
       <div className="flex-1 px-6 py-6 max-w-2xl mx-auto w-full">
-        <div className="bg-white rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "#E8EDEB" }}>
+        <div className=" rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "#2A3244" }}>
           {[1,2,3,4].map((i) => <div key={i} className="shimmer h-10 rounded-xl" />)}
         </div>
       </div>
@@ -149,7 +149,7 @@ export default function VaultItemPage() {
   if (error || !item) return (
     <>
       <Header title="Error" showSearch={false} />
-      <div className="flex-1 px-6 py-12 text-center text-sentri-sub text-sm">{error || "Item not found."}</div>
+      <div className="flex-1 px-6 py-12 text-center  text-sm">{error || "Item not found."}</div>
     </>
   );
 
@@ -162,21 +162,21 @@ export default function VaultItemPage() {
 
         {/* Action bar */}
         <div className="flex items-center gap-2 mb-5">
-          <Link href="/dashboard" className="text-sm text-sentri-sub hover:text-sentri-text transition-colors">← Back</Link>
+          <Link href="/dashboard" className="text-sm  hover: transition-colors">← Back</Link>
           <div className="flex-1" />
           {!editing ? (
             <>
               <button onClick={() => setShowShare(true)}
                 className="px-4 py-1.5 rounded-lg border text-sm font-medium hover:bg-sentri-muted transition-colors"
-                style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+                style={{ borderColor: "#2A3244", color: "#8892A4" }}>
                 Share
               </button>
               <button onClick={() => setEditing(true)}
                 className="px-4 py-1.5 rounded-lg border text-sm font-medium hover:bg-sentri-muted transition-colors"
-                style={{ borderColor: "#E8EDEB", color: "#1A1F1E" }}>Edit</button>
+                style={{ borderColor: "#2A3244", color: "#E8EDF5" }}>Edit</button>
               <button onClick={handleDelete} disabled={deleting}
                 className="px-4 py-1.5 rounded-lg border text-sm font-medium"
-                style={{ borderColor: "#FECAC7", color: "#D93025", background: "#FFF1F0" }}>
+                style={{ borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A", background: "rgba(255,77,106,0.08)" }}>
                 {deleting ? "Deleting…" : "Delete"}
               </button>
             </>
@@ -184,26 +184,26 @@ export default function VaultItemPage() {
             <>
               <button onClick={handleSave} disabled={saving}
                 className="px-4 py-2 rounded-lg text-white text-sm font-medium hover:opacity-90"
-                style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
+                style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
                 {saving ? "Saving…" : "Save"}
               </button>
               <button onClick={() => { setEditing(false); setEditData(item.data); setEditTitle(item.title); }}
-                className="px-4 py-2 rounded-lg border text-sm font-medium text-sentri-sub hover:bg-sentri-muted"
-                style={{ borderColor: "#E8EDEB" }}>Cancel</button>
+                className="px-4 py-2 rounded-lg border text-sm font-medium  hover:bg-sentri-muted"
+                style={{ borderColor: "#2A3244" }}>Cancel</button>
             </>
           )}
         </div>
 
         {error && (
           <div className="mb-4 px-4 py-3 rounded-xl text-sm border"
-            style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>{error}</div>
+            style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
         )}
 
-        <div className="bg-white rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "#E8EDEB" }}>
+        <div className=" rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "#2A3244" }}>
           {/* Header row */}
-          <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "#E8EDEB" }}>
+          <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "#2A3244" }}>
             <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
-              style={{ background: "rgba(0,99,65,0.07)" }}>
+              style={{ background: "rgba(0,255,148,0.07)" }}>
               {item.faviconUrl
                 ? /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={item.faviconUrl} alt="" className="w-6 h-6 rounded"
@@ -215,8 +215,8 @@ export default function VaultItemPage() {
                 className={input + " flex-1"} style={iStyle} {...iFocus} />
             ) : (
               <div>
-                <p className="font-semibold text-sentri-text">{item.title}</p>
-                <p className="text-xs text-sentri-sub capitalize mt-0.5">{item.itemType.replace("_", " ")}</p>
+                <p className="font-semibold ">{item.title}</p>
+                <p className="text-xs  capitalize mt-0.5">{item.itemType.replace("_", " ")}</p>
               </div>
             )}
           </div>
@@ -235,10 +235,10 @@ export default function VaultItemPage() {
                   <Field label="Password" value={item.data.password} secret />
                   {item.data.urls?.[0] && (
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1">URL</p>
+                      <p className="text-xs font-medium uppercase tracking-widest  mb-1">URL</p>
                       <div className="flex items-center gap-2">
                         <a href={item.data.urls[0]} target="_blank" rel="noopener noreferrer"
-                          className="flex-1 text-sm truncate hover:underline" style={{ color: "#006341" }}>
+                          className="flex-1 text-sm truncate hover:underline" style={{ color: "#00FF94" }}>
                           {item.data.urls[0]}
                         </a>
                         <CopyBtn label="URL" value={item.data.urls[0]} />
@@ -279,7 +279,7 @@ export default function VaultItemPage() {
               {editData.type === "login" && (
                 <>
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Username</label>
+                    <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Username</label>
                     <input type="text" value={editData.username}
                       onChange={(e) => setEditData({ ...editData, username: e.target.value })}
                       className={input} style={iStyle} {...iFocus} />
@@ -287,22 +287,22 @@ export default function VaultItemPage() {
                   <PasswordField value={editData.password}
                     onChange={(v) => setEditData({ ...editData, password: v })} />
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">URL</label>
+                    <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">URL</label>
                     <input type="url" value={editData.urls?.[0] ?? ""}
                       onChange={(e) => setEditData({ ...editData, urls: [e.target.value] })}
                       className={input} style={iStyle} {...iFocus} />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">2FA Secret (TOTP)</label>
+                    <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">2FA Secret (TOTP)</label>
                     <input type="text" value={editData.totp_secret ?? ""}
                       onChange={(e) => setEditData({ ...editData, totp_secret: e.target.value })}
                       placeholder="otpauth://totp/... or base32 secret"
-                      className={input} style={{ ...iStyle, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.05em" }}
+                      className={input} style={{ ...iStyle, fontFamily: "'Space Mono',monospace", letterSpacing: "0.05em" }}
                       {...iFocus} />
-                    <p className="text-xs text-sentri-sub mt-1">Paste your TOTP secret to generate live 2FA codes.</p>
+                    <p className="text-xs  mt-1">Paste your TOTP secret to generate live 2FA codes.</p>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Notes</label>
+                    <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Notes</label>
                     <textarea value={editData.notes ?? ""}
                       onChange={(e) => setEditData({ ...editData, notes: e.target.value })}
                       rows={3} className={input + " resize-none"} style={iStyle} {...iFocus} />
@@ -312,26 +312,26 @@ export default function VaultItemPage() {
               {editData.type === "card" && (
                 <>
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Cardholder</label>
+                    <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Cardholder</label>
                     <input type="text" value={editData.cardholder_name}
                       onChange={(e) => setEditData({ ...editData, cardholder_name: e.target.value })}
                       className={input} style={iStyle} {...iFocus} />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Card Number</label>
+                    <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Card Number</label>
                     <input type="text" value={editData.number}
                       onChange={(e) => setEditData({ ...editData, number: e.target.value })}
-                      className={input} style={{ ...iStyle, fontFamily: "'JetBrains Mono',monospace" }} {...iFocus} />
+                      className={input} style={{ ...iStyle, fontFamily: "'Space Mono',monospace" }} {...iFocus} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Expiry</label>
+                      <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Expiry</label>
                       <input type="text" value={editData.expiry}
                         onChange={(e) => setEditData({ ...editData, expiry: e.target.value })}
                         className={input} style={iStyle} {...iFocus} />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">CVV</label>
+                      <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">CVV</label>
                       <input type="password" value={editData.cvv}
                         onChange={(e) => setEditData({ ...editData, cvv: e.target.value })}
                         className={input} style={iStyle} {...iFocus} />
@@ -341,7 +341,7 @@ export default function VaultItemPage() {
               )}
               {editData.type === "note" && (
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Content</label>
+                  <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Content</label>
                   <textarea value={editData.content}
                     onChange={(e) => setEditData({ ...editData, content: e.target.value })}
                     rows={10} className={input + " resize-none"} style={iStyle} {...iFocus} />
@@ -352,7 +352,7 @@ export default function VaultItemPage() {
                   <PasswordField value={editData.key}
                     onChange={(v) => setEditData({ ...editData, key: v })} label="Key / Token" />
                   <div>
-                    <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Hostname</label>
+                    <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Hostname</label>
                     <input type="text" value={editData.hostname ?? ""}
                       onChange={(e) => setEditData({ ...editData, hostname: e.target.value })}
                       className={input} style={iStyle} {...iFocus} />
@@ -366,7 +366,7 @@ export default function VaultItemPage() {
           {!editing && <ItemHistory itemId={item.id} />}
         </div>
 
-        <div className="mt-4 flex items-center gap-4 text-xs text-sentri-sub px-1">
+        <div className="mt-4 flex items-center gap-4 text-xs  px-1">
           <span>Created {new Date(item.createdAt).toLocaleDateString()}</span>
           <span>·</span>
           <span>Updated {new Date(item.updatedAt).toLocaleDateString()}</span>

@@ -47,7 +47,7 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
 
   if (error) {
     return (
-      <div className="text-xs text-sentri-danger px-3 py-2 rounded-lg"
+      <div className="text-xs  px-3 py-2 rounded-lg"
         style={{ background: "rgba(217,48,37,0.06)" }}>
         Invalid TOTP secret
       </div>
@@ -57,20 +57,20 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
   return (
     <div
       className="flex items-center gap-4 px-4 py-3 rounded-xl border"
-      style={{ background: "#F7F9F8", borderColor: "#E8EDEB" }}
+      style={{ background: "#080B12", borderColor: "#2A3244" }}
     >
       {/* Countdown ring */}
       <svg width={SIZE} height={SIZE} className="shrink-0 -rotate-90">
         <circle cx={SIZE/2} cy={SIZE/2} r={RADIUS} fill="none"
-          stroke="#E8EDEB" strokeWidth={3} />
+          stroke="#2A3244" strokeWidth={3} />
         <circle cx={SIZE/2} cy={SIZE/2} r={RADIUS} fill="none"
-          stroke={urgent ? "#D93025" : "#006341"} strokeWidth={3}
+          stroke={urgent ? "#FF4D6A" : "#00FF94"} strokeWidth={3}
           strokeDasharray={CIRC} strokeDashoffset={dash}
           strokeLinecap="round"
           style={{ transition: "stroke-dashoffset 0.9s linear, stroke 0.3s" }}
         />
         <text x={SIZE/2} y={SIZE/2 + 1} textAnchor="middle" dominantBaseline="middle"
-          className="rotate-90" fill={urgent ? "#D93025" : "#667085"}
+          className="rotate-90" fill={urgent ? "#FF4D6A" : "#8892A4"}
           fontSize="9" fontWeight="600"
           style={{ transform: `rotate(90deg)`, transformOrigin: `${SIZE/2}px ${SIZE/2}px`, fontFamily: "monospace" }}>
           {remaining}
@@ -79,12 +79,12 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
 
       {/* Code */}
       <div className="flex-1">
-        <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-0.5">2FA Code</p>
+        <p className="text-xs font-medium uppercase tracking-widest  mb-0.5">2FA Code</p>
         <p
           className="text-2xl font-bold tracking-[0.18em] leading-none"
           style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            color: urgent ? "#D93025" : "#006341",
+            fontFamily: "'Space Mono', monospace",
+            color: urgent ? "#FF4D6A" : "#00FF94",
           }}
         >
           {code.slice(0, 3)}&thinsp;{code.slice(3)}
@@ -96,9 +96,9 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
         onClick={copy}
         className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-all shrink-0"
         style={{
-          borderColor: copied ? "#006341" : "#E8EDEB",
-          color:       copied ? "#006341" : "#667085",
-          background:  copied ? "rgba(0,99,65,0.06)" : "transparent",
+          borderColor: copied ? "#00FF94" : "#2A3244",
+          color:       copied ? "#00FF94" : "#8892A4",
+          background:  copied ? "rgba(0,255,148,0.06)" : "transparent",
         }}
       >
         {copied ? "✓" : "Copy"}

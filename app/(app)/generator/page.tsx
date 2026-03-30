@@ -36,19 +36,19 @@ export default function GeneratorPage() {
       onClick={() => onChange(!value)}
       className="flex items-center justify-between px-4 py-3 rounded-xl border transition-all"
       style={{
-        borderColor: value ? "#006341" : "#E8EDEB",
-        background:  value ? "rgba(0,99,65,0.06)" : "#fff",
+        borderColor: value ? "#00FF94" : "#2A3244",
+        background:  value ? "rgba(0,255,148,0.06)" : "#fff",
       }}
     >
-      <span className="text-sm font-medium" style={{ color: value ? "#006341" : "#667085" }}>
+      <span className="text-sm font-medium" style={{ color: value ? "#00FF94" : "#8892A4" }}>
         {label}
       </span>
       <div
         className="w-8 h-4 rounded-full transition-all relative"
-        style={{ background: value ? "#006341" : "#E8EDEB" }}
+        style={{ background: value ? "#00FF94" : "#2A3244" }}
       >
         <div
-          className="absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all shadow-sm"
+          className="absolute top-0.5 w-3 h-3 rounded-full  transition-all shadow-sm"
           style={{ left: value ? "calc(100% - 14px)" : "2px" }}
         />
       </div>
@@ -63,21 +63,21 @@ export default function GeneratorPage() {
 
           {/* Generated password display */}
           <div
-            className="bg-white rounded-2xl border p-6"
-            style={{ borderColor: "#E8EDEB" }}
+            className=" rounded-2xl border p-6"
+            style={{ borderColor: "#2A3244" }}
           >
             <div
               className="w-full px-5 py-4 rounded-xl mb-4 text-center text-lg break-all leading-relaxed select-all"
               style={{
-                background:  "#F7F9F8",
-                border:      "1.5px solid #E8EDEB",
-                fontFamily:  "'JetBrains Mono', monospace",
-                color:       "#1A1F1E",
+                background:  "#080B12",
+                border:      "1.5px solid #2A3244",
+                fontFamily:  "'Space Mono', monospace",
+                color:       "#E8EDF5",
                 letterSpacing: "0.04em",
                 minHeight:   "60px",
               }}
             >
-              {password || <span className="text-sentri-sub text-sm italic">No password generated</span>}
+              {password || <span className=" text-sm italic">No password generated</span>}
             </div>
 
             {/* Strength bar */}
@@ -88,7 +88,7 @@ export default function GeneratorPage() {
                     <div
                       key={i}
                       className="h-1.5 flex-1 rounded-full transition-all"
-                      style={{ background: strength.score > i * 1.5 ? strength.color : "#E8EDEB" }}
+                      style={{ background: strength.score > i * 1.5 ? strength.color : "#2A3244" }}
                     />
                   ))}
                 </div>
@@ -102,14 +102,14 @@ export default function GeneratorPage() {
               <button
                 onClick={() => copy(password)}
                 className="flex-1 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95"
-                style={{ background: copied ? "#004D32" : "linear-gradient(135deg, #006341, #004D32)" }}
+                style={{ background: copied ? "#00CC77" : "linear-gradient(135deg, #00FF94, #00CC77)" }}
               >
                 {copied ? "✓ Copied!" : "Copy Password"}
               </button>
               <button
                 onClick={generate}
-                className="px-4 py-2.5 rounded-xl border text-sm font-medium text-sentri-sub hover:bg-sentri-muted transition-colors"
-                style={{ borderColor: "#E8EDEB" }}
+                className="px-4 py-2.5 rounded-xl border text-sm font-medium  hover:bg-sentri-muted transition-colors"
+                style={{ borderColor: "#2A3244" }}
               >
                 ↻ New
               </button>
@@ -118,18 +118,18 @@ export default function GeneratorPage() {
 
           {/* Options */}
           <div
-            className="bg-white rounded-2xl border p-5 flex flex-col gap-4"
-            style={{ borderColor: "#E8EDEB" }}
+            className=" rounded-2xl border p-5 flex flex-col gap-4"
+            style={{ borderColor: "#2A3244" }}
           >
-            <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub">Options</p>
+            <p className="text-xs font-medium uppercase tracking-widest ">Options</p>
 
             {/* Length slider */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-sentri-text">Length</label>
+                <label className="text-sm font-medium ">Length</label>
                 <span
                   className="text-sm font-semibold px-2.5 py-0.5 rounded-lg"
-                  style={{ background: "rgba(0,99,65,0.08)", color: "#006341" }}
+                  style={{ background: "rgba(0,255,148,0.08)", color: "#00FF94" }}
                 >
                   {length}
                 </span>
@@ -141,9 +141,9 @@ export default function GeneratorPage() {
                 value={length}
                 onChange={(e) => setLength(Number(e.target.value))}
                 className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                style={{ accentColor: "#006341" }}
+                style={{ accentColor: "#00FF94" }}
               />
-              <div className="flex justify-between mt-1 text-xs text-sentri-sub">
+              <div className="flex justify-between mt-1 text-xs ">
                 <span>8</span>
                 <span>64</span>
               </div>
@@ -161,25 +161,25 @@ export default function GeneratorPage() {
           {/* History */}
           {history.length > 1 && (
             <div
-              className="bg-white rounded-2xl border p-5"
-              style={{ borderColor: "#E8EDEB" }}
+              className=" rounded-2xl border p-5"
+              style={{ borderColor: "#2A3244" }}
             >
-              <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-3">Recent</p>
+              <p className="text-xs font-medium uppercase tracking-widest  mb-3">Recent</p>
               <div className="flex flex-col gap-1.5">
                 {history.slice(1).map((pw, i) => (
                   <div
                     key={i}
-                    className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-sentri-bg transition-colors group"
+                    className="flex items-center gap-3 px-3 py-2 rounded-lg hover: transition-colors group"
                   >
                     <span
                       className="flex-1 text-xs truncate"
-                      style={{ fontFamily: "'JetBrains Mono', monospace", color: "#667085" }}
+                      style={{ fontFamily: "'Space Mono', monospace", color: "#8892A4" }}
                     >
                       {pw}
                     </span>
                     <button
                       onClick={() => copy(pw)}
-                      className="text-xs text-sentri-sub opacity-0 group-hover:opacity-100 transition-opacity hover:text-sentri-primary"
+                      className="text-xs  opacity-0 group-hover:opacity-100 transition-opacity hover:"
                     >
                       Copy
                     </button>

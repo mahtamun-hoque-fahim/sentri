@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { api } from "@/lib/api";
 import Header from "@/components/layout/Header";
+import { Lock } from "lucide-react";
 
 interface SessionRow {
   id:          string;
@@ -69,12 +70,12 @@ export default function SessionsPage() {
       <div className="flex-1 px-6 py-6 max-w-2xl mx-auto w-full">
 
         <div className="flex items-center gap-3 mb-5">
-          <Link href="/settings" className="text-sm text-sentri-sub hover:text-sentri-text transition-colors">← Settings</Link>
+          <Link href="/settings" className="text-sm  hover: transition-colors">← Settings</Link>
           <div className="flex-1" />
           {sessions.length > 1 && (
             <button onClick={revokeAll}
               className="text-sm px-4 py-1.5 rounded-lg border font-medium transition-colors"
-              style={{ borderColor: "#FECAC7", color: "#D93025", background: "#FFF1F0" }}>
+              style={{ borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A", background: "rgba(255,77,106,0.08)" }}>
               Revoke all others
             </button>
           )}
@@ -82,7 +83,7 @@ export default function SessionsPage() {
 
         {error && (
           <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-            style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>
+            style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
             {error}
           </div>
         )}
@@ -92,8 +93,8 @@ export default function SessionsPage() {
             {[1,2,3].map((i) => <div key={i} className="shimmer h-20 rounded-xl" />)}
           </div>
         ) : sessions.length === 0 ? (
-          <div className="text-center py-12 text-sentri-sub text-sm">
-            <p className="text-3xl mb-3">🔒</p>
+          <div className="text-center py-12  text-sm">
+            <p className="text-3xl mb-3"><Lock size={16} style={{ color: "#8892A4" }} /></p>
             <p>No sessions found. Sessions are logged when you sign in.</p>
           </div>
         ) : (
@@ -103,32 +104,32 @@ export default function SessionsPage() {
               const isCurrent = idx === 0;
               return (
                 <div key={session.id}
-                  className="flex items-center gap-4 px-5 py-4 bg-white rounded-xl border animate-fade-up"
+                  className="flex items-center gap-4 px-5 py-4  rounded-xl border animate-fade-up"
                   style={{
-                    borderColor: isCurrent ? "#006341" : "#E8EDEB",
+                    borderColor: isCurrent ? "#00FF94" : "#2A3244",
                     borderWidth: isCurrent ? "1.5px" : "1px",
                     animationDelay: `${idx * 0.04}s`,
                   }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                    style={{ background: isCurrent ? "rgba(0,99,65,0.08)" : "#F7F9F8" }}>
+                    style={{ background: isCurrent ? "rgba(0,255,148,0.08)" : "#080B12" }}>
                     {device.icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <p className="text-sm font-semibold text-sentri-text">
+                      <p className="text-sm font-semibold ">
                         {session.device_name ?? device.name}
                       </p>
                       {isCurrent && (
                         <span className="text-xs px-2 py-0.5 rounded-full font-medium"
-                          style={{ background: "rgba(0,99,65,0.08)", color: "#006341" }}>
+                          style={{ background: "rgba(0,255,148,0.08)", color: "#00FF94" }}>
                           Current
                         </span>
                       )}
                     </div>
-                    <p className="text-xs text-sentri-sub truncate">
+                    <p className="text-xs  truncate">
                       {session.ip_address ?? "Unknown IP"} · Last active {timeAgo(session.last_active)}
                     </p>
-                    <p className="text-xs text-sentri-sub">
+                    <p className="text-xs ">
                       Signed in {new Date(session.created_at).toLocaleDateString()}
                     </p>
                   </div>
@@ -137,7 +138,7 @@ export default function SessionsPage() {
                       onClick={() => revoke(session.id)}
                       disabled={revoking === session.id}
                       className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors shrink-0"
-                      style={{ borderColor: "#FECAC7", color: "#D93025", background: "#FFF1F0" }}>
+                      style={{ borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A", background: "rgba(255,77,106,0.08)" }}>
                       {revoking === session.id ? "…" : "Revoke"}
                     </button>
                   )}
@@ -147,7 +148,7 @@ export default function SessionsPage() {
           </div>
         )}
 
-        <p className="mt-5 text-xs text-sentri-sub text-center">
+        <p className="mt-5 text-xs  text-center">
           Sessions are stored in your Supabase database. Revoking a session signs that device out.
         </p>
       </div>

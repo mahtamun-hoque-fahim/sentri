@@ -9,6 +9,7 @@ import {
 } from "@/lib/sharing";
 import { DecryptedVaultItem } from "@/types/vault";
 import { useVaultStore } from "@/store/vault";
+import { CheckCircle, Link2, Lock } from "lucide-react";
 
 interface ShareItemModalProps {
   item:    DecryptedVaultItem;
@@ -76,20 +77,20 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ background: "rgba(26,31,30,0.5)", backdropFilter: "blur(4px)" }}>
-      <div className="bg-white rounded-2xl border shadow-vault w-full max-w-md animate-fade-up"
-        style={{ borderColor: "#E8EDEB" }}>
+      <div className=" rounded-2xl border shadow-vault w-full max-w-md animate-fade-up"
+        style={{ borderColor: "#2A3244" }}>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: "#E8EDEB" }}>
+        <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: "#2A3244" }}>
           <div className="flex items-center gap-3">
-            <span className="text-xl">🔗</span>
+            <span className="text-xl"><Link2 size={20} style={{ color: "#00FF94" }} /></span>
             <div>
-              <p className="text-sm font-semibold text-sentri-text">Share Item</p>
-              <p className="text-xs text-sentri-sub">{item.title}</p>
+              <p className="text-sm font-semibold ">Share Item</p>
+              <p className="text-xs ">{item.title}</p>
             </div>
           </div>
           <button onClick={onClose}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-sentri-sub hover:bg-sentri-muted transition-colors">
+            className="w-8 h-8 rounded-lg flex items-center justify-center  hover:bg-sentri-muted transition-colors">
             ✕
           </button>
         </div>
@@ -99,9 +100,9 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
             <>
               {/* Security notice */}
               <div className="rounded-xl border px-4 py-3 text-sm flex items-start gap-2"
-                style={{ background: "rgba(0,99,65,0.05)", borderColor: "rgba(0,99,65,0.15)" }}>
-                <span>🔐</span>
-                <p className="text-xs text-sentri-sub leading-relaxed">
+                style={{ background: "rgba(0,255,148,0.05)", borderColor: "rgba(0,255,148,0.12)" }}>
+                <span><Lock size={20} style={{ color: "#00FF94" }} /></span>
+                <p className="text-xs  leading-relaxed">
                   The encryption key is embedded in the URL fragment and never sent to our servers.
                   Only someone with the full link can decrypt this item.
                 </p>
@@ -109,7 +110,7 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
 
               {/* Expiry */}
               <div>
-                <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-2">
+                <label className="block text-xs font-medium uppercase tracking-widest  mb-2">
                   Link expires after
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -118,9 +119,9 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
                       onClick={() => setExpiry(o.hours)}
                       className="py-2 rounded-xl border text-sm font-medium transition-all"
                       style={{
-                        borderColor: expiry === o.hours ? "#006341" : "#E8EDEB",
-                        background:  expiry === o.hours ? "rgba(0,99,65,0.08)" : "#fff",
-                        color:       expiry === o.hours ? "#006341" : "#667085",
+                        borderColor: expiry === o.hours ? "#00FF94" : "#2A3244",
+                        background:  expiry === o.hours ? "rgba(0,255,148,0.08)" : "#fff",
+                        color:       expiry === o.hours ? "#00FF94" : "#8892A4",
                       }}>
                       {o.label}
                     </button>
@@ -130,7 +131,7 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
 
               {/* Max views */}
               <div>
-                <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-2">
+                <label className="block text-xs font-medium uppercase tracking-widest  mb-2">
                   Max views
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -139,9 +140,9 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
                       onClick={() => setMaxViews(v)}
                       className="py-2 rounded-xl border text-sm font-medium transition-all"
                       style={{
-                        borderColor: maxViews === v ? "#006341" : "#E8EDEB",
-                        background:  maxViews === v ? "rgba(0,99,65,0.08)" : "#fff",
-                        color:       maxViews === v ? "#006341" : "#667085",
+                        borderColor: maxViews === v ? "#00FF94" : "#2A3244",
+                        background:  maxViews === v ? "rgba(0,255,148,0.08)" : "#fff",
+                        color:       maxViews === v ? "#00FF94" : "#8892A4",
                       }}>
                       {v === 1 ? "1 — One-time" : v}
                     </button>
@@ -151,33 +152,33 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
 
               {error && (
                 <div className="px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>
+                  style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
                   {error}
                 </div>
               )}
 
               <button onClick={createShare} disabled={loading}
                 className="w-full py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
-                style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
+                style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
                 {loading ? "Encrypting…" : "Create Share Link"}
               </button>
             </>
           ) : (
             <>
               {/* Share link ready */}
-              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#006341" }}>
-                <span className="text-base">✅</span>
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#00FF94" }}>
+                <span className="text-base"><CheckCircle size={15} style={{ color: "#00FF94" }} /></span>
                 Share link created
               </div>
 
-              <div className="rounded-xl border p-3" style={{ background: "#F7F9F8", borderColor: "#E8EDEB" }}>
-                <p className="text-xs font-mono break-all text-sentri-sub leading-relaxed"
+              <div className="rounded-xl border p-3" style={{ background: "#080B12", borderColor: "#2A3244" }}>
+                <p className="text-xs font-mono break-all  leading-relaxed"
                   style={{ wordBreak: "break-all" }}>
                   {shareURL}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-2 text-xs text-sentri-sub">
+              <div className="flex flex-col gap-2 text-xs ">
                 <p>⏱ Expires in {expiry < 24 ? `${expiry}h` : expiry < 168 ? "24h" : "7 days"}</p>
                 <p>👁 Max {maxViews} view{maxViews !== 1 ? "s" : ""}</p>
                 <p>🔐 Decryption key is in the URL fragment — only the link holder can decrypt</p>
@@ -186,15 +187,15 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
               <button onClick={copy}
                 className="w-full py-2.5 rounded-xl border text-sm font-medium transition-all"
                 style={{
-                  borderColor: copied ? "#006341" : "#E8EDEB",
-                  background:  copied ? "rgba(0,99,65,0.08)" : "#fff",
-                  color:       copied ? "#006341" : "#1A1F1E",
+                  borderColor: copied ? "#00FF94" : "#2A3244",
+                  background:  copied ? "rgba(0,255,148,0.08)" : "#fff",
+                  color:       copied ? "#00FF94" : "#E8EDF5",
                 }}>
                 {copied ? "✓ Copied to clipboard!" : "Copy Link"}
               </button>
 
               <button onClick={() => { setShareURL(""); setCopied(false); }}
-                className="text-xs text-sentri-sub hover:text-sentri-text transition-colors text-center">
+                className="text-xs  hover: transition-colors text-center">
                 Create another link
               </button>
             </>

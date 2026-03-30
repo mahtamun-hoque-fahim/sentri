@@ -7,6 +7,7 @@ import { importShareKeyFromFragment, } from "@/lib/sharing";
 import { decryptData } from "@/lib/crypto";
 import { ItemType, VaultItemData } from "@/types/vault";
 import Link from "next/link";
+import { Lock } from "lucide-react";
 
 interface ShareRow {
   id:                   string;
@@ -88,9 +89,9 @@ export default function SharePage() {
       <button onClick={() => copy(label, value)}
         className="text-xs px-2.5 py-1 rounded-lg border transition-all"
         style={{
-          borderColor: copied[label] ? "#006341" : "#E8EDEB",
-          background:  copied[label] ? "rgba(0,99,65,0.06)" : "transparent",
-          color:       copied[label] ? "#006341" : "#667085",
+          borderColor: copied[label] ? "#00FF94" : "#2A3244",
+          background:  copied[label] ? "rgba(0,255,148,0.06)" : "transparent",
+          color:       copied[label] ? "#00FF94" : "#8892A4",
         }}>
         {copied[label] ? "✓" : "Copy"}
       </button>
@@ -101,15 +102,15 @@ export default function SharePage() {
     const [show, setShow] = useState(!secret);
     return (
       <div>
-        <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1">{label}</p>
+        <p className="text-xs font-medium uppercase tracking-widest  mb-1">{label}</p>
         <div className="flex items-center gap-2">
-          <p className="flex-1 text-sm text-sentri-text break-all"
+          <p className="flex-1 text-sm  break-all"
             style={secret && !show ? { filter: "blur(5px)", userSelect: "none" } : {}}>
             {value}
           </p>
           {secret && (
             <button onClick={() => setShow((s) => !s)}
-              className="text-xs text-sentri-sub hover:text-sentri-text shrink-0">
+              className="text-xs  hover: shrink-0">
               {show ? "Hide" : "Show"}
             </button>
           )}
@@ -123,7 +124,7 @@ export default function SharePage() {
 
   const Center = ({ children }: { children: React.ReactNode }) => (
     <div className="min-h-screen vault-pattern flex items-center justify-center px-6"
-      style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       <div className="text-center max-w-sm">{children}</div>
     </div>
   );
@@ -131,11 +132,11 @@ export default function SharePage() {
   if (status === "loading" || status === "decrypting") return (
     <Center>
       <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
-        style={{ background: "rgba(0,99,65,0.07)" }}>🔐</div>
-      <p className="text-sm font-medium text-sentri-text">
+        style={{ background: "rgba(0,255,148,0.07)" }}><Lock size={20} style={{ color: "#00FF94" }} /></div>
+      <p className="text-sm font-medium ">
         {status === "loading" ? "Loading share…" : "Decrypting item…"}
       </p>
-      <p className="text-xs text-sentri-sub mt-1">
+      <p className="text-xs  mt-1">
         {status === "decrypting" && "Using the key from your URL to decrypt locally."}
       </p>
     </Center>
@@ -144,46 +145,46 @@ export default function SharePage() {
   if (status === "expired") return (
     <Center>
       <div className="text-4xl mb-4">⏱</div>
-      <h1 className="text-xl font-semibold text-sentri-text mb-2"
-        style={{ fontFamily: "'DM Serif Display', serif" }}>Link expired</h1>
-      <p className="text-sm text-sentri-sub">This share link has expired. Ask the sender to create a new one.</p>
+      <h1 className="text-xl font-semibold  mb-2"
+        style={{ fontFamily: "'Space Grotesk', serif" }}>Link expired</h1>
+      <p className="text-sm ">This share link has expired. Ask the sender to create a new one.</p>
     </Center>
   );
 
   if (status === "exhausted") return (
     <Center>
       <div className="text-4xl mb-4">👁</div>
-      <h1 className="text-xl font-semibold text-sentri-text mb-2"
-        style={{ fontFamily: "'DM Serif Display', serif" }}>Already viewed</h1>
-      <p className="text-sm text-sentri-sub">This link has reached its maximum view count.</p>
+      <h1 className="text-xl font-semibold  mb-2"
+        style={{ fontFamily: "'Space Grotesk', serif" }}>Already viewed</h1>
+      <p className="text-sm ">This link has reached its maximum view count.</p>
     </Center>
   );
 
   if (status === "error" || !payload) return (
     <Center>
       <div className="text-4xl mb-4">❌</div>
-      <h1 className="text-xl font-semibold text-sentri-text mb-2"
-        style={{ fontFamily: "'DM Serif Display', serif" }}>Could not decrypt</h1>
-      <p className="text-sm text-sentri-sub">The link may be incomplete or the key is missing from the URL.</p>
+      <h1 className="text-xl font-semibold  mb-2"
+        style={{ fontFamily: "'Space Grotesk', serif" }}>Could not decrypt</h1>
+      <p className="text-sm ">The link may be incomplete or the key is missing from the URL.</p>
     </Center>
   );
 
   // ─── Ready — show decrypted item ──────────────────────────────────────────
 
   return (
-    <div className="min-h-screen vault-pattern" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen vault-pattern" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
       {/* Nav */}
-      <nav className="flex items-center justify-between px-6 py-4 border-b bg-white/80 backdrop-blur-sm"
-        style={{ borderColor: "#E8EDEB" }}>
+      <nav className="flex items-center justify-between px-6 py-4 border-b /80 backdrop-blur-sm"
+        style={{ borderColor: "#2A3244" }}>
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
-            style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>S</div>
+            style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>S</div>
           <span className="text-lg font-semibold"
-            style={{ fontFamily: "'DM Serif Display', serif", color: "#006341" }}>Sentri</span>
+            style={{ fontFamily: "'Space Grotesk', serif", color: "#00FF94" }}>Sentri</span>
         </div>
         <Link href="/signin"
           className="text-sm font-medium px-4 py-1.5 rounded-lg text-white transition-all hover:opacity-90"
-          style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
+          style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
           Open my vault
         </Link>
       </nav>
@@ -193,36 +194,36 @@ export default function SharePage() {
 
           {/* Header */}
           <div className="text-center mb-2 animate-fade-up">
-            <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-2">
+            <p className="text-xs font-medium uppercase tracking-widest  mb-2">
               Shared with you via Sentri
             </p>
-            <h1 className="text-2xl font-normal text-sentri-text"
-              style={{ fontFamily: "'DM Serif Display', serif" }}>
+            <h1 className="text-2xl font-normal "
+              style={{ fontFamily: "'Space Grotesk', serif" }}>
               {payload.title}
             </h1>
           </div>
 
           {/* Metadata strip */}
-          <div className="flex items-center justify-center gap-4 text-xs text-sentri-sub animate-fade-up">
+          <div className="flex items-center justify-center gap-4 text-xs  animate-fade-up">
             {viewsLeft > 0 && <span>👁 {viewsLeft} view{viewsLeft !== 1 ? "s" : ""} remaining</span>}
             {viewsLeft === 0 && <span>👁 Last view</span>}
             <span>·</span>
             <span>⏱ Expires {new Date(expiresAt).toLocaleDateString()}</span>
             <span>·</span>
-            <span className="font-medium" style={{ color: "#006341" }}>🔐 Decrypted locally</span>
+            <span className="font-medium" style={{ color: "#00FF94" }}>🔐 Decrypted locally</span>
           </div>
 
           {/* Item card */}
-          <div className="bg-white rounded-2xl border p-6 flex flex-col gap-5 shadow-card animate-fade-up"
-            style={{ borderColor: "#E8EDEB" }}>
-            <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "#E8EDEB" }}>
+          <div className=" rounded-2xl border p-6 flex flex-col gap-5 shadow-card animate-fade-up"
+            style={{ borderColor: "#2A3244" }}>
+            <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "#2A3244" }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                style={{ background: "rgba(0,99,65,0.07)" }}>
+                style={{ background: "rgba(0,255,148,0.07)" }}>
                 {TYPE_ICON[payload.itemType]}
               </div>
               <div>
-                <p className="font-semibold text-sentri-text">{payload.title}</p>
-                <p className="text-xs text-sentri-sub capitalize mt-0.5">{payload.itemType.replace("_", " ")}</p>
+                <p className="font-semibold ">{payload.title}</p>
+                <p className="text-xs  capitalize mt-0.5">{payload.itemType.replace("_", " ")}</p>
               </div>
             </div>
 
@@ -232,10 +233,10 @@ export default function SharePage() {
                 <Field label="Password" value={payload.data.password} secret />
                 {payload.data.urls?.[0] && (
                   <div>
-                    <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1">URL</p>
+                    <p className="text-xs font-medium uppercase tracking-widest  mb-1">URL</p>
                     <div className="flex items-center gap-2">
                       <a href={payload.data.urls[0]} target="_blank" rel="noopener noreferrer"
-                        className="flex-1 text-sm truncate hover:underline" style={{ color: "#006341" }}>
+                        className="flex-1 text-sm truncate hover:underline" style={{ color: "#00FF94" }}>
                         {payload.data.urls[0]}
                       </a>
                       <CopyBtn label="URL" value={payload.data.urls[0]} />
@@ -273,7 +274,7 @@ export default function SharePage() {
 
           {/* Security note */}
           <div className="text-center">
-            <p className="text-xs text-sentri-sub leading-relaxed max-w-xs mx-auto">
+            <p className="text-xs  leading-relaxed max-w-xs mx-auto">
               This item was decrypted in your browser using a key embedded in the URL.
               Sentri&apos;s servers only stored encrypted ciphertext — they never saw this data.
             </p>
@@ -281,10 +282,10 @@ export default function SharePage() {
 
           {/* CTA */}
           <div className="text-center pt-2">
-            <p className="text-xs text-sentri-sub mb-3">Want your own encrypted vault?</p>
+            <p className="text-xs  mb-3">Want your own encrypted vault?</p>
             <Link href="/signup"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-medium"
-              style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
+              style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
               Create a free Sentri vault →
             </Link>
           </div>

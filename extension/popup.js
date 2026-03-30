@@ -232,7 +232,13 @@ function matchesSite(item, site) {
 
 // ─── Render Items ─────────────────────────────────────────────────────────────
 
-const TYPE_ICON = { login: "🔑", card: "💳", note: "📄", ssh_key: "🖥", api_credential: "⚡" };
+const TYPE_ICON = {
+  login:          `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00FF94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="21" cy="21" r="3"/><path d="M15 15 1 1"/><path d="M8 8a5 5 0 0 0 7-7"/></svg>`,
+  card:           `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00D4FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>`,
+  note:           `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8892A4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z"/><polyline points="14 2 14 8 20 8"/></svg>`,
+  ssh_key:        `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7B61FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg>`,
+  api_credential: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFB547" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+};
 
 function renderItems(items) {
   const list = document.getElementById("items-list");
@@ -241,7 +247,7 @@ function renderItems(items) {
   if (items.length === 0) {
     list.innerHTML = `
       <div class="empty">
-        <div class="empty-icon">🔐</div>
+        <div class="empty-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00FF94" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
         <p class="empty-title">No items found</p>
         <p class="empty-sub">Your vault is empty, or no items match this search.</p>
       </div>`;
@@ -257,10 +263,10 @@ function renderItems(items) {
     if (item.favicon_url) {
       const img = document.createElement("img");
       img.src = item.favicon_url;
-      img.onerror = () => { icon.textContent = TYPE_ICON[item.item_type] ?? "🔑"; };
+      img.onerror = () => { icon.innerHTML = TYPE_ICON[item.item_type] ?? TYPE_ICON.login; };
       icon.appendChild(img);
     } else {
-      icon.textContent = TYPE_ICON[item.item_type] ?? "🔑";
+      icon.innerHTML = TYPE_ICON[item.item_type] ?? TYPE_ICON.login;
     }
 
     const info  = document.createElement("div");
@@ -347,7 +353,7 @@ function showDetail(item) {
   selectedItem = item;
   document.getElementById("detail-title").textContent = item.title;
   document.getElementById("detail-type").textContent  = item.item_type.replace("_", " ");
-  document.getElementById("detail-icon").textContent  = TYPE_ICON[item.item_type] ?? "🔑";
+  document.getElementById("detail-icon").innerHTML = TYPE_ICON[item.item_type] ?? TYPE_ICON.login;
 
   const autofillBtn = document.getElementById("autofill-btn");
   autofillBtn.style.display = (item.data?.type === "login" && matchesSite(item, currentSite)) ? "" : "none";

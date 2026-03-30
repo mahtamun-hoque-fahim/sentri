@@ -30,19 +30,19 @@ export default function SettingsPage() {
   }
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-white rounded-2xl border p-6" style={{ borderColor: "#E8EDEB" }}>
-      <h2 className="text-sm font-semibold text-sentri-text mb-4 uppercase tracking-widest"
-        style={{ fontSize: "11px", color: "#667085" }}>{title}</h2>
+    <div className=" rounded-2xl border p-6" style={{ borderColor: "#2A3244" }}>
+      <h2 className="text-sm font-semibold  mb-4 uppercase tracking-widest"
+        style={{ fontSize: "11px", color: "#8892A4" }}>{title}</h2>
       {children}
     </div>
   );
 
   const Row = ({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) => (
     <div className="flex items-center justify-between py-3 border-b last:border-0"
-      style={{ borderColor: "#F7F9F8" }}>
+      style={{ borderColor: "#080B12" }}>
       <div>
-        <p className="text-sm font-medium text-sentri-text">{label}</p>
-        {sub && <p className="text-xs text-sentri-sub mt-0.5">{sub}</p>}
+        <p className="text-sm font-medium ">{label}</p>
+        {sub && <p className="text-xs  mt-0.5">{sub}</p>}
       </div>
       {children}
     </div>
@@ -56,14 +56,14 @@ export default function SettingsPage() {
         {/* Account */}
         <Section title="Account">
           <Row label="Email" sub="Your Sentri account email">
-            <span className="text-sm text-sentri-sub font-mono">
+            <span className="text-sm  font-mono">
               {loaded ? email : "Loading…"}
             </span>
           </Row>
           <Row label="Sessions" sub="View and revoke active sessions">
             <Link href="/settings/sessions"
-              className="text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors hover:bg-sentri-bg"
-              style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+              className="text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors hover:"
+              style={{ borderColor: "#2A3244", color: "#8892A4" }}>
               Manage →
             </Link>
           </Row>
@@ -76,14 +76,14 @@ export default function SettingsPage() {
             sub="Lock the vault after inactivity. The vault key is cleared from memory.">
             <div className="flex items-center gap-2">
               {saved && (
-                <span className="text-xs font-medium" style={{ color: "#006341" }}>✓ Saved</span>
+                <span className="text-xs font-medium" style={{ color: "#00FF94" }}>✓ Saved</span>
               )}
               <select
                 value={autoLockMinutes}
                 onChange={(e) => handleLockChange(Number(e.target.value))}
                 className="text-sm px-3 py-1.5 rounded-lg border outline-none transition-shadow"
-                style={{ borderColor: "#E8EDEB", background: "#F7F9F8" }}
-                onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,99,65,0.18)")}
+                style={{ borderColor: "#2A3244", background: "#080B12" }}
+                onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.15)")}
                 onBlur={(e)  => (e.target.style.boxShadow = "none")}
               >
                 {LOCK_OPTIONS.map((o) => (
@@ -95,15 +95,15 @@ export default function SettingsPage() {
 
           <Row label="Watchtower" sub="Scan vault for breached and weak passwords">
             <Link href="/watchtower"
-              className="text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors hover:bg-sentri-bg"
-              style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+              className="text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors hover:"
+              style={{ borderColor: "#2A3244", color: "#8892A4" }}>
               Open →
             </Link>
           </Row>
 
           <Row label="Encryption" sub="AES-256-GCM · PBKDF2 SHA-256 · 600,000 iterations">
             <span className="text-xs px-2 py-1 rounded-full font-medium"
-              style={{ background: "rgba(0,99,65,0.08)", color: "#006341" }}>
+              style={{ background: "rgba(0,255,148,0.08)", color: "#00FF94" }}>
               Active
             </span>
           </Row>
@@ -112,10 +112,10 @@ export default function SettingsPage() {
         {/* About */}
         <Section title="About">
           <Row label="Version" sub="Sentri Phase 2">
-            <span className="text-xs text-sentri-sub font-mono">v2.0.0</span>
+            <span className="text-xs  font-mono">v2.0.0</span>
           </Row>
           <Row label="Architecture" sub="Zero-knowledge · client-side encryption · open source">
-            <span className="text-xs text-sentri-sub">Next.js + Supabase</span>
+            <span className="text-xs ">Next.js + Supabase</span>
           </Row>
         </Section>
 
@@ -125,7 +125,7 @@ export default function SettingsPage() {
             <button
               disabled
               className="text-xs px-3 py-1.5 rounded-lg border font-medium opacity-40 cursor-not-allowed"
-              style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+              style={{ borderColor: "#2A3244", color: "#8892A4" }}>
               Coming soon
             </button>
           </Row>

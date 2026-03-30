@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { api } from "@/lib/api";
 import Header from "@/components/layout/Header";
+import { Lock, Users } from "lucide-react";
 
 interface VaultRow {
   id:         string;
@@ -81,32 +82,32 @@ export default function SharedVaultsPage() {
         {/* Pending invites */}
         {invites.length > 0 && (
           <div>
-            <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-3">
+            <p className="text-xs font-medium uppercase tracking-widest  mb-3">
               Pending Invites
             </p>
             <div className="flex flex-col gap-2">
               {invites.map((invite) => (
                 <div key={invite.id}
-                  className="flex items-center gap-4 px-5 py-4 bg-white rounded-xl border animate-fade-up"
+                  className="flex items-center gap-4 px-5 py-4  rounded-xl border animate-fade-up"
                   style={{ borderColor: "rgba(249,215,76,0.5)", background: "#FFFBEC" }}>
                   <span className="text-2xl">📬</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-sentri-text">
+                    <p className="text-sm font-semibold ">
                       Invite to &ldquo;{invite.vault?.name ?? "Shared Vault"}&rdquo;
                     </p>
-                    <p className="text-xs text-sentri-sub mt-0.5">
+                    <p className="text-xs  mt-0.5">
                       Received {new Date(invite.created_at).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button onClick={() => acceptInvite(invite.id)}
                       className="px-3 py-1.5 rounded-lg text-white text-xs font-medium"
-                      style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
+                      style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
                       Accept
                     </button>
                     <button onClick={() => declineInvite(invite.id)}
-                      className="px-3 py-1.5 rounded-lg border text-xs font-medium text-sentri-sub hover:bg-sentri-muted"
-                      style={{ borderColor: "#E8EDEB" }}>
+                      className="px-3 py-1.5 rounded-lg border text-xs font-medium  hover:bg-sentri-muted"
+                      style={{ borderColor: "#2A3244" }}>
                       Decline
                     </button>
                   </div>
@@ -117,8 +118,8 @@ export default function SharedVaultsPage() {
         )}
 
         {/* Create shared vault */}
-        <div className="bg-white rounded-2xl border p-5" style={{ borderColor: "#E8EDEB" }}>
-          <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-3">
+        <div className=" rounded-2xl border p-5" style={{ borderColor: "#2A3244" }}>
+          <p className="text-xs font-medium uppercase tracking-widest  mb-3">
             Create Shared Vault
           </p>
           <div className="flex gap-2">
@@ -127,20 +128,20 @@ export default function SharedVaultsPage() {
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder='e.g. "Family", "Work Team", "Dev Secrets"'
-              className="flex-1 px-4 py-2.5 rounded-xl border text-sm outline-none bg-sentri-bg"
-              style={{ borderColor: "#E8EDEB" }}
-              onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,99,65,0.18)")}
+              className="flex-1 px-4 py-2.5 rounded-xl border text-sm outline-none "
+              style={{ borderColor: "#2A3244" }}
+              onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.15)")}
               onBlur={(e)  => (e.target.style.boxShadow = "none")}
               onKeyDown={(e) => e.key === "Enter" && createSharedVault()}
             />
             <button onClick={createSharedVault} disabled={creating || !newName.trim()}
               className="px-4 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 disabled:opacity-50"
-              style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
+              style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
               {creating ? "…" : "Create"}
             </button>
           </div>
           {error && (
-            <p className="text-xs mt-2" style={{ color: "#D93025" }}>{error}</p>
+            <p className="text-xs mt-2" style={{ color: "#FF4D6A" }}>{error}</p>
           )}
         </div>
 
@@ -153,28 +154,28 @@ export default function SharedVaultsPage() {
           <>
             {sharedVaults.length > 0 && (
               <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-3">
+                <p className="text-xs font-medium uppercase tracking-widest  mb-3">
                   Shared Vaults ({sharedVaults.length})
                 </p>
                 <div className="flex flex-col gap-2">
                   {sharedVaults.map((vault, i) => (
                     <div key={vault.id}
-                      className="flex items-center gap-4 px-5 py-4 bg-white rounded-xl border animate-fade-up"
-                      style={{ borderColor: "#E8EDEB", animationDelay: `${i * 0.05}s` }}>
+                      className="flex items-center gap-4 px-5 py-4  rounded-xl border animate-fade-up"
+                      style={{ borderColor: "#2A3244", animationDelay: `${i * 0.05}s` }}>
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                        style={{ background: "rgba(0,99,65,0.07)" }}>
+                        style={{ background: "rgba(0,255,148,0.07)" }}>
                         👥
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-sentri-text">{vault.name}</p>
-                        <p className="text-xs text-sentri-sub mt-0.5">
+                        <p className="text-sm font-semibold ">{vault.name}</p>
+                        <p className="text-xs  mt-0.5">
                           Created {new Date(vault.created_at).toLocaleDateString()}
                           {vault.owner_id === userId && " · You own this"}
                         </p>
                       </div>
                       <Link href={`/invite/${vault.id}`}
-                        className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors hover:bg-sentri-bg"
-                        style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+                        className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors hover:"
+                        style={{ borderColor: "#2A3244", color: "#8892A4" }}>
                         Manage →
                       </Link>
                     </div>
@@ -186,32 +187,32 @@ export default function SharedVaultsPage() {
             {sharedVaults.length === 0 && (
               <div className="text-center py-10">
                 <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
-                  style={{ background: "rgba(0,99,65,0.07)" }}>👥</div>
-                <h3 className="text-base font-semibold text-sentri-text mb-1"
-                  style={{ fontFamily: "'DM Serif Display', serif" }}>No shared vaults yet</h3>
-                <p className="text-sm text-sentri-sub">Create one above and invite your trusted circle.</p>
+                  style={{ background: "rgba(0,255,148,0.07)" }}><Users size={16} style={{ color: "#8892A4" }} /></div>
+                <h3 className="text-base font-semibold  mb-1"
+                  style={{ fontFamily: "'Space Grotesk', serif" }}>No shared vaults yet</h3>
+                <p className="text-sm ">Create one above and invite your trusted circle.</p>
               </div>
             )}
 
             {/* Personal vaults info */}
             {personalVaults.length > 0 && (
               <div>
-                <p className="text-xs font-medium uppercase tracking-widest text-sentri-sub mb-3">
+                <p className="text-xs font-medium uppercase tracking-widest  mb-3">
                   Personal Vaults ({personalVaults.length})
                 </p>
                 {personalVaults.map((vault) => (
                   <div key={vault.id}
-                    className="flex items-center gap-4 px-5 py-4 bg-white rounded-xl border"
-                    style={{ borderColor: "#E8EDEB" }}>
+                    className="flex items-center gap-4 px-5 py-4  rounded-xl border"
+                    style={{ borderColor: "#2A3244" }}>
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                      style={{ background: "rgba(0,99,65,0.07)" }}>🔐</div>
+                      style={{ background: "rgba(0,255,148,0.07)" }}><Lock size={20} style={{ color: "#00FF94" }} /></div>
                     <div className="flex-1">
-                      <p className="text-sm font-semibold text-sentri-text">{vault.name}</p>
-                      <p className="text-xs text-sentri-sub mt-0.5">Your private vault</p>
+                      <p className="text-sm font-semibold ">{vault.name}</p>
+                      <p className="text-xs  mt-0.5">Your private vault</p>
                     </div>
                     <Link href="/dashboard"
-                      className="text-xs px-3 py-1.5 rounded-lg border font-medium hover:bg-sentri-bg transition-colors"
-                      style={{ borderColor: "#E8EDEB", color: "#667085" }}>
+                      className="text-xs px-3 py-1.5 rounded-lg border font-medium hover: transition-colors"
+                      style={{ borderColor: "#2A3244", color: "#8892A4" }}>
                       Open →
                     </Link>
                   </div>

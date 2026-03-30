@@ -1,31 +1,23 @@
+"use client";
+
 import Link from "next/link";
+import { ShieldOff, Plus } from "lucide-react";
 
 export default function EmptyVault() {
   return (
-    <div className="flex flex-col items-center justify-center py-24 text-center px-6">
-      <div
-        className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl mb-6"
-        style={{ background: "rgba(0,99,65,0.07)" }}
-      >
-        🔐
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5"
+        style={{ background: "rgba(0,255,148,0.06)", border: "1px solid rgba(0,255,148,0.12)" }}>
+        <ShieldOff size={28} style={{ color: "#2A3244" }} />
       </div>
-      <h2
-        className="text-2xl font-normal mb-2"
-        style={{ fontFamily: "'DM Serif Display', serif", color: "#1A1F1E" }}
-      >
-        Your vault is empty
-      </h2>
-      <p className="text-sm text-sentri-sub mb-8 max-w-xs leading-relaxed">
-        Add your first item — a login, card, secure note, or API key.
-        Everything is encrypted before leaving your device.
+      <h3 className="text-base font-bold mb-2" style={{ color: "#E8EDF5" }}>Your vault is empty</h3>
+      <p className="text-sm mb-6 max-w-xs leading-relaxed" style={{ color: "#8892A4" }}>
+        Add your first login, card, or secure note to get started.
       </p>
-      <Link
-        href="/vault/new"
-        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95"
-        style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}
-      >
-        <span>+</span>
-        Add first item
+      <Link href="/vault/new"
+        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold transition-all hover:shadow-neon active:scale-95 btn-neon">
+        <Plus size={14} strokeWidth={2.5} />
+        Add First Item
       </Link>
     </div>
   );

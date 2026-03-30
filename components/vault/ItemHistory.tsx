@@ -53,31 +53,31 @@ export default function ItemHistory({ itemId }: ItemHistoryProps) {
   function renderData(data: VaultItemData) {
     if (data.type === "login") return (
       <div className="text-xs space-y-1">
-        <p><span className="text-sentri-sub">User:</span> {data.username}</p>
-        <p><span className="text-sentri-sub">Pass:</span> {"•".repeat(Math.min(data.password.length, 16))}</p>
+        <p><span className="">User:</span> {data.username}</p>
+        <p><span className="">Pass:</span> {"•".repeat(Math.min(data.password.length, 16))}</p>
       </div>
     );
     if (data.type === "card") return (
       <div className="text-xs space-y-1">
-        <p><span className="text-sentri-sub">Card:</span> •••• {data.number.slice(-4)}</p>
-        <p><span className="text-sentri-sub">Exp:</span> {data.expiry}</p>
+        <p><span className="">Card:</span> •••• {data.number.slice(-4)}</p>
+        <p><span className="">Exp:</span> {data.expiry}</p>
       </div>
     );
-    return <p className="text-xs text-sentri-sub">{data.type} item</p>;
+    return <p className="text-xs ">{data.type} item</p>;
   }
 
   return (
-    <div className="border-t pt-4 mt-2" style={{ borderColor: "#E8EDEB" }}>
+    <div className="border-t pt-4 mt-2" style={{ borderColor: "#2A3244" }}>
       <button
         onClick={toggle}
         className="flex items-center gap-2 text-sm font-medium transition-colors w-full text-left"
-        style={{ color: "#667085" }}
+        style={{ color: "#8892A4" }}
       >
         <span className="text-base" style={{ transform: open ? "rotate(90deg)" : "none", display: "inline-block", transition: "transform 0.2s" }}>›</span>
         Version history
         {rows.length > 0 && (
           <span className="ml-auto text-xs px-2 py-0.5 rounded-full"
-            style={{ background: "#E8EDEB", color: "#667085" }}>
+            style={{ background: "#2A3244", color: "#8892A4" }}>
             {rows.length}
           </span>
         )}
@@ -91,33 +91,33 @@ export default function ItemHistory({ itemId }: ItemHistoryProps) {
             </div>
           )}
           {!loading && rows.length === 0 && (
-            <p className="text-xs text-sentri-sub py-2">No history yet. History is saved when you edit an item.</p>
+            <p className="text-xs  py-2">No history yet. History is saved when you edit an item.</p>
           )}
           {!loading && rows.map((row) => (
             <div key={row.id}>
               <button
                 onClick={() => expandRow(row)}
-                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border text-left transition-colors hover:bg-sentri-bg"
-                style={{ borderColor: "#E8EDEB" }}
+                className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border text-left transition-colors hover:"
+                style={{ borderColor: "#2A3244" }}
               >
                 <div className="flex items-center gap-2">
                   <span className="text-base">🕐</span>
                   <div>
-                    <p className="text-xs font-medium text-sentri-text">
+                    <p className="text-xs font-medium ">
                       {new Date(row.changed_at).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })}
                     </p>
-                    <p className="text-xs text-sentri-sub">
+                    <p className="text-xs ">
                       {new Date(row.changed_at).toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" })}
                     </p>
                   </div>
                 </div>
-                <span className="text-sentri-sub text-xs">{expanded === row.id ? "Hide" : "View"}</span>
+                <span className=" text-xs">{expanded === row.id ? "Hide" : "View"}</span>
               </button>
 
               {expanded === row.id && decrypted[row.id] && (
                 <div
                   className="mt-1 mx-1 px-4 py-3 rounded-xl border"
-                  style={{ background: "#F7F9F8", borderColor: "#E8EDEB" }}
+                  style={{ background: "#080B12", borderColor: "#2A3244" }}
                 >
                   {renderData(decrypted[row.id])}
                 </div>

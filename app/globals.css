@@ -2,23 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  --font-display: 'DM Serif Display';
-  --font-body:    'DM Sans';
-  --font-mono:    'JetBrains Mono';
+  --font-display: 'Space Grotesk';
+  --font-body:    'Space Grotesk';
+  --font-mono:    'Space Mono';
 
-  --color-primary:   #006341;
-  --color-secondary: #004D32;
-  --color-highlight: #F9D74C;
-  --color-accent:    #C5A059;
-  --color-surface:   #FFFFFF;
-  --color-bg:        #F7F9F8;
-  --color-text:      #1A1F1E;
-  --color-sub:       #667085;
-  --color-muted:     #E8EDEB;
-  --color-danger:    #D93025;
+  /* Web3 dark palette */
+  --color-primary:   #00FF94;
+  --color-primary-dim: #00CC77;
+  --color-secondary: #7B61FF;
+  --color-accent:    #00D4FF;
+  --color-surface:   #0F1117;
+  --color-surface2:  #161B27;
+  --color-surface3:  #1E2535;
+  --color-border:    #2A3244;
+  --color-bg:        #080B12;
+  --color-text:      #E8EDF5;
+  --color-sub:       #8892A4;
+  --color-muted:     #1E2535;
+  --color-danger:    #FF4D6A;
+  --color-warning:   #FFB547;
+  --color-glow:      rgba(0,255,148,0.15);
+  --color-glow2:     rgba(123,97,255,0.15);
 }
 
 * { box-sizing: border-box; }
@@ -32,8 +39,8 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--color-muted); }
-::-webkit-scrollbar-thumb { background: #b0c4bc; border-radius: 99px; }
+::-webkit-scrollbar-track { background: var(--color-surface); }
+::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 99px; }
 
 /* Focus ring */
 *:focus-visible {
@@ -42,17 +49,29 @@ body {
   border-radius: 4px;
 }
 
-/* Vault pattern background */
+/* Web3 grid background */
 .vault-pattern {
   background-color: var(--color-bg);
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(0,99,65,0.07) 1px, transparent 0);
-  background-size: 24px 24px;
+    linear-gradient(rgba(0,255,148,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,148,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Glow effects */
+.glow-green {
+  box-shadow: 0 0 20px rgba(0,255,148,0.2), 0 0 60px rgba(0,255,148,0.05);
+}
+.glow-purple {
+  box-shadow: 0 0 20px rgba(123,97,255,0.2), 0 0 60px rgba(123,97,255,0.05);
+}
+.text-glow {
+  text-shadow: 0 0 20px rgba(0,255,148,0.5);
 }
 
 /* Shimmer skeleton */
 .shimmer {
-  background: linear-gradient(90deg, #e8edeb 25%, #f0f5f2 50%, #e8edeb 75%);
+  background: linear-gradient(90deg, #1E2535 25%, #252d40 50%, #1E2535 75%);
   background-size: 400px 100%;
   animation: shimmer 1.4s linear infinite;
 }
@@ -72,8 +91,19 @@ body {
   100% { opacity: 1; }
 }
 
-.animate-fade-up { animation: fade-up 0.45s ease both; }
-.animate-fade-in { animation: fade-in 0.3s ease both; }
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0,255,148,0.2); }
+  50%       { box-shadow: 0 0 20px rgba(0,255,148,0.4); }
+}
+
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.animate-fade-up   { animation: fade-up 0.45s ease both; }
+.animate-fade-in   { animation: fade-in 0.3s ease both; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
 
 /* Stagger delays */
 .delay-1 { animation-delay: 0.05s; }
@@ -81,3 +111,29 @@ body {
 .delay-3 { animation-delay: 0.15s; }
 .delay-4 { animation-delay: 0.20s; }
 .delay-5 { animation-delay: 0.25s; }
+
+/* Web3 card */
+.web3-card {
+  background: var(--color-surface2);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.web3-card:hover {
+  border-color: rgba(0,255,148,0.3);
+  box-shadow: 0 0 20px rgba(0,255,148,0.06);
+}
+
+/* Neon button */
+.btn-neon {
+  background: linear-gradient(135deg, #00FF94, #00CC77);
+  color: #080B12;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-neon:hover {
+  box-shadow: 0 0 20px rgba(0,255,148,0.4);
+  transform: translateY(-1px);
+}

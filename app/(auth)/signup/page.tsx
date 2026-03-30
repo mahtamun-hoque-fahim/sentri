@@ -5,23 +5,22 @@ import Link from "next/link";
 import { useSignUp, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { generateSecretKey, generateSalt, deriveKey, encryptData, uint8ToBase64 } from "@/lib/crypto";
+import { Eye, EyeOff, ArrowRight, Copy, Check, Mail, Key } from "lucide-react";
 
 type Step = "form" | "verify" | "key-reveal" | "done";
 
 export default function SignupPage() {
   const { signUp, setActive, isLoaded } = useSignUp();
   const { isSignedIn } = useAuth();
-  const router  = useRouter();
+  const router = useRouter();
 
-  // Already signed in → go to unlock
-  useEffect(() => {
-    if (isSignedIn) router.replace("/unlock");
-  }, [isSignedIn, router]);
+  useEffect(() => { if (isSignedIn) router.replace("/unlock"); }, [isSignedIn, router]);
 
   const [step,      setStep]      = useState<Step>("form");
   const [email,     setEmail]     = useState("");
   const [password,  setPassword]  = useState("");
   const [confirm,   setConfirm]   = useState("");
+  const [showPw,    setShowPw]    = useState(false);
   const [code,      setCode]      = useState("");
   const [secretKey, setSecretKey] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -30,7 +29,6 @@ export default function SignupPage() {
   const [loading,   setLoading]   = useState(false);
   const [error,     setError]     = useState("");
 
-  // Step 1 — register with Clerk
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
     if (!isLoaded) return;
@@ -46,7 +44,6 @@ export default function SignupPage() {
     } finally { setLoading(false); }
   }
 
-  // Step 2 — verify email OTP
   async function handleVerify(e: React.FormEvent) {
     e.preventDefault();
     if (!isLoaded) return;
@@ -54,9 +51,7 @@ export default function SignupPage() {
     try {
       const result = await signUp.attemptEmailAddressVerification({ code });
       if (result.status !== "complete") throw new Error("Verification incomplete.");
-      // Store sessionId now — signUp.createdSessionId may be null later
       setSessionId(result.createdSessionId);
-      // Generate Secret Key now
       const sk = generateSecretKey();
       setSecretKey(sk);
       setStep("key-reveal");
@@ -65,20 +60,16 @@ export default function SignupPage() {
     } finally { setLoading(false); }
   }
 
-  // Step 3 — save vault key + activate session
   async function handleConfirm() {
     if (!agreed) { setError("Please confirm you have saved your Secret Key."); return; }
     if (!isLoaded) return;
+    if (!sessionId) throw new Error("Missing sessionId. Please try signing up again.");
     setError(""); setLoading(true);
     try {
-      // Derive vault key and encrypt canary
       const salt     = generateSalt();
       const vaultKey = await deriveKey(password, secretKey.replace(/-/g, "").toUpperCase(), salt);
       const { ciphertext, iv } = await encryptData(vaultKey, { canary: "sentri-ok" });
 
-      if (!sessionId) throw new Error("Missing sessionId. Please try signing up again.");
-
-      // Save profile BEFORE activating session — pass sessionId for server verification
       const profileRes = await fetch("/api/auth/complete-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -97,9 +88,7 @@ export default function SignupPage() {
         throw new Error(errData.error ?? "Profile creation failed");
       }
 
-      // Activate session AFTER profile is saved
       await setActive({ session: sessionId });
-
       router.push("/unlock?welcome=1");
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -112,139 +101,155 @@ export default function SignupPage() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  const input = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-shadow bg-sentri-bg";
-  const iStyle = { borderColor: "#E8EDEB" };
-  const focus  = (e: React.FocusEvent<HTMLInputElement>) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,99,65,0.18)");
-  const blur   = (e: React.FocusEvent<HTMLInputElement>) => (e.target.style.boxShadow = "none");
+  const inputBase = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-all";
+  const inputStyle = { background: "#161B27", borderColor: "#2A3244", color: "#E8EDF5" };
+  const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.style.borderColor = "rgba(0,255,148,0.4)";
+    e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.08)";
+  };
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    e.target.style.borderColor = "#2A3244";
+    e.target.style.boxShadow = "none";
+  };
 
   return (
-    <div className="min-h-screen vault-pattern flex items-center justify-center px-4 py-16"
-      style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen vault-pattern flex items-center justify-center px-4 py-16">
       <div className="w-full max-w-md">
 
-        {/* Logo */}
-        <div className="flex items-center gap-2 mb-8 justify-center animate-fade-up">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold"
-            style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>S</div>
-          <span className="text-2xl font-semibold"
-            style={{ fontFamily: "'DM Serif Display', serif", color: "#006341" }}>Sentri</span>
+        <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
+            style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)", color: "#080B12" }}>S</div>
+          <span className="text-2xl font-bold" style={{ color: "#00FF94", fontFamily: "Space Grotesk" }}>Sentri</span>
         </div>
 
-        <div className="bg-sentri-surface rounded-2xl border p-8 shadow-card animate-fade-up delay-1"
-          style={{ borderColor: "#E8EDEB" }}>
+        <div className="rounded-2xl border p-8 animate-fade-up delay-1"
+          style={{ background: "#0F1117", borderColor: "#2A3244" }}>
 
-          {/* ── Step 1: Register ── */}
+          {/* Step 1: Register */}
           {step === "form" && (
             <>
-              <h1 className="text-2xl font-normal mb-1"
-                style={{ fontFamily: "'DM Serif Display', serif" }}>Create your vault</h1>
-              <p className="text-sm text-sentri-sub mb-6">One master password. Everything encrypted.</p>
+              <h1 className="text-2xl font-bold mb-1" style={{ color: "#E8EDF5" }}>Create your vault</h1>
+              <p className="text-sm mb-6" style={{ color: "#8892A4" }}>One master password. Everything encrypted.</p>
 
               {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>{error}</div>
+                  style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
               )}
 
               <form onSubmit={handleRegister} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Email</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Email</label>
                   <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com" className={input} style={iStyle} onFocus={focus} onBlur={blur} />
+                    placeholder="you@example.com" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Master Password</label>
-                  <input type="password" required minLength={10} value={password} onChange={(e) => setPassword(e.target.value)}
-                    placeholder="At least 10 characters" className={input} style={iStyle} onFocus={focus} onBlur={blur} />
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Master Password</label>
+                  <div className="relative">
+                    <input type={showPw ? "text" : "password"} required minLength={10} value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="At least 10 characters" className={inputBase + " pr-10"} style={inputStyle}
+                      onFocus={onFocus} onBlur={onBlur} />
+                    <button type="button" onClick={() => setShowPw(s => !s)} tabIndex={-1}
+                      className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: "#8892A4" }}>
+                      {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
+                    </button>
+                  </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Confirm Password</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Confirm Password</label>
                   <input type="password" required value={confirm} onChange={(e) => setConfirm(e.target.value)}
-                    placeholder="Repeat master password" className={input} style={iStyle} onFocus={focus} onBlur={blur} />
+                    placeholder="Repeat master password" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <button type="submit" disabled={loading}
-                  className="w-full py-3 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 disabled:opacity-60 mt-2"
-                  style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
-                  {loading ? "Creating account…" : "Continue"}
+                  className="w-full py-3 rounded-xl text-sm font-bold mt-2 flex items-center justify-center gap-2 transition-all hover:shadow-neon disabled:opacity-40 btn-neon">
+                  {loading ? "Creating account…" : (<>Continue <ArrowRight size={14} /></>)}
                 </button>
               </form>
-              <p className="text-center text-sm text-sentri-sub mt-6">
+              <p className="text-center text-sm mt-6" style={{ color: "#8892A4" }}>
                 Already have a vault?{" "}
-                <Link href="/signin" className="font-medium" style={{ color: "#006341" }}>Sign in</Link>
+                <Link href="/signin" className="font-bold" style={{ color: "#00FF94" }}>Sign in</Link>
               </p>
             </>
           )}
 
-          {/* ── Step 2: Verify Email ── */}
+          {/* Step 2: Verify Email */}
           {step === "verify" && (
             <>
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-xl"
-                style={{ background: "rgba(0,99,65,0.08)" }}>📧</div>
-              <h1 className="text-2xl font-normal mb-2"
-                style={{ fontFamily: "'DM Serif Display', serif" }}>Check your email</h1>
-              <p className="text-sm text-sentri-sub mb-6">
-                We sent a 6-digit code to <strong>{email}</strong>
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
+                style={{ background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.15)" }}>
+                <Mail size={22} style={{ color: "#00D4FF" }} />
+              </div>
+              <h1 className="text-2xl font-bold mb-2" style={{ color: "#E8EDF5" }}>Check your email</h1>
+              <p className="text-sm mb-6" style={{ color: "#8892A4" }}>
+                We sent a 6-digit code to <span className="font-mono" style={{ color: "#E8EDF5" }}>{email}</span>
               </p>
               {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>{error}</div>
+                  style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
               )}
               <form onSubmit={handleVerify} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-medium uppercase tracking-widest text-sentri-sub mb-1.5">Verification Code</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Verification Code</label>
                   <input type="text" required value={code} onChange={(e) => setCode(e.target.value)}
                     placeholder="123456" maxLength={6}
-                    className={input} style={{ ...iStyle, fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.2em", textAlign: "center", fontSize: "1.2rem" }}
-                    onFocus={focus} onBlur={blur} />
+                    className={inputBase + " font-mono text-center text-2xl tracking-widest"}
+                    style={{ ...inputStyle, letterSpacing: "0.3em" }}
+                    onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <button type="submit" disabled={loading}
-                  className="w-full py-3 rounded-xl text-white text-sm font-medium hover:opacity-90 disabled:opacity-60"
-                  style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
-                  {loading ? "Verifying…" : "Verify Email"}
+                  className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all hover:shadow-neon disabled:opacity-40 btn-neon">
+                  {loading ? "Verifying…" : (<>Verify Email <ArrowRight size={14} /></>)}
                 </button>
               </form>
             </>
           )}
 
-          {/* ── Step 3: Secret Key Reveal ── */}
+          {/* Step 3: Secret Key Reveal */}
           {step === "key-reveal" && (
             <>
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4 text-xl"
-                style={{ background: "rgba(0,99,65,0.08)" }}>🔑</div>
-              <h1 className="text-2xl font-normal mb-2"
-                style={{ fontFamily: "'DM Serif Display', serif" }}>Your Secret Key</h1>
-              <p className="text-sm text-sentri-sub mb-6 leading-relaxed">
-                Shown <strong>only once</strong>. Store it safely — without it, your vault cannot be recovered.
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
+                style={{ background: "rgba(0,255,148,0.08)", border: "1px solid rgba(0,255,148,0.15)" }}>
+                <Key size={22} style={{ color: "#00FF94" }} />
+              </div>
+              <h1 className="text-2xl font-bold mb-2" style={{ color: "#E8EDF5" }}>Your Secret Key</h1>
+              <p className="text-sm mb-6 leading-relaxed" style={{ color: "#8892A4" }}>
+                Shown <strong style={{ color: "#E8EDF5" }}>only once</strong>. Store it safely — without it, your vault cannot be recovered.
               </p>
-              <div className="rounded-xl p-4 mb-5 border" style={{ background: "#F7F9F8", borderColor: "#E8EDEB" }}>
-                <p className="text-center text-base font-medium tracking-widest select-all"
-                  style={{ fontFamily: "'JetBrains Mono', monospace", color: "#006341", letterSpacing: "0.1em" }}>
+
+              <div className="rounded-xl p-4 mb-5 border"
+                style={{ background: "rgba(0,255,148,0.04)", borderColor: "rgba(0,255,148,0.2)" }}>
+                <p className="text-center text-sm font-bold select-all font-mono text-glow"
+                  style={{ color: "#00FF94", letterSpacing: "0.08em", wordBreak: "break-all" }}>
                   {secretKey}
                 </p>
               </div>
+
               <button onClick={copyKey}
-                className="w-full py-2.5 rounded-xl text-sm font-medium border mb-5 transition-colors"
+                className="w-full py-2.5 rounded-xl text-sm font-bold border mb-5 transition-all flex items-center justify-center gap-2"
                 style={{
-                  borderColor: copied ? "#006341" : "#E8EDEB",
-                  color:       copied ? "#006341" : "#1A1F1E",
-                  background:  copied ? "rgba(0,99,65,0.06)" : "transparent",
+                  borderColor: copied ? "rgba(0,255,148,0.4)" : "#2A3244",
+                  color:       copied ? "#00FF94" : "#E8EDF5",
+                  background:  copied ? "rgba(0,255,148,0.06)" : "#161B27",
                 }}>
-                {copied ? "✓ Copied!" : "Copy Secret Key"}
+                {copied ? <><Check size={14} /> Copied!</> : <><Copy size={14} /> Copy Secret Key</>}
               </button>
+
               <label className="flex items-start gap-3 cursor-pointer mb-6">
                 <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 accent-sentri-primary" />
-                <span className="text-sm text-sentri-sub leading-relaxed">
+                  className="mt-0.5 w-4 h-4 rounded" style={{ accentColor: "#00FF94" }} />
+                <span className="text-sm leading-relaxed" style={{ color: "#8892A4" }}>
                   I have saved my Secret Key. I understand it cannot be recovered if lost.
                 </span>
               </label>
+
               {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "#FFF1F0", borderColor: "#FECAC7", color: "#D93025" }}>{error}</div>
+                  style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
               )}
+
               <button onClick={handleConfirm} disabled={loading || !agreed}
-                className="w-full py-3 rounded-xl text-white text-sm font-medium hover:opacity-90 disabled:opacity-40"
-                style={{ background: "linear-gradient(135deg, #006341, #004D32)" }}>
-                {loading ? "Setting up vault…" : "I've saved it — Create my vault"}
+                className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all hover:shadow-neon disabled:opacity-40 btn-neon">
+                {loading ? "Setting up vault…" : (<>Create my vault <ArrowRight size={14} /></>)}
               </button>
             </>
           )}
