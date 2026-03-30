@@ -14,11 +14,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           {/* eslint-disable-next-line @next/next/no-page-custom-font */}
           <link
-            href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
             rel="stylesheet"
           />
         </head>
-        <body style={{ fontFamily: "'DM Sans', sans-serif" }}>
+        <body>
           {children}
         </body>
       </html>

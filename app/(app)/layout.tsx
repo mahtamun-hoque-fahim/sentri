@@ -21,13 +21,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   if (!isLoaded || !isSignedIn || !isUnlocked) {
     return (
       <div className="min-h-screen vault-pattern flex items-center justify-center">
-        <div className="text-sentri-sub text-sm">Loading…</div>
+        <div className="text-sm font-mono animate-pulse" style={{ color: "#8892A4" }}>Loading…</div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-sentri-bg" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="flex min-h-screen" style={{ background: "#080B12" }}>
       <Sidebar />
       <main className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
         {children}
