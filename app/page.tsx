@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Shield, Zap, Eye, Lock, Key, ArrowRight } from "lucide-react";
 
