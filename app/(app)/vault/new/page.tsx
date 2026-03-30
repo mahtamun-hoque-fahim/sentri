@@ -108,8 +108,8 @@ export default function NewItemPage() {
   }
 
   const input = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-shadow ";
-  const inputStyle = { borderColor: "#2A3244" };
-  const focusStyle = { boxShadow: "0 0 0 3px rgba(0,255,148,0.15)" };
+  const inputStyle = { borderColor: "var(--border)" };
+  const focusStyle = { boxShadow: "0 0 0 3px rgba(79,110,247,0.15)" };
 
   return (
     <>
@@ -128,9 +128,9 @@ export default function NewItemPage() {
                   onClick={() => setType(t.value)}
                   className="flex flex-col items-center gap-1.5 p-3 rounded-xl border text-center transition-all"
                   style={{
-                    borderColor: type === t.value ? "#00FF94" : "#2A3244",
-                    background:  type === t.value ? "rgba(0,255,148,0.07)" : "#fff",
-                    color:       type === t.value ? "#00FF94" : "#8892A4",
+                    borderColor: type === t.value ? "#4F6EF7" : "var(--border)",
+                    background:  type === t.value ? "rgba(79,110,247,0.08)" : "#fff",
+                    color:       type === t.value ? "#4F6EF7" : "var(--sub)",
                   }}
                 >
                   <span className="text-xl">{t.icon}</span>
@@ -143,7 +143,7 @@ export default function NewItemPage() {
           {/* Title */}
           <div
             className=" rounded-2xl border p-5 flex flex-col gap-4"
-            style={{ borderColor: "#2A3244" }}
+            style={{ borderColor: "var(--border)" }}
           >
             <div>
               <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Title</label>
@@ -196,7 +196,7 @@ export default function NewItemPage() {
                   <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Card Number</label>
                   <input type="text" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)}
                     placeholder="•••• •••• •••• ••••" maxLength={19} className={input}
-                    style={{ ...inputStyle, fontFamily: "'Space Mono', monospace" }}
+                    style={{ ...inputStyle, fontFamily: "'Geist Mono', monospace" }}
                     onFocus={(e) => Object.assign(e.target.style, focusStyle)} onBlur={(e) => (e.target.style.boxShadow = "none")} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -273,7 +273,7 @@ export default function NewItemPage() {
 
           {error && (
             <div className="px-4 py-3 rounded-xl text-sm border"
-              style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
+              style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>
               {error}
             </div>
           )}
@@ -281,12 +281,12 @@ export default function NewItemPage() {
           <div className="flex items-center gap-3">
             <button type="submit" disabled={loading}
               className="flex-1 py-3 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95 disabled:opacity-60"
-              style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
+              style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>
               {loading ? "Encrypting & saving…" : "Save to Vault"}
             </button>
             <Link href="/dashboard"
               className="px-5 py-3 rounded-xl border text-sm font-medium  hover:bg-sentri-muted transition-colors"
-              style={{ borderColor: "#2A3244" }}>
+              style={{ borderColor: "var(--border)" }}>
               Cancel
             </Link>
           </div>

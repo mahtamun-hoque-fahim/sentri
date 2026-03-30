@@ -100,9 +100,9 @@ export default function VaultItemPage() {
     <button type="button" onClick={() => copyField(label, value)}
       className="text-xs px-2.5 py-1 rounded-lg border transition-all"
       style={{
-        borderColor: copied[label] ? "#00FF94" : "#2A3244",
-        color:       copied[label] ? "#00FF94" : "#8892A4",
-        background:  copied[label] ? "rgba(0,255,148,0.06)" : "transparent",
+        borderColor: copied[label] ? "#4F6EF7" : "var(--border)",
+        color:       copied[label] ? "#4F6EF7" : "var(--sub)",
+        background:  copied[label] ? "rgba(79,110,247,0.07)" : "transparent",
       }}>
       {copied[label] ? "✓ Copied" : "Copy"}
     </button>
@@ -131,15 +131,15 @@ export default function VaultItemPage() {
   }
 
   const input   = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-shadow ";
-  const iStyle  = { borderColor: "#2A3244" };
-  const iFocus  = { onFocus: (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement>) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.15)"),
+  const iStyle  = { borderColor: "var(--border)" };
+  const iFocus  = { onFocus: (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement>) => (e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.15)"),
                     onBlur:  (e: React.FocusEvent<HTMLInputElement|HTMLTextAreaElement>) => (e.target.style.boxShadow = "none") };
 
   if (loading) return (
     <>
       <Header title="Item" showSearch={false} />
       <div className="flex-1 px-6 py-6 max-w-2xl mx-auto w-full">
-        <div className=" rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "#2A3244" }}>
+        <div className=" rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "var(--border)" }}>
           {[1,2,3,4].map((i) => <div key={i} className="shimmer h-10 rounded-xl" />)}
         </div>
       </div>
@@ -168,15 +168,15 @@ export default function VaultItemPage() {
             <>
               <button onClick={() => setShowShare(true)}
                 className="px-4 py-1.5 rounded-lg border text-sm font-medium hover:bg-sentri-muted transition-colors"
-                style={{ borderColor: "#2A3244", color: "#8892A4" }}>
+                style={{ borderColor: "var(--border)", color: "var(--sub)" }}>
                 Share
               </button>
               <button onClick={() => setEditing(true)}
                 className="px-4 py-1.5 rounded-lg border text-sm font-medium hover:bg-sentri-muted transition-colors"
-                style={{ borderColor: "#2A3244", color: "#E8EDF5" }}>Edit</button>
+                style={{ borderColor: "var(--border)", color: "var(--text)" }}>Edit</button>
               <button onClick={handleDelete} disabled={deleting}
                 className="px-4 py-1.5 rounded-lg border text-sm font-medium"
-                style={{ borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A", background: "rgba(255,77,106,0.08)" }}>
+                style={{ borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)", background: "rgba(240,81,106,0.08)" }}>
                 {deleting ? "Deleting…" : "Delete"}
               </button>
             </>
@@ -184,26 +184,26 @@ export default function VaultItemPage() {
             <>
               <button onClick={handleSave} disabled={saving}
                 className="px-4 py-2 rounded-lg text-white text-sm font-medium hover:opacity-90"
-                style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
+                style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>
                 {saving ? "Saving…" : "Save"}
               </button>
               <button onClick={() => { setEditing(false); setEditData(item.data); setEditTitle(item.title); }}
                 className="px-4 py-2 rounded-lg border text-sm font-medium  hover:bg-sentri-muted"
-                style={{ borderColor: "#2A3244" }}>Cancel</button>
+                style={{ borderColor: "var(--border)" }}>Cancel</button>
             </>
           )}
         </div>
 
         {error && (
           <div className="mb-4 px-4 py-3 rounded-xl text-sm border"
-            style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
+            style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
         )}
 
-        <div className=" rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "#2A3244" }}>
+        <div className=" rounded-2xl border p-6 flex flex-col gap-5" style={{ borderColor: "var(--border)" }}>
           {/* Header row */}
-          <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "#2A3244" }}>
+          <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "var(--border)" }}>
             <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
-              style={{ background: "rgba(0,255,148,0.07)" }}>
+              style={{ background: "rgba(79,110,247,0.08)" }}>
               {item.faviconUrl
                 ? /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={item.faviconUrl} alt="" className="w-6 h-6 rounded"
@@ -238,7 +238,7 @@ export default function VaultItemPage() {
                       <p className="text-xs font-medium uppercase tracking-widest  mb-1">URL</p>
                       <div className="flex items-center gap-2">
                         <a href={item.data.urls[0]} target="_blank" rel="noopener noreferrer"
-                          className="flex-1 text-sm truncate hover:underline" style={{ color: "#00FF94" }}>
+                          className="flex-1 text-sm truncate hover:underline" style={{ color: "#4F6EF7" }}>
                           {item.data.urls[0]}
                         </a>
                         <CopyBtn label="URL" value={item.data.urls[0]} />
@@ -297,7 +297,7 @@ export default function VaultItemPage() {
                     <input type="text" value={editData.totp_secret ?? ""}
                       onChange={(e) => setEditData({ ...editData, totp_secret: e.target.value })}
                       placeholder="otpauth://totp/... or base32 secret"
-                      className={input} style={{ ...iStyle, fontFamily: "'Space Mono',monospace", letterSpacing: "0.05em" }}
+                      className={input} style={{ ...iStyle, fontFamily: "'Geist Mono',monospace", letterSpacing: "0.05em" }}
                       {...iFocus} />
                     <p className="text-xs  mt-1">Paste your TOTP secret to generate live 2FA codes.</p>
                   </div>
@@ -321,7 +321,7 @@ export default function VaultItemPage() {
                     <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Card Number</label>
                     <input type="text" value={editData.number}
                       onChange={(e) => setEditData({ ...editData, number: e.target.value })}
-                      className={input} style={{ ...iStyle, fontFamily: "'Space Mono',monospace" }} {...iFocus} />
+                      className={input} style={{ ...iStyle, fontFamily: "'Geist Mono',monospace" }} {...iFocus} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>

@@ -102,13 +102,13 @@ export default function SignupPage() {
   }
 
   const inputBase = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-all";
-  const inputStyle = { background: "#161B27", borderColor: "#2A3244", color: "#E8EDF5" };
+  const inputStyle = { background: "var(--surface2)", borderColor: "var(--border)", color: "var(--text)" };
   const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.style.borderColor = "rgba(0,255,148,0.4)";
-    e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.08)";
+    e.target.style.borderColor = "rgba(79,110,247,0.5)";
+    e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.1)";
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.style.borderColor = "#2A3244";
+    e.target.style.borderColor = "var(--border)";
     e.target.style.boxShadow = "none";
   };
 
@@ -118,56 +118,56 @@ export default function SignupPage() {
 
         <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
-            style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)", color: "#080B12" }}>S</div>
-          <span className="text-2xl font-bold" style={{ color: "#00FF94", fontFamily: "Space Grotesk" }}>Sentri</span>
+            style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)", color: "var(--bg)" }}>S</div>
+          <span className="text-2xl font-bold" style={{ color: "#4F6EF7", fontFamily: "Geist" }}>Sentri</span>
         </div>
 
         <div className="rounded-2xl border p-8 animate-fade-up delay-1"
-          style={{ background: "#0F1117", borderColor: "#2A3244" }}>
+          style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
 
           {/* Step 1: Register */}
           {step === "form" && (
             <>
-              <h1 className="text-2xl font-bold mb-1" style={{ color: "#E8EDF5" }}>Create your vault</h1>
-              <p className="text-sm mb-6" style={{ color: "#8892A4" }}>One master password. Everything encrypted.</p>
+              <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--text)" }}>Create your vault</h1>
+              <p className="text-sm mb-6" style={{ color: "var(--sub)" }}>One master password. Everything encrypted.</p>
 
               {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
+                  style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
               )}
 
               <form onSubmit={handleRegister} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Email</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Email</label>
                   <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Master Password</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Master Password</label>
                   <div className="relative">
                     <input type={showPw ? "text" : "password"} required minLength={10} value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="At least 10 characters" className={inputBase + " pr-10"} style={inputStyle}
                       onFocus={onFocus} onBlur={onBlur} />
                     <button type="button" onClick={() => setShowPw(s => !s)} tabIndex={-1}
-                      className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: "#8892A4" }}>
+                      className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: "var(--sub)" }}>
                       {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Confirm Password</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Confirm Password</label>
                   <input type="password" required value={confirm} onChange={(e) => setConfirm(e.target.value)}
                     placeholder="Repeat master password" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <button type="submit" disabled={loading}
-                  className="w-full py-3 rounded-xl text-sm font-bold mt-2 flex items-center justify-center gap-2 transition-all hover:shadow-neon disabled:opacity-40 btn-neon">
+                  className="w-full py-3 rounded-xl text-sm font-bold mt-2 flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
                   {loading ? "Creating account…" : (<>Continue <ArrowRight size={14} /></>)}
                 </button>
               </form>
-              <p className="text-center text-sm mt-6" style={{ color: "#8892A4" }}>
+              <p className="text-center text-sm mt-6" style={{ color: "var(--sub)" }}>
                 Already have a vault?{" "}
-                <Link href="/signin" className="font-bold" style={{ color: "#00FF94" }}>Sign in</Link>
+                <Link href="/signin" className="font-bold" style={{ color: "#4F6EF7" }}>Sign in</Link>
               </p>
             </>
           )}
@@ -177,19 +177,19 @@ export default function SignupPage() {
             <>
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
                 style={{ background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.15)" }}>
-                <Mail size={22} style={{ color: "#00D4FF" }} />
+                <Mail size={22} style={{ color: "#4F6EF7" }} />
               </div>
-              <h1 className="text-2xl font-bold mb-2" style={{ color: "#E8EDF5" }}>Check your email</h1>
-              <p className="text-sm mb-6" style={{ color: "#8892A4" }}>
-                We sent a 6-digit code to <span className="font-mono" style={{ color: "#E8EDF5" }}>{email}</span>
+              <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text)" }}>Check your email</h1>
+              <p className="text-sm mb-6" style={{ color: "var(--sub)" }}>
+                We sent a 6-digit code to <span className="font-mono" style={{ color: "var(--text)" }}>{email}</span>
               </p>
               {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
+                  style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
               )}
               <form onSubmit={handleVerify} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Verification Code</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Verification Code</label>
                   <input type="text" required value={code} onChange={(e) => setCode(e.target.value)}
                     placeholder="123456" maxLength={6}
                     className={inputBase + " font-mono text-center text-2xl tracking-widest"}
@@ -197,7 +197,7 @@ export default function SignupPage() {
                     onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <button type="submit" disabled={loading}
-                  className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all hover:shadow-neon disabled:opacity-40 btn-neon">
+                  className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
                   {loading ? "Verifying…" : (<>Verify Email <ArrowRight size={14} /></>)}
                 </button>
               </form>
@@ -208,18 +208,18 @@ export default function SignupPage() {
           {step === "key-reveal" && (
             <>
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: "rgba(0,255,148,0.08)", border: "1px solid rgba(0,255,148,0.15)" }}>
-                <Key size={22} style={{ color: "#00FF94" }} />
+                style={{ background: "rgba(79,110,247,0.1)", border: "1px solid rgba(79,110,247,0.15)" }}>
+                <Key size={22} style={{ color: "#4F6EF7" }} />
               </div>
-              <h1 className="text-2xl font-bold mb-2" style={{ color: "#E8EDF5" }}>Your Secret Key</h1>
-              <p className="text-sm mb-6 leading-relaxed" style={{ color: "#8892A4" }}>
-                Shown <strong style={{ color: "#E8EDF5" }}>only once</strong>. Store it safely — without it, your vault cannot be recovered.
+              <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text)" }}>Your Secret Key</h1>
+              <p className="text-sm mb-6 leading-relaxed" style={{ color: "var(--sub)" }}>
+                Shown <strong style={{ color: "var(--text)" }}>only once</strong>. Store it safely — without it, your vault cannot be recovered.
               </p>
 
               <div className="rounded-xl p-4 mb-5 border"
-                style={{ background: "rgba(0,255,148,0.04)", borderColor: "rgba(0,255,148,0.2)" }}>
-                <p className="text-center text-sm font-bold select-all font-mono text-glow"
-                  style={{ color: "#00FF94", letterSpacing: "0.08em", wordBreak: "break-all" }}>
+                style={{ background: "rgba(79,110,247,0.05)", borderColor: "rgba(79,110,247,0.25)" }}>
+                <p className="text-center text-sm font-bold select-all font-mono "
+                  style={{ color: "#4F6EF7", letterSpacing: "0.08em", wordBreak: "break-all" }}>
                   {secretKey}
                 </p>
               </div>
@@ -227,28 +227,28 @@ export default function SignupPage() {
               <button onClick={copyKey}
                 className="w-full py-2.5 rounded-xl text-sm font-bold border mb-5 transition-all flex items-center justify-center gap-2"
                 style={{
-                  borderColor: copied ? "rgba(0,255,148,0.4)" : "#2A3244",
-                  color:       copied ? "#00FF94" : "#E8EDF5",
-                  background:  copied ? "rgba(0,255,148,0.06)" : "#161B27",
+                  borderColor: copied ? "rgba(79,110,247,0.5)" : "var(--border)",
+                  color:       copied ? "#4F6EF7" : "var(--text)",
+                  background:  copied ? "rgba(79,110,247,0.07)" : "var(--surface2)",
                 }}>
                 {copied ? <><Check size={14} /> Copied!</> : <><Copy size={14} /> Copy Secret Key</>}
               </button>
 
               <label className="flex items-start gap-3 cursor-pointer mb-6">
                 <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded" style={{ accentColor: "#00FF94" }} />
-                <span className="text-sm leading-relaxed" style={{ color: "#8892A4" }}>
+                  className="mt-0.5 w-4 h-4 rounded" style={{ accentColor: "#4F6EF7" }} />
+                <span className="text-sm leading-relaxed" style={{ color: "var(--sub)" }}>
                   I have saved my Secret Key. I understand it cannot be recovered if lost.
                 </span>
               </label>
 
               {error && (
                 <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
+                  style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
               )}
 
               <button onClick={handleConfirm} disabled={loading || !agreed}
-                className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all hover:shadow-neon disabled:opacity-40 btn-neon">
+                className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
                 {loading ? "Setting up vault…" : (<>Create my vault <ArrowRight size={14} /></>)}
               </button>
             </>

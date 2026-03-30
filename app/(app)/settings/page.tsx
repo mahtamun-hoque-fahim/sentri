@@ -30,16 +30,16 @@ export default function SettingsPage() {
   }
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className=" rounded-2xl border p-6" style={{ borderColor: "#2A3244" }}>
+    <div className=" rounded-2xl border p-6" style={{ borderColor: "var(--border)" }}>
       <h2 className="text-sm font-semibold  mb-4 uppercase tracking-widest"
-        style={{ fontSize: "11px", color: "#8892A4" }}>{title}</h2>
+        style={{ fontSize: "11px", color: "var(--sub)" }}>{title}</h2>
       {children}
     </div>
   );
 
   const Row = ({ label, sub, children }: { label: string; sub?: string; children: React.ReactNode }) => (
     <div className="flex items-center justify-between py-3 border-b last:border-0"
-      style={{ borderColor: "#080B12" }}>
+      style={{ borderColor: "var(--bg)" }}>
       <div>
         <p className="text-sm font-medium ">{label}</p>
         {sub && <p className="text-xs  mt-0.5">{sub}</p>}
@@ -63,7 +63,7 @@ export default function SettingsPage() {
           <Row label="Sessions" sub="View and revoke active sessions">
             <Link href="/settings/sessions"
               className="text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors hover:"
-              style={{ borderColor: "#2A3244", color: "#8892A4" }}>
+              style={{ borderColor: "var(--border)", color: "var(--sub)" }}>
               Manage →
             </Link>
           </Row>
@@ -76,14 +76,14 @@ export default function SettingsPage() {
             sub="Lock the vault after inactivity. The vault key is cleared from memory.">
             <div className="flex items-center gap-2">
               {saved && (
-                <span className="text-xs font-medium" style={{ color: "#00FF94" }}>✓ Saved</span>
+                <span className="text-xs font-medium" style={{ color: "#4F6EF7" }}>✓ Saved</span>
               )}
               <select
                 value={autoLockMinutes}
                 onChange={(e) => handleLockChange(Number(e.target.value))}
                 className="text-sm px-3 py-1.5 rounded-lg border outline-none transition-shadow"
-                style={{ borderColor: "#2A3244", background: "#080B12" }}
-                onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.15)")}
+                style={{ borderColor: "var(--border)", background: "var(--bg)" }}
+                onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.15)")}
                 onBlur={(e)  => (e.target.style.boxShadow = "none")}
               >
                 {LOCK_OPTIONS.map((o) => (
@@ -96,14 +96,14 @@ export default function SettingsPage() {
           <Row label="Watchtower" sub="Scan vault for breached and weak passwords">
             <Link href="/watchtower"
               className="text-sm font-medium px-3 py-1.5 rounded-lg border transition-colors hover:"
-              style={{ borderColor: "#2A3244", color: "#8892A4" }}>
+              style={{ borderColor: "var(--border)", color: "var(--sub)" }}>
               Open →
             </Link>
           </Row>
 
           <Row label="Encryption" sub="AES-256-GCM · PBKDF2 SHA-256 · 600,000 iterations">
             <span className="text-xs px-2 py-1 rounded-full font-medium"
-              style={{ background: "rgba(0,255,148,0.08)", color: "#00FF94" }}>
+              style={{ background: "rgba(79,110,247,0.1)", color: "#4F6EF7" }}>
               Active
             </span>
           </Row>
@@ -125,7 +125,7 @@ export default function SettingsPage() {
             <button
               disabled
               className="text-xs px-3 py-1.5 rounded-lg border font-medium opacity-40 cursor-not-allowed"
-              style={{ borderColor: "#2A3244", color: "#8892A4" }}>
+              style={{ borderColor: "var(--border)", color: "var(--sub)" }}>
               Coming soon
             </button>
           </Row>

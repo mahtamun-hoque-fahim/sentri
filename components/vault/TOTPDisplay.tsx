@@ -57,20 +57,20 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
   return (
     <div
       className="flex items-center gap-4 px-4 py-3 rounded-xl border"
-      style={{ background: "#080B12", borderColor: "#2A3244" }}
+      style={{ background: "var(--bg)", borderColor: "var(--border)" }}
     >
       {/* Countdown ring */}
       <svg width={SIZE} height={SIZE} className="shrink-0 -rotate-90">
         <circle cx={SIZE/2} cy={SIZE/2} r={RADIUS} fill="none"
-          stroke="#2A3244" strokeWidth={3} />
+          stroke="var(--border)" strokeWidth={3} />
         <circle cx={SIZE/2} cy={SIZE/2} r={RADIUS} fill="none"
-          stroke={urgent ? "#FF4D6A" : "#00FF94"} strokeWidth={3}
+          stroke={urgent ? "var(--danger)" : "#4F6EF7"} strokeWidth={3}
           strokeDasharray={CIRC} strokeDashoffset={dash}
           strokeLinecap="round"
           style={{ transition: "stroke-dashoffset 0.9s linear, stroke 0.3s" }}
         />
         <text x={SIZE/2} y={SIZE/2 + 1} textAnchor="middle" dominantBaseline="middle"
-          className="rotate-90" fill={urgent ? "#FF4D6A" : "#8892A4"}
+          className="rotate-90" fill={urgent ? "var(--danger)" : "var(--sub)"}
           fontSize="9" fontWeight="600"
           style={{ transform: `rotate(90deg)`, transformOrigin: `${SIZE/2}px ${SIZE/2}px`, fontFamily: "monospace" }}>
           {remaining}
@@ -83,8 +83,8 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
         <p
           className="text-2xl font-bold tracking-[0.18em] leading-none"
           style={{
-            fontFamily: "'Space Mono', monospace",
-            color: urgent ? "#FF4D6A" : "#00FF94",
+            fontFamily: "'Geist Mono', monospace",
+            color: urgent ? "var(--danger)" : "#4F6EF7",
           }}
         >
           {code.slice(0, 3)}&thinsp;{code.slice(3)}
@@ -96,9 +96,9 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
         onClick={copy}
         className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-all shrink-0"
         style={{
-          borderColor: copied ? "#00FF94" : "#2A3244",
-          color:       copied ? "#00FF94" : "#8892A4",
-          background:  copied ? "rgba(0,255,148,0.06)" : "transparent",
+          borderColor: copied ? "#4F6EF7" : "var(--border)",
+          color:       copied ? "#4F6EF7" : "var(--sub)",
+          background:  copied ? "rgba(79,110,247,0.07)" : "transparent",
         }}
       >
         {copied ? "✓" : "Copy"}

@@ -75,7 +75,7 @@ export default function SessionsPage() {
           {sessions.length > 1 && (
             <button onClick={revokeAll}
               className="text-sm px-4 py-1.5 rounded-lg border font-medium transition-colors"
-              style={{ borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A", background: "rgba(255,77,106,0.08)" }}>
+              style={{ borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)", background: "rgba(240,81,106,0.08)" }}>
               Revoke all others
             </button>
           )}
@@ -83,7 +83,7 @@ export default function SessionsPage() {
 
         {error && (
           <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-            style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
+            style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>
             {error}
           </div>
         )}
@@ -94,7 +94,7 @@ export default function SessionsPage() {
           </div>
         ) : sessions.length === 0 ? (
           <div className="text-center py-12  text-sm">
-            <p className="text-3xl mb-3"><Lock size={16} style={{ color: "#8892A4" }} /></p>
+            <p className="text-3xl mb-3"><Lock size={16} style={{ color: "var(--sub)" }} /></p>
             <p>No sessions found. Sessions are logged when you sign in.</p>
           </div>
         ) : (
@@ -106,12 +106,12 @@ export default function SessionsPage() {
                 <div key={session.id}
                   className="flex items-center gap-4 px-5 py-4  rounded-xl border animate-fade-up"
                   style={{
-                    borderColor: isCurrent ? "#00FF94" : "#2A3244",
+                    borderColor: isCurrent ? "#4F6EF7" : "var(--border)",
                     borderWidth: isCurrent ? "1.5px" : "1px",
                     animationDelay: `${idx * 0.04}s`,
                   }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                    style={{ background: isCurrent ? "rgba(0,255,148,0.08)" : "#080B12" }}>
+                    style={{ background: isCurrent ? "rgba(79,110,247,0.1)" : "var(--bg)" }}>
                     {device.icon}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -121,7 +121,7 @@ export default function SessionsPage() {
                       </p>
                       {isCurrent && (
                         <span className="text-xs px-2 py-0.5 rounded-full font-medium"
-                          style={{ background: "rgba(0,255,148,0.08)", color: "#00FF94" }}>
+                          style={{ background: "rgba(79,110,247,0.1)", color: "#4F6EF7" }}>
                           Current
                         </span>
                       )}
@@ -138,7 +138,7 @@ export default function SessionsPage() {
                       onClick={() => revoke(session.id)}
                       disabled={revoking === session.id}
                       className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors shrink-0"
-                      style={{ borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A", background: "rgba(255,77,106,0.08)" }}>
+                      style={{ borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)", background: "rgba(240,81,106,0.08)" }}>
                       {revoking === session.id ? "…" : "Revoke"}
                     </button>
                   )}

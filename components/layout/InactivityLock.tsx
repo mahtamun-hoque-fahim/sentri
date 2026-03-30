@@ -49,21 +49,21 @@ export default function InactivityLock() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-start gap-3 px-5 py-4 rounded-2xl max-w-xs animate-fade-up border"
-      style={{ background: "#161B27", borderColor: "rgba(255,181,71,0.4)", boxShadow: "0 0 20px rgba(255,181,71,0.1)" }}>
-      <AlertTriangle size={18} className="mt-0.5 flex-shrink-0" style={{ color: "#FFB547" }} />
+      style={{ background: "var(--surface2)", borderColor: "rgba(255,181,71,0.4)", boxShadow: "0 0 20px rgba(255,181,71,0.1)" }}>
+      <AlertTriangle size={18} className="mt-0.5 flex-shrink-0" style={{ color: "#F5A623" }} />
       <div className="flex-1">
-        <p className="text-sm font-bold" style={{ color: "#E8EDF5" }}>Vault locking soon</p>
-        <p className="text-xs mt-0.5 leading-relaxed" style={{ color: "#8892A4" }}>
+        <p className="text-sm font-bold" style={{ color: "var(--text)" }}>Vault locking soon</p>
+        <p className="text-xs mt-0.5 leading-relaxed" style={{ color: "var(--sub)" }}>
           No activity detected. Locking in under a minute.
         </p>
         <button onClick={() => { touchActivity(); setShowWarning(false); }}
-          className="mt-2 text-xs font-bold" style={{ color: "#00FF94" }}>
+          className="mt-2 text-xs font-bold" style={{ color: "#4F6EF7" }}>
           Stay unlocked
         </button>
       </div>
-      <button onClick={doLock} className="mt-0.5 transition-colors" style={{ color: "#8892A4" }}
-        onMouseEnter={e => (e.currentTarget.style.color = "#FF4D6A")}
-        onMouseLeave={e => (e.currentTarget.style.color = "#8892A4")}>
+      <button onClick={doLock} className="mt-0.5 transition-colors" style={{ color: "var(--sub)" }}
+        onMouseEnter={e => (e.currentTarget.style.color = "var(--danger)")}
+        onMouseLeave={e => (e.currentTarget.style.color = "var(--sub)")}>
         <X size={14} />
       </button>
     </div>

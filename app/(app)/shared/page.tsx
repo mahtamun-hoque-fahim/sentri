@@ -102,12 +102,12 @@ export default function SharedVaultsPage() {
                   <div className="flex items-center gap-2">
                     <button onClick={() => acceptInvite(invite.id)}
                       className="px-3 py-1.5 rounded-lg text-white text-xs font-medium"
-                      style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
+                      style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>
                       Accept
                     </button>
                     <button onClick={() => declineInvite(invite.id)}
                       className="px-3 py-1.5 rounded-lg border text-xs font-medium  hover:bg-sentri-muted"
-                      style={{ borderColor: "#2A3244" }}>
+                      style={{ borderColor: "var(--border)" }}>
                       Decline
                     </button>
                   </div>
@@ -118,7 +118,7 @@ export default function SharedVaultsPage() {
         )}
 
         {/* Create shared vault */}
-        <div className=" rounded-2xl border p-5" style={{ borderColor: "#2A3244" }}>
+        <div className=" rounded-2xl border p-5" style={{ borderColor: "var(--border)" }}>
           <p className="text-xs font-medium uppercase tracking-widest  mb-3">
             Create Shared Vault
           </p>
@@ -129,19 +129,19 @@ export default function SharedVaultsPage() {
               onChange={(e) => setNewName(e.target.value)}
               placeholder='e.g. "Family", "Work Team", "Dev Secrets"'
               className="flex-1 px-4 py-2.5 rounded-xl border text-sm outline-none "
-              style={{ borderColor: "#2A3244" }}
-              onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.15)")}
+              style={{ borderColor: "var(--border)" }}
+              onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.15)")}
               onBlur={(e)  => (e.target.style.boxShadow = "none")}
               onKeyDown={(e) => e.key === "Enter" && createSharedVault()}
             />
             <button onClick={createSharedVault} disabled={creating || !newName.trim()}
               className="px-4 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 disabled:opacity-50"
-              style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
+              style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>
               {creating ? "…" : "Create"}
             </button>
           </div>
           {error && (
-            <p className="text-xs mt-2" style={{ color: "#FF4D6A" }}>{error}</p>
+            <p className="text-xs mt-2" style={{ color: "var(--danger)" }}>{error}</p>
           )}
         </div>
 
@@ -161,9 +161,9 @@ export default function SharedVaultsPage() {
                   {sharedVaults.map((vault, i) => (
                     <div key={vault.id}
                       className="flex items-center gap-4 px-5 py-4  rounded-xl border animate-fade-up"
-                      style={{ borderColor: "#2A3244", animationDelay: `${i * 0.05}s` }}>
+                      style={{ borderColor: "var(--border)", animationDelay: `${i * 0.05}s` }}>
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                        style={{ background: "rgba(0,255,148,0.07)" }}>
+                        style={{ background: "rgba(79,110,247,0.08)" }}>
                         👥
                       </div>
                       <div className="flex-1 min-w-0">
@@ -175,7 +175,7 @@ export default function SharedVaultsPage() {
                       </div>
                       <Link href={`/invite/${vault.id}`}
                         className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-colors hover:"
-                        style={{ borderColor: "#2A3244", color: "#8892A4" }}>
+                        style={{ borderColor: "var(--border)", color: "var(--sub)" }}>
                         Manage →
                       </Link>
                     </div>
@@ -187,9 +187,9 @@ export default function SharedVaultsPage() {
             {sharedVaults.length === 0 && (
               <div className="text-center py-10">
                 <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
-                  style={{ background: "rgba(0,255,148,0.07)" }}><Users size={16} style={{ color: "#8892A4" }} /></div>
+                  style={{ background: "rgba(79,110,247,0.08)" }}><Users size={16} style={{ color: "var(--sub)" }} /></div>
                 <h3 className="text-base font-semibold  mb-1"
-                  style={{ fontFamily: "'Space Grotesk', serif" }}>No shared vaults yet</h3>
+                  style={{ fontFamily: "'Geist', serif" }}>No shared vaults yet</h3>
                 <p className="text-sm ">Create one above and invite your trusted circle.</p>
               </div>
             )}
@@ -203,16 +203,16 @@ export default function SharedVaultsPage() {
                 {personalVaults.map((vault) => (
                   <div key={vault.id}
                     className="flex items-center gap-4 px-5 py-4  rounded-xl border"
-                    style={{ borderColor: "#2A3244" }}>
+                    style={{ borderColor: "var(--border)" }}>
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                      style={{ background: "rgba(0,255,148,0.07)" }}><Lock size={20} style={{ color: "#00FF94" }} /></div>
+                      style={{ background: "rgba(79,110,247,0.08)" }}><Lock size={20} style={{ color: "#4F6EF7" }} /></div>
                     <div className="flex-1">
                       <p className="text-sm font-semibold ">{vault.name}</p>
                       <p className="text-xs  mt-0.5">Your private vault</p>
                     </div>
                     <Link href="/dashboard"
                       className="text-xs px-3 py-1.5 rounded-lg border font-medium hover: transition-colors"
-                      style={{ borderColor: "#2A3244", color: "#8892A4" }}>
+                      style={{ borderColor: "var(--border)", color: "var(--sub)" }}>
                       Open →
                     </Link>
                   </div>

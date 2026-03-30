@@ -47,15 +47,15 @@ export default function EmergencyKitPage() {
 
         {/* Hero */}
         <div className=" rounded-2xl border p-6 mb-4"
-          style={{ borderColor: "#2A3244" }}>
+          style={{ borderColor: "var(--border)" }}>
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0"
-              style={{ background: "rgba(0,255,148,0.08)" }}>
+              style={{ background: "rgba(79,110,247,0.1)" }}>
               🆘
             </div>
             <div>
               <h2 className="text-lg font-semibold  mb-1"
-                style={{ fontFamily: "'Space Grotesk', serif" }}>
+                style={{ fontFamily: "'Geist', serif" }}>
                 Emergency Kit
               </h2>
               <p className="text-sm  leading-relaxed">
@@ -69,7 +69,7 @@ export default function EmergencyKitPage() {
         {/* Warning */}
         <div className="rounded-xl border px-4 py-3 mb-5 flex items-start gap-3"
           style={{ background: "#FFFBEC", borderColor: "rgba(249,215,76,0.5)" }}>
-          <span className="text-lg mt-0.5"><AlertTriangle size={15} style={{ color: "#FFB547" }} /></span>
+          <span className="text-lg mt-0.5"><AlertTriangle size={15} style={{ color: "#F5A623" }} /></span>
           <div>
             <p className="text-sm font-semibold ">Keep this PDF private</p>
             <p className="text-xs  mt-0.5 leading-relaxed">
@@ -82,7 +82,7 @@ export default function EmergencyKitPage() {
 
         {/* Form */}
         <div className=" rounded-2xl border p-6 flex flex-col gap-5"
-          style={{ borderColor: "#2A3244" }}>
+          style={{ borderColor: "var(--border)" }}>
 
           {/* Email — prefilled */}
           <div>
@@ -90,7 +90,7 @@ export default function EmergencyKitPage() {
               Account Email
             </label>
             <div className="px-4 py-2.5 rounded-xl border text-sm  "
-              style={{ borderColor: "#2A3244" }}>
+              style={{ borderColor: "var(--border)" }}>
               {email || "Loading…"}
             </div>
           </div>
@@ -107,11 +107,11 @@ export default function EmergencyKitPage() {
               placeholder="XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"
               className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-shadow "
               style={{
-                borderColor:   "#2A3244",
-                fontFamily:    "'Space Mono', monospace",
+                borderColor:   "var(--border)",
+                fontFamily:    "'Geist Mono', monospace",
                 letterSpacing: "0.06em",
               }}
-              onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.15)")}
+              onFocus={(e) => (e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.15)")}
               onBlur={(e)  => (e.target.style.boxShadow = "none")}
             />
             <p className="text-xs  mt-1.5">
@@ -122,13 +122,13 @@ export default function EmergencyKitPage() {
 
           {error && (
             <div className="px-4 py-3 rounded-xl border text-sm"
-              style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
+              style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>
               {error}
             </div>
           )}
 
           {/* What will be in the PDF */}
-          <div className="rounded-xl border p-4" style={{ background: "#080B12", borderColor: "#2A3244" }}>
+          <div className="rounded-xl border p-4" style={{ background: "var(--bg)", borderColor: "var(--border)" }}>
             <p className="text-xs font-medium uppercase tracking-widest  mb-3">
               The PDF will contain
             </p>
@@ -152,18 +152,18 @@ export default function EmergencyKitPage() {
             onClick={handleGenerate}
             disabled={generating || !email}
             className="w-full py-3 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
-            style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}
+            style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}
           >
             {generating ? "Generating PDF…" : "Download Emergency Kit PDF"}
           </button>
 
           {generated && (
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl border text-sm"
-              style={{ background: "rgba(0,255,148,0.06)", borderColor: "rgba(0,255,148,0.2)", color: "#00FF94" }}>
-              <span className="text-base"><CheckCircle size={15} style={{ color: "#00FF94" }} /></span>
+              style={{ background: "rgba(79,110,247,0.07)", borderColor: "rgba(79,110,247,0.25)", color: "#4F6EF7" }}>
+              <span className="text-base"><CheckCircle size={15} style={{ color: "#4F6EF7" }} /></span>
               <div>
                 <p className="font-medium">PDF downloaded</p>
-                <p className="text-xs mt-0.5" style={{ color: "#00CC77" }}>
+                <p className="text-xs mt-0.5" style={{ color: "#3A56D4" }}>
                   Print it and store it somewhere safe. Keep it away from your digital devices.
                 </p>
               </div>

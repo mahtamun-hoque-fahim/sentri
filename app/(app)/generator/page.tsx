@@ -36,16 +36,16 @@ export default function GeneratorPage() {
       onClick={() => onChange(!value)}
       className="flex items-center justify-between px-4 py-3 rounded-xl border transition-all"
       style={{
-        borderColor: value ? "#00FF94" : "#2A3244",
-        background:  value ? "rgba(0,255,148,0.06)" : "#fff",
+        borderColor: value ? "#4F6EF7" : "var(--border)",
+        background:  value ? "rgba(79,110,247,0.07)" : "#fff",
       }}
     >
-      <span className="text-sm font-medium" style={{ color: value ? "#00FF94" : "#8892A4" }}>
+      <span className="text-sm font-medium" style={{ color: value ? "#4F6EF7" : "var(--sub)" }}>
         {label}
       </span>
       <div
         className="w-8 h-4 rounded-full transition-all relative"
-        style={{ background: value ? "#00FF94" : "#2A3244" }}
+        style={{ background: value ? "#4F6EF7" : "var(--border)" }}
       >
         <div
           className="absolute top-0.5 w-3 h-3 rounded-full  transition-all shadow-sm"
@@ -64,15 +64,15 @@ export default function GeneratorPage() {
           {/* Generated password display */}
           <div
             className=" rounded-2xl border p-6"
-            style={{ borderColor: "#2A3244" }}
+            style={{ borderColor: "var(--border)" }}
           >
             <div
               className="w-full px-5 py-4 rounded-xl mb-4 text-center text-lg break-all leading-relaxed select-all"
               style={{
-                background:  "#080B12",
-                border:      "1.5px solid #2A3244",
-                fontFamily:  "'Space Mono', monospace",
-                color:       "#E8EDF5",
+                background:  "var(--bg)",
+                border:      "1.5px solid var(--border)",
+                fontFamily:  "'Geist Mono', monospace",
+                color:       "var(--text)",
                 letterSpacing: "0.04em",
                 minHeight:   "60px",
               }}
@@ -88,7 +88,7 @@ export default function GeneratorPage() {
                     <div
                       key={i}
                       className="h-1.5 flex-1 rounded-full transition-all"
-                      style={{ background: strength.score > i * 1.5 ? strength.color : "#2A3244" }}
+                      style={{ background: strength.score > i * 1.5 ? strength.color : "var(--border)" }}
                     />
                   ))}
                 </div>
@@ -102,14 +102,14 @@ export default function GeneratorPage() {
               <button
                 onClick={() => copy(password)}
                 className="flex-1 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95"
-                style={{ background: copied ? "#00CC77" : "linear-gradient(135deg, #00FF94, #00CC77)" }}
+                style={{ background: copied ? "#3A56D4" : "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}
               >
                 {copied ? "✓ Copied!" : "Copy Password"}
               </button>
               <button
                 onClick={generate}
                 className="px-4 py-2.5 rounded-xl border text-sm font-medium  hover:bg-sentri-muted transition-colors"
-                style={{ borderColor: "#2A3244" }}
+                style={{ borderColor: "var(--border)" }}
               >
                 ↻ New
               </button>
@@ -119,7 +119,7 @@ export default function GeneratorPage() {
           {/* Options */}
           <div
             className=" rounded-2xl border p-5 flex flex-col gap-4"
-            style={{ borderColor: "#2A3244" }}
+            style={{ borderColor: "var(--border)" }}
           >
             <p className="text-xs font-medium uppercase tracking-widest ">Options</p>
 
@@ -129,7 +129,7 @@ export default function GeneratorPage() {
                 <label className="text-sm font-medium ">Length</label>
                 <span
                   className="text-sm font-semibold px-2.5 py-0.5 rounded-lg"
-                  style={{ background: "rgba(0,255,148,0.08)", color: "#00FF94" }}
+                  style={{ background: "rgba(79,110,247,0.1)", color: "#4F6EF7" }}
                 >
                   {length}
                 </span>
@@ -141,7 +141,7 @@ export default function GeneratorPage() {
                 value={length}
                 onChange={(e) => setLength(Number(e.target.value))}
                 className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                style={{ accentColor: "#00FF94" }}
+                style={{ accentColor: "#4F6EF7" }}
               />
               <div className="flex justify-between mt-1 text-xs ">
                 <span>8</span>
@@ -162,7 +162,7 @@ export default function GeneratorPage() {
           {history.length > 1 && (
             <div
               className=" rounded-2xl border p-5"
-              style={{ borderColor: "#2A3244" }}
+              style={{ borderColor: "var(--border)" }}
             >
               <p className="text-xs font-medium uppercase tracking-widest  mb-3">Recent</p>
               <div className="flex flex-col gap-1.5">
@@ -173,7 +173,7 @@ export default function GeneratorPage() {
                   >
                     <span
                       className="flex-1 text-xs truncate"
-                      style={{ fontFamily: "'Space Mono', monospace", color: "#8892A4" }}
+                      style={{ fontFamily: "'Geist Mono', monospace", color: "var(--sub)" }}
                     >
                       {pw}
                     </span>

@@ -17,23 +17,23 @@ export default function PasswordField({ value, onChange, label = "Password", sho
   const strength = getPasswordStrength(value);
 
   const strengthColors: Record<string, string> = {
-    "Very Weak":   "#FF4D6A",
-    "Weak":        "#FFB547",
-    "Fair":        "#00D4FF",
-    "Strong":      "#00FF94",
-    "Very Strong": "#00FF94",
+    "Very Weak":   "var(--danger)",
+    "Weak":        "#F5A623",
+    "Fair":        "#4F6EF7",
+    "Strong":      "#4F6EF7",
+    "Very Strong": "#4F6EF7",
   };
-  const color = strengthColors[strength.label] ?? "#2A3244";
+  const color = strengthColors[strength.label] ?? "var(--border)";
 
   return (
     <div>
       <div className="flex items-center justify-between mb-1.5">
-        <label className="block text-xs font-bold uppercase tracking-widest font-mono" style={{ color: "#8892A4" }}>
+        <label className="block text-xs font-bold uppercase tracking-widest font-mono" style={{ color: "var(--sub)" }}>
           {label}
         </label>
         {showGenerator && (
           <Link href="/generator" className="flex items-center gap-1 text-xs font-semibold transition-colors"
-            style={{ color: "#00FF94" }} target="_blank">
+            style={{ color: "#4F6EF7" }} target="_blank">
             Generate <ExternalLink size={10} />
           </Link>
         )}
@@ -47,23 +47,23 @@ export default function PasswordField({ value, onChange, label = "Password", sho
           placeholder="Enter password…"
           className="w-full px-4 py-2.5 pr-10 rounded-xl border text-sm outline-none transition-all"
           style={{
-            background: "#161B27",
-            borderColor: "#2A3244",
-            color: "#E8EDF5",
-            fontFamily: show ? "Space Mono, monospace" : undefined,
+            background: "var(--surface2)",
+            borderColor: "var(--border)",
+            color: "var(--text)",
+            fontFamily: show ? "Geist Mono, monospace" : undefined,
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = "rgba(0,255,148,0.4)";
-            e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.08)";
+            e.target.style.borderColor = "rgba(79,110,247,0.5)";
+            e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.1)";
           }}
           onBlur={(e) => {
-            e.target.style.borderColor = "#2A3244";
+            e.target.style.borderColor = "var(--border)";
             e.target.style.boxShadow = "none";
           }}
         />
         <button type="button" onClick={() => setShow((s) => !s)} tabIndex={-1}
           className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-          style={{ color: "#8892A4" }}>
+          style={{ color: "var(--sub)" }}>
           {show ? <EyeOff size={14} /> : <Eye size={14} />}
         </button>
       </div>
@@ -73,7 +73,7 @@ export default function PasswordField({ value, onChange, label = "Password", sho
           <div className="flex-1 flex gap-1">
             {[0, 1, 2, 3, 4].map((i) => (
               <div key={i} className="h-1 flex-1 rounded-full transition-all"
-                style={{ background: strength.score > i * 1.5 ? color : "#1E2535" }} />
+                style={{ background: strength.score > i * 1.5 ? color : "var(--surface3)" }} />
             ))}
           </div>
           <span className="text-xs font-mono font-bold" style={{ color }}>{strength.label}</span>

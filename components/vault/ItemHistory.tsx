@@ -67,17 +67,17 @@ export default function ItemHistory({ itemId }: ItemHistoryProps) {
   }
 
   return (
-    <div className="border-t pt-4 mt-2" style={{ borderColor: "#2A3244" }}>
+    <div className="border-t pt-4 mt-2" style={{ borderColor: "var(--border)" }}>
       <button
         onClick={toggle}
         className="flex items-center gap-2 text-sm font-medium transition-colors w-full text-left"
-        style={{ color: "#8892A4" }}
+        style={{ color: "var(--sub)" }}
       >
         <span className="text-base" style={{ transform: open ? "rotate(90deg)" : "none", display: "inline-block", transition: "transform 0.2s" }}>›</span>
         Version history
         {rows.length > 0 && (
           <span className="ml-auto text-xs px-2 py-0.5 rounded-full"
-            style={{ background: "#2A3244", color: "#8892A4" }}>
+            style={{ background: "var(--border)", color: "var(--sub)" }}>
             {rows.length}
           </span>
         )}
@@ -98,7 +98,7 @@ export default function ItemHistory({ itemId }: ItemHistoryProps) {
               <button
                 onClick={() => expandRow(row)}
                 className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl border text-left transition-colors hover:"
-                style={{ borderColor: "#2A3244" }}
+                style={{ borderColor: "var(--border)" }}
               >
                 <div className="flex items-center gap-2">
                   <span className="text-base">🕐</span>
@@ -117,7 +117,7 @@ export default function ItemHistory({ itemId }: ItemHistoryProps) {
               {expanded === row.id && decrypted[row.id] && (
                 <div
                   className="mt-1 mx-1 px-4 py-3 rounded-xl border"
-                  style={{ background: "#080B12", borderColor: "#2A3244" }}
+                  style={{ background: "var(--bg)", borderColor: "var(--border)" }}
                 >
                   {renderData(decrypted[row.id])}
                 </div>

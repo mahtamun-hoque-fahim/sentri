@@ -18,10 +18,10 @@ const FILTER_LABELS: Record<string, string> = {
 };
 
 const STATS = [
-  { key: "login",                  label: "Logins",  Icon: Key,        color: "#00FF94" },
-  { key: "card",                   label: "Cards",   Icon: CreditCard, color: "#00D4FF" },
-  { key: "note",                   label: "Notes",   Icon: FileText,   color: "#8892A4" },
-  { key: "ssh_key,api_credential", label: "SSH/API", Icon: Zap,        color: "#7B61FF" },
+  { key: "login",                  label: "Logins",  Icon: Key,        color: "#4F6EF7" },
+  { key: "card",                   label: "Cards",   Icon: CreditCard, color: "#4F6EF7" },
+  { key: "note",                   label: "Notes",   Icon: FileText,   color: "var(--sub)" },
+  { key: "ssh_key,api_credential", label: "SSH/API", Icon: Zap,        color: "#A78BFA" },
 ];
 
 interface RawItem {
@@ -87,14 +87,14 @@ export default function DashboardContent() {
               const count = items.filter((i) => keys.includes(i.itemType)).length;
               return (
                 <div key={stat.key} className="flex items-center gap-3 p-3.5 rounded-xl border animate-fade-up"
-                  style={{ background: "#0F1117", borderColor: "#2A3244" }}>
+                  style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
                     style={{ background: `${stat.color}12`, border: `1px solid ${stat.color}22` }}>
                     <stat.Icon size={14} style={{ color: stat.color }} />
                   </div>
                   <div>
                     <p className="text-xl font-bold leading-none font-mono" style={{ color: stat.color }}>{count}</p>
-                    <p className="text-xs mt-0.5" style={{ color: "#8892A4" }}>{stat.label}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "var(--sub)" }}>{stat.label}</p>
                   </div>
                 </div>
               );
@@ -103,14 +103,14 @@ export default function DashboardContent() {
         )}
         {error && (
           <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-            style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>{error}</div>
+            style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
         )}
         {isLoading && <VaultSkeleton count={6} />}
         {!isLoading && loaded && items.length === 0 && !search && <EmptyVault />}
         {!isLoading && loaded && filtered.length === 0 && search && (
           <div className="text-center py-16">
-            <p className="text-sm font-mono" style={{ color: "#8892A4" }}>
-              No results for <span className="font-bold" style={{ color: "#E8EDF5" }}>&ldquo;{search}&rdquo;</span>
+            <p className="text-sm font-mono" style={{ color: "var(--sub)" }}>
+              No results for <span className="font-bold" style={{ color: "var(--text)" }}>&ldquo;{search}&rdquo;</span>
             </p>
           </div>
         )}

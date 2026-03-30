@@ -174,7 +174,7 @@ export default function ImportPage() {
               {(Object.entries(FORMAT_META) as [ImportFormat, typeof FORMAT_META[ImportFormat]][]).map(([key, meta]) => (
                 <div key={key}
                   className="flex flex-col items-start gap-2 p-4  rounded-xl border"
-                  style={{ borderColor: "#2A3244" }}>
+                  style={{ borderColor: "var(--border)" }}>
                   <span className="text-2xl">{meta.icon}</span>
                   <p className="text-sm font-semibold ">{meta.label}</p>
                   <p className="text-xs  leading-relaxed">{meta.desc}</p>
@@ -190,12 +190,12 @@ export default function ImportPage() {
               onClick={() => fileRef.current?.click()}
               className="flex flex-col items-center justify-center gap-4 p-12 rounded-2xl border-2 border-dashed cursor-pointer transition-all"
               style={{
-                borderColor: dragging ? "#00FF94" : "#2A3244",
+                borderColor: dragging ? "#4F6EF7" : "var(--border)",
                 background:  dragging ? "rgba(0,99,65,0.04)" : "#fff",
               }}
             >
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
-                style={{ background: "rgba(0,255,148,0.07)" }}>📁</div>
+                style={{ background: "rgba(79,110,247,0.08)" }}>📁</div>
               <div className="text-center">
                 <p className="text-sm font-semibold  mb-1">
                   Drop your export file here
@@ -206,7 +206,7 @@ export default function ImportPage() {
               </div>
               <span
                 className="px-4 py-2 rounded-xl text-sm font-medium text-white"
-                style={{ background: "linear-gradient(135deg,#00FF94,#00CC77)" }}>
+                style={{ background: "linear-gradient(135deg,#4F6EF7,#3A56D4)" }}>
                 Browse files
               </span>
               <input ref={fileRef} type="file" accept=".csv,.json,.txt"
@@ -215,13 +215,13 @@ export default function ImportPage() {
 
             {errors.length > 0 && (
               <div className="px-4 py-3 rounded-xl border text-sm"
-                style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
+                style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>
                 {errors[0]}
               </div>
             )}
 
             {/* How to export guides */}
-            <div className=" rounded-2xl border p-5" style={{ borderColor: "#2A3244" }}>
+            <div className=" rounded-2xl border p-5" style={{ borderColor: "var(--border)" }}>
               <p className="text-xs font-medium uppercase tracking-widest  mb-4">
                 How to export from your current manager
               </p>
@@ -233,7 +233,7 @@ export default function ImportPage() {
                   { name: "Chrome",     steps: "chrome://password-manager/settings → Export Passwords → CSV" },
                 ].map((g) => (
                   <div key={g.name} className="flex items-start gap-3">
-                    <span className="text-xs font-semibold w-20 shrink-0 mt-0.5" style={{ color: "#00FF94" }}>
+                    <span className="text-xs font-semibold w-20 shrink-0 mt-0.5" style={{ color: "#4F6EF7" }}>
                       {g.name}
                     </span>
                     <p className="text-xs  leading-relaxed">{g.steps}</p>
@@ -249,13 +249,13 @@ export default function ImportPage() {
           <div className="flex flex-col gap-4">
             {/* Summary bar */}
             <div className="flex items-center gap-4 px-5 py-4  rounded-xl border"
-              style={{ borderColor: "#2A3244" }}>
+              style={{ borderColor: "var(--border)" }}>
               <div className="flex-1">
                 <p className="text-sm font-semibold ">
                   {fileName}
                 </p>
                 <p className="text-xs  mt-0.5">
-                  Detected: <span className="font-medium" style={{ color: "#00FF94" }}>
+                  Detected: <span className="font-medium" style={{ color: "#4F6EF7" }}>
                     {format ? FORMAT_META[format].label : "Unknown"}
                   </span> · {items.length} items found
                 </p>
@@ -270,7 +270,7 @@ export default function ImportPage() {
             <div className="flex items-center justify-between px-1">
               <button onClick={toggleAll}
                 className="text-xs font-medium transition-colors"
-                style={{ color: "#00FF94" }}>
+                style={{ color: "#4F6EF7" }}>
                 {selected.size === items.length ? "Deselect all" : `Select all (${items.length})`}
               </button>
               <p className="text-xs ">
@@ -284,7 +284,7 @@ export default function ImportPage() {
                 <label key={i}
                   className="flex items-center gap-3 px-4 py-3  rounded-xl border cursor-pointer transition-all hover:shadow-card"
                   style={{
-                    borderColor: selected.has(i) ? "#00FF94" : "#2A3244",
+                    borderColor: selected.has(i) ? "#4F6EF7" : "var(--border)",
                     background:  selected.has(i) ? "rgba(0,99,65,0.02)" : "#fff",
                   }}>
                   <input type="checkbox" checked={selected.has(i)}
@@ -300,7 +300,7 @@ export default function ImportPage() {
                     </p>
                   </div>
                   <span className="text-xs px-2 py-0.5 rounded-full capitalize shrink-0"
-                    style={{ background: "#080B12", color: "#8892A4" }}>
+                    style={{ background: "var(--bg)", color: "var(--sub)" }}>
                     {item.item_type.replace("_", " ")}
                   </span>
                 </label>
@@ -309,8 +309,8 @@ export default function ImportPage() {
 
             {/* Security note */}
             <div className="flex items-start gap-3 px-4 py-3 rounded-xl border text-xs"
-              style={{ background: "rgba(0,255,148,0.05)", borderColor: "rgba(0,255,148,0.12)" }}>
-              <span><Lock size={20} style={{ color: "#00FF94" }} /></span>
+              style={{ background: "rgba(79,110,247,0.06)", borderColor: "rgba(79,110,247,0.12)" }}>
+              <span><Lock size={20} style={{ color: "#4F6EF7" }} /></span>
               <p className=" leading-relaxed">
                 All items will be encrypted with AES-256-GCM in your browser before being stored.
                 Sentri&apos;s servers never see plaintext passwords.
@@ -322,12 +322,12 @@ export default function ImportPage() {
                 onClick={handleImport}
                 disabled={selected.size === 0}
                 className="flex-1 py-3 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95 disabled:opacity-40"
-                style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
+                style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>
                 Import {selected.size} item{selected.size !== 1 ? "s" : ""} →
               </button>
               <button onClick={() => { setStep("upload"); setItems([]); }}
                 className="px-5 py-3 rounded-xl border text-sm font-medium  hover:bg-sentri-muted"
-                style={{ borderColor: "#2A3244" }}>
+                style={{ borderColor: "var(--border)" }}>
                 Cancel
               </button>
             </div>
@@ -338,10 +338,10 @@ export default function ImportPage() {
         {step === "importing" && (
           <div className="flex flex-col items-center justify-center py-20 gap-6">
             <div className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl"
-              style={{ background: "rgba(0,255,148,0.07)" }}><Lock size={20} style={{ color: "#00FF94" }} /></div>
+              style={{ background: "rgba(79,110,247,0.08)" }}><Lock size={20} style={{ color: "#4F6EF7" }} /></div>
             <div className="text-center">
               <p className="text-lg font-semibold  mb-1"
-                style={{ fontFamily: "'Space Grotesk', serif" }}>
+                style={{ fontFamily: "'Geist', serif" }}>
                 Encrypting &amp; importing…
               </p>
               <p className="text-sm ">
@@ -349,9 +349,9 @@ export default function ImportPage() {
               </p>
             </div>
             <div className="w-full max-w-xs">
-              <div className="h-2 rounded-full overflow-hidden" style={{ background: "#2A3244" }}>
+              <div className="h-2 rounded-full overflow-hidden" style={{ background: "var(--border)" }}>
                 <div className="h-full rounded-full transition-all duration-300"
-                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #00FF94, #2A8A58)" }} />
+                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #4F6EF7, #2A8A58)" }} />
               </div>
               <p className="text-xs  text-center mt-2">{progress}%</p>
             </div>
@@ -362,10 +362,10 @@ export default function ImportPage() {
         {step === "done" && (
           <div className="flex flex-col items-center justify-center py-16 gap-6">
             <div className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl"
-              style={{ background: "rgba(0,255,148,0.07)" }}><CheckCircle size={15} style={{ color: "#00FF94" }} /></div>
+              style={{ background: "rgba(79,110,247,0.08)" }}><CheckCircle size={15} style={{ color: "#4F6EF7" }} /></div>
             <div className="text-center">
               <h2 className="text-2xl font-normal  mb-2"
-                style={{ fontFamily: "'Space Grotesk', serif" }}>
+                style={{ fontFamily: "'Geist', serif" }}>
                 Import complete
               </h2>
               <p className="text-sm ">
@@ -375,7 +375,7 @@ export default function ImportPage() {
 
             {errors.length > 0 && (
               <div className="w-full max-w-md px-4 py-3 rounded-xl border text-sm"
-                style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
+                style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>
                 <p className="font-semibold mb-1">{errors.length} item{errors.length !== 1 ? "s" : ""} failed:</p>
                 <ul className="text-xs space-y-0.5">
                   {errors.slice(0, 5).map((e, i) => <li key={i}>• {e}</li>)}
@@ -387,7 +387,7 @@ export default function ImportPage() {
             <button
               onClick={() => router.push("/dashboard")}
               className="px-6 py-3 rounded-xl text-white text-sm font-medium"
-              style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)" }}>
+              style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>
               Go to vault →
             </button>
           </div>

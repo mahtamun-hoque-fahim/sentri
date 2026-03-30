@@ -37,13 +37,13 @@ export default function SigninForm() {
   }
 
   const inputBase = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-all font-mono";
-  const inputStyle = { background: "#161B27", borderColor: "#2A3244", color: "#E8EDF5" };
+  const inputStyle = { background: "var(--surface2)", borderColor: "var(--border)", color: "var(--text)" };
   const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.style.borderColor = "rgba(0,255,148,0.4)";
-    e.target.style.boxShadow = "0 0 0 3px rgba(0,255,148,0.08)";
+    e.target.style.borderColor = "rgba(79,110,247,0.5)";
+    e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.1)";
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.style.borderColor = "#2A3244";
+    e.target.style.borderColor = "var(--border)";
     e.target.style.boxShadow = "none";
   };
 
@@ -54,59 +54,59 @@ export default function SigninForm() {
         {/* Logo */}
         <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
-            style={{ background: "linear-gradient(135deg, #00FF94, #00CC77)", color: "#080B12" }}>S</div>
-          <span className="text-2xl font-bold" style={{ color: "#00FF94", fontFamily: "Space Grotesk" }}>Sentri</span>
+            style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)", color: "var(--bg)" }}>S</div>
+          <span className="text-2xl font-bold" style={{ color: "#4F6EF7", fontFamily: "Geist" }}>Sentri</span>
         </div>
 
         <div className="rounded-2xl border p-8 animate-fade-up delay-1"
-          style={{ background: "#0F1117", borderColor: "#2A3244" }}>
+          style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
 
           {welcome && (
             <div className="mb-5 px-4 py-3 rounded-xl border text-sm flex items-center gap-2"
-              style={{ background: "rgba(0,255,148,0.06)", borderColor: "rgba(0,255,148,0.2)", color: "#00FF94" }}>
+              style={{ background: "rgba(79,110,247,0.07)", borderColor: "rgba(79,110,247,0.25)", color: "#4F6EF7" }}>
               <CheckCircle size={15} />
               Vault created! Sign in to continue.
             </div>
           )}
 
-          <h1 className="text-2xl font-bold mb-1" style={{ color: "#E8EDF5" }}>Sign in</h1>
-          <p className="text-sm mb-6" style={{ color: "#8892A4" }}>You&apos;ll enter your Secret Key on the next step.</p>
+          <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--text)" }}>Sign in</h1>
+          <p className="text-sm mb-6" style={{ color: "var(--sub)" }}>You&apos;ll enter your Secret Key on the next step.</p>
 
           {error && (
             <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-              style={{ background: "rgba(255,77,106,0.08)", borderColor: "rgba(255,77,106,0.25)", color: "#FF4D6A" }}>
+              style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Email</label>
+              <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Email</label>
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "#8892A4" }}>Master Password</label>
+              <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Master Password</label>
               <div className="relative">
                 <input type={showPw ? "text" : "password"} required value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Your master password" className={inputBase + " pr-10"} style={inputStyle}
                   onFocus={onFocus} onBlur={onBlur} />
                 <button type="button" onClick={() => setShowPw(s => !s)} tabIndex={-1}
-                  className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: "#8892A4" }}>
+                  className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: "var(--sub)" }}>
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
               </div>
             </div>
             <button type="submit" disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-bold mt-2 flex items-center justify-center gap-2 transition-all hover:shadow-neon disabled:opacity-40 btn-neon">
+              className="w-full py-3 rounded-xl text-sm font-bold mt-2 flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
               {loading ? "Signing in…" : (<>Continue <ArrowRight size={14} /></>)}
             </button>
           </form>
 
-          <p className="text-center text-sm mt-6" style={{ color: "#8892A4" }}>
+          <p className="text-center text-sm mt-6" style={{ color: "var(--sub)" }}>
             No vault yet?{" "}
-            <Link href="/signup" className="font-bold" style={{ color: "#00FF94" }}>Create one</Link>
+            <Link href="/signup" className="font-bold" style={{ color: "#4F6EF7" }}>Create one</Link>
           </p>
         </div>
       </div>

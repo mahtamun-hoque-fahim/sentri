@@ -9,16 +9,16 @@ import { DecryptedVaultItem } from "@/types/vault";
 import { Skull, AlertTriangle, RefreshCw, Clock, Shield, Search } from "lucide-react";
 
 const SEVERITY_META = {
-  critical: { color: "#FF4D6A", bg: "rgba(255,77,106,0.08)", border: "rgba(255,77,106,0.2)", label: "Critical" },
-  warning:  { color: "#FFB547", bg: "rgba(255,181,71,0.08)", border: "rgba(255,181,71,0.2)",  label: "Warning"  },
-  info:     { color: "#8892A4", bg: "rgba(136,146,164,0.08)",border: "rgba(136,146,164,0.2)", label: "Info"     },
+  critical: { color: "var(--danger)", bg: "rgba(240,81,106,0.08)", border: "rgba(255,77,106,0.2)", label: "Critical" },
+  warning:  { color: "#F5A623", bg: "rgba(255,181,71,0.08)", border: "rgba(255,181,71,0.2)",  label: "Warning"  },
+  info:     { color: "var(--sub)", bg: "rgba(136,146,164,0.08)",border: "rgba(136,146,164,0.2)", label: "Info"     },
 };
 
 const TYPE_META = {
-  breached: { Icon: Skull,       label: "Data breach",      color: "#FF4D6A" },
-  weak:     { Icon: AlertTriangle, label: "Weak password",  color: "#FFB547" },
-  reused:   { Icon: RefreshCw,   label: "Reused password",  color: "#00D4FF" },
-  old:      { Icon: Clock,       label: "Old password",     color: "#8892A4" },
+  breached: { Icon: Skull,       label: "Data breach",      color: "var(--danger)" },
+  weak:     { Icon: AlertTriangle, label: "Weak password",  color: "#F5A623" },
+  reused:   { Icon: RefreshCw,   label: "Reused password",  color: "#4F6EF7" },
+  old:      { Icon: Clock,       label: "Old password",     color: "var(--sub)" },
 };
 
 function ageInDays(dateStr: string) {
@@ -136,7 +136,7 @@ export default function WatchtowerContent() {
   const score = logins.length === 0 ? 100
     : Math.max(0, Math.round(100 - (counts.critical * 20 + counts.warning * 8 + counts.info * 3)));
 
-  const scoreColor = score >= 80 ? "#00FF94" : score >= 50 ? "#FFB547" : "#FF4D6A";
+  const scoreColor = score >= 80 ? "#4F6EF7" : score >= 50 ? "#F5A623" : "var(--danger)";
   const scoreLabel = score >= 80 ? "Good" : score >= 50 ? "Fair" : "At risk";
 
   return (
@@ -144,14 +144,14 @@ export default function WatchtowerContent() {
 
       {/* Hero card */}
       <div className="rounded-2xl border p-6 mb-5 flex items-center gap-6"
-        style={{ background: "#0F1117", borderColor: "#2A3244" }}>
+        style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
 
         {/* Score ring */}
         <div className="relative shrink-0">
           <svg width={96} height={96}>
-            <circle cx={48} cy={48} r={40} fill="none" stroke="#1E2535" strokeWidth={8} />
+            <circle cx={48} cy={48} r={40} fill="none" stroke="var(--surface3)" strokeWidth={8} />
             <circle cx={48} cy={48} r={40} fill="none"
-              stroke={done ? scoreColor : "#1E2535"} strokeWidth={8}
+              stroke={done ? scoreColor : "var(--surface3)"} strokeWidth={8}
               strokeDasharray={`${2 * Math.PI * 40}`}
               strokeDashoffset={`${2 * Math.PI * 40 * (1 - score / 100)}`}
               strokeLinecap="round"
@@ -160,20 +160,20 @@ export default function WatchtowerContent() {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-2xl font-bold leading-none" style={{ color: done ? scoreColor : "#2A3244" }}>
+            <span className="text-2xl font-bold leading-none" style={{ color: done ? scoreColor : "var(--border)" }}>
               {done ? score : "—"}
             </span>
-            <span className="text-xs mt-0.5" style={{ color: done ? scoreColor : "#2A3244" }}>
+            <span className="text-xs mt-0.5" style={{ color: done ? scoreColor : "var(--border)" }}>
               {done ? scoreLabel : ""}
             </span>
           </div>
         </div>
 
         <div className="flex-1">
-          <h2 className="text-lg font-bold mb-1" style={{ color: "#E8EDF5" }}>
+          <h2 className="text-lg font-bold mb-1" style={{ color: "var(--text)" }}>
             Security Score
           </h2>
-          <p className="text-sm mb-4" style={{ color: "#8892A4" }}>
+          <p className="text-sm mb-4" style={{ color: "var(--sub)" }}>
             {logins.length === 0
               ? "No login items found. Add some passwords to scan."
               : done
@@ -187,17 +187,17 @@ export default function WatchtowerContent() {
 
           {scanning ? (
             <div className="flex flex-col gap-2">
-              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "#1E2535" }}>
+              <div className="h-1.5 rounded-full overflow-hidden" style={{ background: "var(--surface3)" }}>
                 <div className="h-full rounded-full transition-all"
-                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #00FF94, #00CC77)" }} />
+                  style={{ width: `${progress}%`, background: "linear-gradient(90deg, #4F6EF7, #3A56D4)" }} />
               </div>
-              <p className="text-xs font-mono" style={{ color: "#8892A4" }}>Checking breach database… {progress}%</p>
+              <p className="text-xs font-mono" style={{ color: "var(--sub)" }}>Checking breach database… {progress}%</p>
             </div>
           ) : (
             <button
               onClick={scan}
               disabled={logins.length === 0}
-              className="px-5 py-2 rounded-xl text-sm font-bold transition-all hover:shadow-neon active:scale-95 disabled:opacity-40 btn-neon"
+              className="px-5 py-2 rounded-xl text-sm font-bold transition-all  active:scale-95 disabled:opacity-40 btn-accent"
             >
               {done ? "Re-scan Vault" : "Scan Now"}
             </button>
@@ -208,14 +208,14 @@ export default function WatchtowerContent() {
         {done && issues.length > 0 && (
           <div className="hidden sm:flex flex-col gap-2 shrink-0">
             {[
-              { label: "Critical", count: counts.critical, color: "#FF4D6A" },
-              { label: "Warning",  count: counts.warning,  color: "#FFB547" },
-              { label: "Info",     count: counts.info,     color: "#8892A4" },
+              { label: "Critical", count: counts.critical, color: "var(--danger)" },
+              { label: "Warning",  count: counts.warning,  color: "#F5A623" },
+              { label: "Info",     count: counts.info,     color: "var(--sub)" },
             ].map((s) => (
               <div key={s.label} className="flex items-center gap-2 text-xs">
                 <span className="w-2 h-2 rounded-full" style={{ background: s.color }} />
                 <span className="font-semibold" style={{ color: s.color }}>{s.count}</span>
-                <span className="font-mono" style={{ color: "#8892A4" }}>{s.label}</span>
+                <span className="font-mono" style={{ color: "var(--sub)" }}>{s.label}</span>
               </div>
             ))}
           </div>
@@ -224,7 +224,7 @@ export default function WatchtowerContent() {
 
       {hibpError && (
         <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-          style={{ background: "rgba(255,181,71,0.06)", borderColor: "rgba(255,181,71,0.25)", color: "#FFB547" }}>
+          style={{ background: "rgba(255,181,71,0.06)", borderColor: "rgba(255,181,71,0.25)", color: "#F5A623" }}>
           ⚠ Could not reach the breach database. Some breach checks may have been skipped.
         </div>
       )}
@@ -239,9 +239,9 @@ export default function WatchtowerContent() {
               <button key={f} onClick={() => setFilter(f)}
                 className="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all capitalize"
                 style={{
-                  borderColor: filter === f ? "rgba(0,255,148,0.4)" : "#2A3244",
-                  background:  filter === f ? "rgba(0,255,148,0.06)" : "#0F1117",
-                  color:       filter === f ? "#00FF94" : "#8892A4",
+                  borderColor: filter === f ? "rgba(79,110,247,0.5)" : "var(--border)",
+                  background:  filter === f ? "rgba(79,110,247,0.07)" : "var(--surface)",
+                  color:       filter === f ? "#4F6EF7" : "var(--sub)",
                 }}>
                 {f === "all" ? "All" : TYPE_META[f].label} ({count})
               </button>
@@ -259,7 +259,7 @@ export default function WatchtowerContent() {
             return (
               <div key={`${issue.itemId}-${issue.type}`}
                 className="flex items-start gap-4 px-5 py-4 rounded-xl border animate-fade-up"
-                style={{ background: "#0F1117", borderColor: "#2A3244", animationDelay: `${i * 0.04}s` }}>
+                style={{ background: "var(--surface)", borderColor: "var(--border)", animationDelay: `${i * 0.04}s` }}>
 
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center text-base shrink-0"
                   style={{ background: sev.bg, border: `1px solid ${sev.border}` }}>
@@ -268,19 +268,19 @@ export default function WatchtowerContent() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <p className="text-sm font-bold truncate" style={{ color: "#E8EDF5" }}>{issue.itemTitle}</p>
+                    <p className="text-sm font-bold truncate" style={{ color: "var(--text)" }}>{issue.itemTitle}</p>
                     <span className="text-xs px-2 py-0.5 rounded-full font-medium shrink-0"
                       style={{ background: sev.bg, color: sev.color }}>
                       {sev.label}
                     </span>
                   </div>
                   <p className="text-xs font-medium mb-0.5" style={{ color: sev.color }}>{type.label}</p>
-                  <p className="text-xs font-mono" style={{ color: "#8892A4" }}>{issue.detail}</p>
+                  <p className="text-xs font-mono" style={{ color: "var(--sub)" }}>{issue.detail}</p>
                 </div>
 
                 <Link href={`/vault/${issue.itemId}`}
                   className="text-xs px-3 py-1.5 rounded-lg border font-bold shrink-0 transition-all font-mono"
-                  style={{ borderColor: "#2A3244", color: "#8892A4", background: "#161B27" }}>
+                  style={{ borderColor: "var(--border)", color: "var(--sub)", background: "var(--surface2)" }}>
                   Fix →
                 </Link>
               </div>
@@ -293,11 +293,11 @@ export default function WatchtowerContent() {
       {done && issues.length === 0 && (
         <div className="text-center py-16">
           <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4"
-            style={{ background: "rgba(0,255,148,0.07)", border: "1px solid rgba(0,255,148,0.12)" }}>
-            <Shield size={28} style={{ color: "#00FF94" }} />
+            style={{ background: "rgba(79,110,247,0.08)", border: "1px solid rgba(79,110,247,0.12)" }}>
+            <Shield size={28} style={{ color: "#4F6EF7" }} />
           </div>
-          <h3 className="text-lg font-bold mb-1" style={{ color: "#E8EDF5" }}>All clear</h3>
-          <p className="text-sm" style={{ color: "#8892A4" }}>No security issues found across your vault.</p>
+          <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text)" }}>All clear</h3>
+          <p className="text-sm" style={{ color: "var(--sub)" }}>No security issues found across your vault.</p>
         </div>
       )}
 
@@ -305,13 +305,13 @@ export default function WatchtowerContent() {
       {!scanning && !done && logins.length > 0 && (
         <div className="text-center py-16">
           <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4"
-            style={{ background: "rgba(0,255,148,0.07)", border: "1px solid rgba(0,255,148,0.12)" }}>
-            <Search size={28} style={{ color: "#00FF94" }} />
+            style={{ background: "rgba(79,110,247,0.08)", border: "1px solid rgba(79,110,247,0.12)" }}>
+            <Search size={28} style={{ color: "#4F6EF7" }} />
           </div>
-          <h3 className="text-lg font-bold mb-2" style={{ color: "#E8EDF5" }}>
+          <h3 className="text-lg font-bold mb-2" style={{ color: "var(--text)" }}>
             Scan your vault
           </h3>
-          <p className="text-sm max-w-xs mx-auto" style={{ color: "#8892A4" }}>
+          <p className="text-sm max-w-xs mx-auto" style={{ color: "var(--sub)" }}>
             Check for breached passwords, weak passwords, reused credentials, and old passwords.
           </p>
         </div>
