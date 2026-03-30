@@ -52,7 +52,7 @@ export default function LandingPage() {
             style={{ fontFamily: "Instrument Serif, Georgia, serif", color: "var(--text)", letterSpacing: "-0.02em" }}>
             The vault built for{" "}
             <span className="italic" style={{ color: "var(--accent)" }}>people who know</span>
-            <br />what's at stake.
+            <br />what&apos;s at stake.
           </h1>
 
           <p className="text-lg max-w-xl mx-auto mb-10 leading-relaxed" style={{ color: "var(--text2)" }}>
