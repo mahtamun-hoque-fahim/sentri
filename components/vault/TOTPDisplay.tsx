@@ -64,7 +64,7 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
         <circle cx={SIZE/2} cy={SIZE/2} r={RADIUS} fill="none"
           stroke="var(--border)" strokeWidth={3} />
         <circle cx={SIZE/2} cy={SIZE/2} r={RADIUS} fill="none"
-          stroke={urgent ? "var(--danger)" : "#4F6EF7"} strokeWidth={3}
+          stroke={urgent ? "var(--danger)" : "var(--accent)"} strokeWidth={3}
           strokeDasharray={CIRC} strokeDashoffset={dash}
           strokeLinecap="round"
           style={{ transition: "stroke-dashoffset 0.9s linear, stroke 0.3s" }}
@@ -84,7 +84,7 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
           className="text-2xl font-bold tracking-[0.18em] leading-none"
           style={{
             fontFamily: "'Geist Mono', monospace",
-            color: urgent ? "var(--danger)" : "#4F6EF7",
+            color: urgent ? "var(--danger)" : "var(--accent)",
           }}
         >
           {code.slice(0, 3)}&thinsp;{code.slice(3)}
@@ -96,9 +96,9 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
         onClick={copy}
         className="text-xs px-3 py-1.5 rounded-lg border font-medium transition-all shrink-0"
         style={{
-          borderColor: copied ? "#4F6EF7" : "var(--border)",
-          color:       copied ? "#4F6EF7" : "var(--sub)",
-          background:  copied ? "rgba(79,110,247,0.07)" : "transparent",
+          borderColor: copied ? "var(--accent)" : "var(--border)",
+          color:       copied ? "var(--accent)" : "var(--sub)",
+          background:  copied ? "var(--accent-dim)" : "transparent",
         }}
       >
         {copied ? "✓" : "Copy"}

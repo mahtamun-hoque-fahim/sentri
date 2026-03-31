@@ -18,8 +18,8 @@ const FILTER_LABELS: Record<string, string> = {
 };
 
 const STATS = [
-  { key: "login",                  label: "Logins",  Icon: Key,        color: "#4F6EF7" },
-  { key: "card",                   label: "Cards",   Icon: CreditCard, color: "#4F6EF7" },
+  { key: "login",                  label: "Logins",  Icon: Key,        color: "var(--accent)" },
+  { key: "card",                   label: "Cards",   Icon: CreditCard, color: "var(--accent)" },
   { key: "note",                   label: "Notes",   Icon: FileText,   color: "var(--sub)" },
   { key: "ssh_key,api_credential", label: "SSH/API", Icon: Zap,        color: "#A78BFA" },
 ];

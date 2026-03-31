@@ -119,7 +119,7 @@ export default function SignupPage() {
         <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
             style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)", color: "var(--bg)" }}>S</div>
-          <span className="text-2xl font-bold" style={{ color: "#4F6EF7", fontFamily: "Geist" }}>Sentri</span>
+          <span className="text-2xl font-bold" style={{ color: "var(--accent)", fontFamily: "Geist" }}>Sentri</span>
         </div>
 
         <div className="rounded-2xl border p-8 animate-fade-up delay-1"
@@ -167,7 +167,7 @@ export default function SignupPage() {
               </form>
               <p className="text-center text-sm mt-6" style={{ color: "var(--sub)" }}>
                 Already have a vault?{" "}
-                <Link href="/signin" className="font-bold" style={{ color: "#4F6EF7" }}>Sign in</Link>
+                <Link href="/signin" className="font-bold" style={{ color: "var(--accent)" }}>Sign in</Link>
               </p>
             </>
           )}
@@ -177,7 +177,7 @@ export default function SignupPage() {
             <>
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
                 style={{ background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.15)" }}>
-                <Mail size={22} style={{ color: "#4F6EF7" }} />
+                <Mail size={22} style={{ color: "var(--accent)" }} />
               </div>
               <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text)" }}>Check your email</h1>
               <p className="text-sm mb-6" style={{ color: "var(--sub)" }}>
@@ -208,8 +208,8 @@ export default function SignupPage() {
           {step === "key-reveal" && (
             <>
               <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: "rgba(79,110,247,0.1)", border: "1px solid rgba(79,110,247,0.15)" }}>
-                <Key size={22} style={{ color: "#4F6EF7" }} />
+                style={{ background: "var(--accent-dim)", border: "1px solid rgba(79,110,247,0.15)" }}>
+                <Key size={22} style={{ color: "var(--accent)" }} />
               </div>
               <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text)" }}>Your Secret Key</h1>
               <p className="text-sm mb-6 leading-relaxed" style={{ color: "var(--sub)" }}>
@@ -217,9 +217,9 @@ export default function SignupPage() {
               </p>
 
               <div className="rounded-xl p-4 mb-5 border"
-                style={{ background: "rgba(79,110,247,0.05)", borderColor: "rgba(79,110,247,0.25)" }}>
+                style={{ background: "var(--accent-dim)", borderColor: "rgba(0,255,148,0.0.25)" }}>
                 <p className="text-center text-sm font-bold select-all font-mono "
-                  style={{ color: "#4F6EF7", letterSpacing: "0.08em", wordBreak: "break-all" }}>
+                  style={{ color: "var(--accent)", letterSpacing: "0.08em", wordBreak: "break-all" }}>
                   {secretKey}
                 </p>
               </div>
@@ -228,15 +228,15 @@ export default function SignupPage() {
                 className="w-full py-2.5 rounded-xl text-sm font-bold border mb-5 transition-all flex items-center justify-center gap-2"
                 style={{
                   borderColor: copied ? "rgba(79,110,247,0.5)" : "var(--border)",
-                  color:       copied ? "#4F6EF7" : "var(--text)",
-                  background:  copied ? "rgba(79,110,247,0.07)" : "var(--surface2)",
+                  color:       copied ? "var(--accent)" : "var(--text)",
+                  background:  copied ? "var(--accent-dim)" : "var(--surface2)",
                 }}>
                 {copied ? <><Check size={14} /> Copied!</> : <><Copy size={14} /> Copy Secret Key</>}
               </button>
 
               <label className="flex items-start gap-3 cursor-pointer mb-6">
                 <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded" style={{ accentColor: "#4F6EF7" }} />
+                  className="mt-0.5 w-4 h-4 rounded" style={{ accentColor: "var(--accent)" }} />
                 <span className="text-sm leading-relaxed" style={{ color: "var(--sub)" }}>
                   I have saved my Secret Key. I understand it cannot be recovered if lost.
                 </span>

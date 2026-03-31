@@ -76,7 +76,7 @@ export default function SettingsPage() {
             sub="Lock the vault after inactivity. The vault key is cleared from memory.">
             <div className="flex items-center gap-2">
               {saved && (
-                <span className="text-xs font-medium" style={{ color: "#4F6EF7" }}>✓ Saved</span>
+                <span className="text-xs font-medium" style={{ color: "var(--accent)" }}>✓ Saved</span>
               )}
               <select
                 value={autoLockMinutes}
@@ -103,7 +103,7 @@ export default function SettingsPage() {
 
           <Row label="Encryption" sub="AES-256-GCM · PBKDF2 SHA-256 · 600,000 iterations">
             <span className="text-xs px-2 py-1 rounded-full font-medium"
-              style={{ background: "rgba(79,110,247,0.1)", color: "#4F6EF7" }}>
+              style={{ background: "var(--accent-dim)", color: "var(--accent)" }}>
               Active
             </span>
           </Row>

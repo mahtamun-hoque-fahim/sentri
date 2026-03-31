@@ -50,7 +50,7 @@ export default function EmergencyKitPage() {
           style={{ borderColor: "var(--border)" }}>
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shrink-0"
-              style={{ background: "rgba(79,110,247,0.1)" }}>
+              style={{ background: "var(--accent-dim)" }}>
               🆘
             </div>
             <div>
@@ -159,11 +159,11 @@ export default function EmergencyKitPage() {
 
           {generated && (
             <div className="flex items-center gap-3 px-4 py-3 rounded-xl border text-sm"
-              style={{ background: "rgba(79,110,247,0.07)", borderColor: "rgba(79,110,247,0.25)", color: "#4F6EF7" }}>
-              <span className="text-base"><CheckCircle size={15} style={{ color: "#4F6EF7" }} /></span>
+              style={{ background: "var(--accent-dim)", borderColor: "rgba(0,255,148,0.0.25)", color: "var(--accent)" }}>
+              <span className="text-base"><CheckCircle size={15} style={{ color: "var(--accent)" }} /></span>
               <div>
                 <p className="font-medium">PDF downloaded</p>
-                <p className="text-xs mt-0.5" style={{ color: "#3A56D4" }}>
+                <p className="text-xs mt-0.5" style={{ color: "var(--accent2)" }}>
                   Print it and store it somewhere safe. Keep it away from your digital devices.
                 </p>
               </div>

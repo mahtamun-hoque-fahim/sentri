@@ -6,7 +6,7 @@ import { useVaultStore } from "@/store/vault";
 import { checkPasswordBreached, WatchtowerIssue } from "@/lib/hibp";
 import { getPasswordStrength } from "@/lib/crypto";
 import { DecryptedVaultItem } from "@/types/vault";
-import { Skull, AlertTriangle, RefreshCw, Clock, Shield, Search } from "lucide-react";
+import { ShieldAlert, AlertTriangle, RefreshCw, Clock, Shield, Search } from "lucide-react";
 
 const SEVERITY_META = {
   critical: { color: "var(--danger)", bg: "rgba(240,81,106,0.08)", border: "rgba(255,77,106,0.2)", label: "Critical" },
@@ -15,9 +15,9 @@ const SEVERITY_META = {
 };
 
 const TYPE_META = {
-  breached: { Icon: Skull,       label: "Data breach",      color: "var(--danger)" },
+  breached: { Icon: ShieldAlert,       label: "Data breach",      color: "var(--danger)" },
   weak:     { Icon: AlertTriangle, label: "Weak password",  color: "#F5A623" },
-  reused:   { Icon: RefreshCw,   label: "Reused password",  color: "#4F6EF7" },
+  reused:   { Icon: RefreshCw,   label: "Reused password",  color: "var(--accent)" },
   old:      { Icon: Clock,       label: "Old password",     color: "var(--sub)" },
 };
 
@@ -136,7 +136,7 @@ export default function WatchtowerContent() {
   const score = logins.length === 0 ? 100
     : Math.max(0, Math.round(100 - (counts.critical * 20 + counts.warning * 8 + counts.info * 3)));
 
-  const scoreColor = score >= 80 ? "#4F6EF7" : score >= 50 ? "#F5A623" : "var(--danger)";
+  const scoreColor = score >= 80 ? "var(--accent)" : score >= 50 ? "#F5A623" : "var(--danger)";
   const scoreLabel = score >= 80 ? "Good" : score >= 50 ? "Fair" : "At risk";
 
   return (
@@ -240,8 +240,8 @@ export default function WatchtowerContent() {
                 className="px-3 py-1.5 rounded-lg text-xs font-medium border transition-all capitalize"
                 style={{
                   borderColor: filter === f ? "rgba(79,110,247,0.5)" : "var(--border)",
-                  background:  filter === f ? "rgba(79,110,247,0.07)" : "var(--surface)",
-                  color:       filter === f ? "#4F6EF7" : "var(--sub)",
+                  background:  filter === f ? "var(--accent-dim)" : "var(--surface)",
+                  color:       filter === f ? "var(--accent)" : "var(--sub)",
                 }}>
                 {f === "all" ? "All" : TYPE_META[f].label} ({count})
               </button>
@@ -293,8 +293,8 @@ export default function WatchtowerContent() {
       {done && issues.length === 0 && (
         <div className="text-center py-16">
           <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4"
-            style={{ background: "rgba(79,110,247,0.08)", border: "1px solid rgba(79,110,247,0.12)" }}>
-            <Shield size={28} style={{ color: "#4F6EF7" }} />
+            style={{ background: "var(--accent-dim)", border: "1px solid rgba(79,110,247,0.12)" }}>
+            <Shield size={28} style={{ color: "var(--accent)" }} />
           </div>
           <h3 className="text-lg font-bold mb-1" style={{ color: "var(--text)" }}>All clear</h3>
           <p className="text-sm" style={{ color: "var(--sub)" }}>No security issues found across your vault.</p>
@@ -305,8 +305,8 @@ export default function WatchtowerContent() {
       {!scanning && !done && logins.length > 0 && (
         <div className="text-center py-16">
           <div className="w-16 h-16 rounded-3xl flex items-center justify-center mx-auto mb-4"
-            style={{ background: "rgba(79,110,247,0.08)", border: "1px solid rgba(79,110,247,0.12)" }}>
-            <Search size={28} style={{ color: "#4F6EF7" }} />
+            style={{ background: "var(--accent-dim)", border: "1px solid rgba(79,110,247,0.12)" }}>
+            <Search size={28} style={{ color: "var(--accent)" }} />
           </div>
           <h3 className="text-lg font-bold mb-2" style={{ color: "var(--text)" }}>
             Scan your vault

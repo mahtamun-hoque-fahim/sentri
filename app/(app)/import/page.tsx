@@ -190,12 +190,12 @@ export default function ImportPage() {
               onClick={() => fileRef.current?.click()}
               className="flex flex-col items-center justify-center gap-4 p-12 rounded-2xl border-2 border-dashed cursor-pointer transition-all"
               style={{
-                borderColor: dragging ? "#4F6EF7" : "var(--border)",
+                borderColor: dragging ? "var(--accent)" : "var(--border)",
                 background:  dragging ? "rgba(0,99,65,0.04)" : "#fff",
               }}
             >
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl"
-                style={{ background: "rgba(79,110,247,0.08)" }}>📁</div>
+                style={{ background: "var(--accent-dim)" }}>📁</div>
               <div className="text-center">
                 <p className="text-sm font-semibold  mb-1">
                   Drop your export file here
@@ -233,7 +233,7 @@ export default function ImportPage() {
                   { name: "Chrome",     steps: "chrome://password-manager/settings → Export Passwords → CSV" },
                 ].map((g) => (
                   <div key={g.name} className="flex items-start gap-3">
-                    <span className="text-xs font-semibold w-20 shrink-0 mt-0.5" style={{ color: "#4F6EF7" }}>
+                    <span className="text-xs font-semibold w-20 shrink-0 mt-0.5" style={{ color: "var(--accent)" }}>
                       {g.name}
                     </span>
                     <p className="text-xs  leading-relaxed">{g.steps}</p>
@@ -255,7 +255,7 @@ export default function ImportPage() {
                   {fileName}
                 </p>
                 <p className="text-xs  mt-0.5">
-                  Detected: <span className="font-medium" style={{ color: "#4F6EF7" }}>
+                  Detected: <span className="font-medium" style={{ color: "var(--accent)" }}>
                     {format ? FORMAT_META[format].label : "Unknown"}
                   </span> · {items.length} items found
                 </p>
@@ -270,7 +270,7 @@ export default function ImportPage() {
             <div className="flex items-center justify-between px-1">
               <button onClick={toggleAll}
                 className="text-xs font-medium transition-colors"
-                style={{ color: "#4F6EF7" }}>
+                style={{ color: "var(--accent)" }}>
                 {selected.size === items.length ? "Deselect all" : `Select all (${items.length})`}
               </button>
               <p className="text-xs ">
@@ -284,7 +284,7 @@ export default function ImportPage() {
                 <label key={i}
                   className="flex items-center gap-3 px-4 py-3  rounded-xl border cursor-pointer transition-all hover:shadow-card"
                   style={{
-                    borderColor: selected.has(i) ? "#4F6EF7" : "var(--border)",
+                    borderColor: selected.has(i) ? "var(--accent)" : "var(--border)",
                     background:  selected.has(i) ? "rgba(0,99,65,0.02)" : "#fff",
                   }}>
                   <input type="checkbox" checked={selected.has(i)}
@@ -309,8 +309,8 @@ export default function ImportPage() {
 
             {/* Security note */}
             <div className="flex items-start gap-3 px-4 py-3 rounded-xl border text-xs"
-              style={{ background: "rgba(79,110,247,0.06)", borderColor: "rgba(79,110,247,0.12)" }}>
-              <span><Lock size={20} style={{ color: "#4F6EF7" }} /></span>
+              style={{ background: "var(--accent-dim)", borderColor: "var(--accent-dim)" }}>
+              <span><Lock size={20} style={{ color: "var(--accent)" }} /></span>
               <p className=" leading-relaxed">
                 All items will be encrypted with AES-256-GCM in your browser before being stored.
                 Sentri&apos;s servers never see plaintext passwords.
@@ -338,7 +338,7 @@ export default function ImportPage() {
         {step === "importing" && (
           <div className="flex flex-col items-center justify-center py-20 gap-6">
             <div className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl"
-              style={{ background: "rgba(79,110,247,0.08)" }}><Lock size={20} style={{ color: "#4F6EF7" }} /></div>
+              style={{ background: "var(--accent-dim)" }}><Lock size={20} style={{ color: "var(--accent)" }} /></div>
             <div className="text-center">
               <p className="text-lg font-semibold  mb-1"
                 style={{ fontFamily: "'Geist', serif" }}>
@@ -362,7 +362,7 @@ export default function ImportPage() {
         {step === "done" && (
           <div className="flex flex-col items-center justify-center py-16 gap-6">
             <div className="w-20 h-20 rounded-3xl flex items-center justify-center text-4xl"
-              style={{ background: "rgba(79,110,247,0.08)" }}><CheckCircle size={15} style={{ color: "#4F6EF7" }} /></div>
+              style={{ background: "var(--accent-dim)" }}><CheckCircle size={15} style={{ color: "var(--accent)" }} /></div>
             <div className="text-center">
               <h2 className="text-2xl font-normal  mb-2"
                 style={{ fontFamily: "'Geist', serif" }}>

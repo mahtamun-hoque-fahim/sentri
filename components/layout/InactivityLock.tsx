@@ -57,7 +57,7 @@ export default function InactivityLock() {
           No activity detected. Locking in under a minute.
         </p>
         <button onClick={() => { touchActivity(); setShowWarning(false); }}
-          className="mt-2 text-xs font-bold" style={{ color: "#4F6EF7" }}>
+          className="mt-2 text-xs font-bold" style={{ color: "var(--accent)" }}>
           Stay unlocked
         </button>
       </div>

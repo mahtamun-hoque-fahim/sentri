@@ -43,7 +43,7 @@ export default function LandingPage() {
 
           {/* Trust badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-10 border"
-            style={{ background: "rgba(79,110,247,0.08)", borderColor: "rgba(79,110,247,0.25)", color: "var(--accent)" }}>
+            style={{ background: "var(--accent-dim)", borderColor: "rgba(0,255,148,0.0.25)", color: "var(--accent)" }}>
             <Lock size={11} strokeWidth={2.5} />
             Zero-knowledge — your data never reaches our servers
           </div>

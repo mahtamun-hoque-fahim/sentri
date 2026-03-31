@@ -100,9 +100,9 @@ export default function VaultItemPage() {
     <button type="button" onClick={() => copyField(label, value)}
       className="text-xs px-2.5 py-1 rounded-lg border transition-all"
       style={{
-        borderColor: copied[label] ? "#4F6EF7" : "var(--border)",
-        color:       copied[label] ? "#4F6EF7" : "var(--sub)",
-        background:  copied[label] ? "rgba(79,110,247,0.07)" : "transparent",
+        borderColor: copied[label] ? "var(--accent)" : "var(--border)",
+        color:       copied[label] ? "var(--accent)" : "var(--sub)",
+        background:  copied[label] ? "var(--accent-dim)" : "transparent",
       }}>
       {copied[label] ? "✓ Copied" : "Copy"}
     </button>
@@ -203,7 +203,7 @@ export default function VaultItemPage() {
           {/* Header row */}
           <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "var(--border)" }}>
             <div className="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
-              style={{ background: "rgba(79,110,247,0.08)" }}>
+              style={{ background: "var(--accent-dim)" }}>
               {item.faviconUrl
                 ? /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={item.faviconUrl} alt="" className="w-6 h-6 rounded"
@@ -238,7 +238,7 @@ export default function VaultItemPage() {
                       <p className="text-xs font-medium uppercase tracking-widest  mb-1">URL</p>
                       <div className="flex items-center gap-2">
                         <a href={item.data.urls[0]} target="_blank" rel="noopener noreferrer"
-                          className="flex-1 text-sm truncate hover:underline" style={{ color: "#4F6EF7" }}>
+                          className="flex-1 text-sm truncate hover:underline" style={{ color: "var(--accent)" }}>
                           {item.data.urls[0]}
                         </a>
                         <CopyBtn label="URL" value={item.data.urls[0]} />

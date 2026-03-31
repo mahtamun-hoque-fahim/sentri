@@ -55,7 +55,7 @@ export default function SigninForm() {
         <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
             style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)", color: "var(--bg)" }}>S</div>
-          <span className="text-2xl font-bold" style={{ color: "#4F6EF7", fontFamily: "Geist" }}>Sentri</span>
+          <span className="text-2xl font-bold" style={{ color: "var(--accent)", fontFamily: "Geist" }}>Sentri</span>
         </div>
 
         <div className="rounded-2xl border p-8 animate-fade-up delay-1"
@@ -63,7 +63,7 @@ export default function SigninForm() {
 
           {welcome && (
             <div className="mb-5 px-4 py-3 rounded-xl border text-sm flex items-center gap-2"
-              style={{ background: "rgba(79,110,247,0.07)", borderColor: "rgba(79,110,247,0.25)", color: "#4F6EF7" }}>
+              style={{ background: "var(--accent-dim)", borderColor: "rgba(0,255,148,0.0.25)", color: "var(--accent)" }}>
               <CheckCircle size={15} />
               Vault created! Sign in to continue.
             </div>
@@ -106,7 +106,7 @@ export default function SigninForm() {
 
           <p className="text-center text-sm mt-6" style={{ color: "var(--sub)" }}>
             No vault yet?{" "}
-            <Link href="/signup" className="font-bold" style={{ color: "#4F6EF7" }}>Create one</Link>
+            <Link href="/signup" className="font-bold" style={{ color: "var(--accent)" }}>Create one</Link>
           </p>
         </div>
       </div>

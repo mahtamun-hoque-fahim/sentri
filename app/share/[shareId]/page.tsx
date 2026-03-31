@@ -89,9 +89,9 @@ export default function SharePage() {
       <button onClick={() => copy(label, value)}
         className="text-xs px-2.5 py-1 rounded-lg border transition-all"
         style={{
-          borderColor: copied[label] ? "#4F6EF7" : "var(--border)",
-          background:  copied[label] ? "rgba(79,110,247,0.07)" : "transparent",
-          color:       copied[label] ? "#4F6EF7" : "var(--sub)",
+          borderColor: copied[label] ? "var(--accent)" : "var(--border)",
+          background:  copied[label] ? "var(--accent-dim)" : "transparent",
+          color:       copied[label] ? "var(--accent)" : "var(--sub)",
         }}>
         {copied[label] ? "✓" : "Copy"}
       </button>
@@ -132,7 +132,7 @@ export default function SharePage() {
   if (status === "loading" || status === "decrypting") return (
     <Center>
       <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
-        style={{ background: "rgba(79,110,247,0.08)" }}><Lock size={20} style={{ color: "#4F6EF7" }} /></div>
+        style={{ background: "var(--accent-dim)" }}><Lock size={20} style={{ color: "var(--accent)" }} /></div>
       <p className="text-sm font-medium ">
         {status === "loading" ? "Loading share…" : "Decrypting item…"}
       </p>
@@ -180,7 +180,7 @@ export default function SharePage() {
           <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
             style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>S</div>
           <span className="text-lg font-semibold"
-            style={{ fontFamily: "'Geist', serif", color: "#4F6EF7" }}>Sentri</span>
+            style={{ fontFamily: "'Geist', serif", color: "var(--accent)" }}>Sentri</span>
         </div>
         <Link href="/signin"
           className="text-sm font-medium px-4 py-1.5 rounded-lg text-white transition-all hover:opacity-90"
@@ -210,7 +210,7 @@ export default function SharePage() {
             <span>·</span>
             <span>⏱ Expires {new Date(expiresAt).toLocaleDateString()}</span>
             <span>·</span>
-            <span className="font-medium" style={{ color: "#4F6EF7" }}>🔐 Decrypted locally</span>
+            <span className="font-medium" style={{ color: "var(--accent)" }}>🔐 Decrypted locally</span>
           </div>
 
           {/* Item card */}
@@ -218,7 +218,7 @@ export default function SharePage() {
             style={{ borderColor: "var(--border)" }}>
             <div className="flex items-center gap-3 pb-4 border-b" style={{ borderColor: "var(--border)" }}>
               <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                style={{ background: "rgba(79,110,247,0.08)" }}>
+                style={{ background: "var(--accent-dim)" }}>
                 {TYPE_ICON[payload.itemType]}
               </div>
               <div>
@@ -236,7 +236,7 @@ export default function SharePage() {
                     <p className="text-xs font-medium uppercase tracking-widest  mb-1">URL</p>
                     <div className="flex items-center gap-2">
                       <a href={payload.data.urls[0]} target="_blank" rel="noopener noreferrer"
-                        className="flex-1 text-sm truncate hover:underline" style={{ color: "#4F6EF7" }}>
+                        className="flex-1 text-sm truncate hover:underline" style={{ color: "var(--accent)" }}>
                         {payload.data.urls[0]}
                       </a>
                       <CopyBtn label="URL" value={payload.data.urls[0]} />

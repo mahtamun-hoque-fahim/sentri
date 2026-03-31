@@ -19,9 +19,9 @@ export default function PasswordField({ value, onChange, label = "Password", sho
   const strengthColors: Record<string, string> = {
     "Very Weak":   "var(--danger)",
     "Weak":        "#F5A623",
-    "Fair":        "#4F6EF7",
-    "Strong":      "#4F6EF7",
-    "Very Strong": "#4F6EF7",
+    "Fair":        "var(--accent)",
+    "Strong":      "var(--accent)",
+    "Very Strong": "var(--accent)",
   };
   const color = strengthColors[strength.label] ?? "var(--border)";
 
@@ -33,7 +33,7 @@ export default function PasswordField({ value, onChange, label = "Password", sho
         </label>
         {showGenerator && (
           <Link href="/generator" className="flex items-center gap-1 text-xs font-semibold transition-colors"
-            style={{ color: "#4F6EF7" }} target="_blank">
+            style={{ color: "var(--accent)" }} target="_blank">
             Generate <ExternalLink size={10} />
           </Link>
         )}

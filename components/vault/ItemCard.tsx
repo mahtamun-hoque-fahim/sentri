@@ -5,7 +5,7 @@ import { Key, CreditCard, FileText, Terminal, Zap, ChevronRight } from "lucide-r
 import { DecryptedVaultItem, ItemType } from "@/types/vault";
 
 const TYPE_META: Record<ItemType, { icon: React.ElementType; label: string; color: string }> = {
-  login:          { icon: Key,        label: "Login",   color: "#4F6EF7" },
+  login:          { icon: Key,        label: "Login",   color: "var(--accent)" },
   card:           { icon: CreditCard, label: "Card",    color: "#C8A96A" },
   note:           { icon: FileText,   label: "Note",    color: "#6B7A99" },
   ssh_key:        { icon: Terminal,   label: "SSH Key", color: "#A78BFA" },

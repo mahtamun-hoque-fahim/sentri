@@ -36,16 +36,16 @@ export default function GeneratorPage() {
       onClick={() => onChange(!value)}
       className="flex items-center justify-between px-4 py-3 rounded-xl border transition-all"
       style={{
-        borderColor: value ? "#4F6EF7" : "var(--border)",
-        background:  value ? "rgba(79,110,247,0.07)" : "#fff",
+        borderColor: value ? "var(--accent)" : "var(--border)",
+        background:  value ? "var(--accent-dim)" : "#fff",
       }}
     >
-      <span className="text-sm font-medium" style={{ color: value ? "#4F6EF7" : "var(--sub)" }}>
+      <span className="text-sm font-medium" style={{ color: value ? "var(--accent)" : "var(--sub)" }}>
         {label}
       </span>
       <div
         className="w-8 h-4 rounded-full transition-all relative"
-        style={{ background: value ? "#4F6EF7" : "var(--border)" }}
+        style={{ background: value ? "var(--accent)" : "var(--border)" }}
       >
         <div
           className="absolute top-0.5 w-3 h-3 rounded-full  transition-all shadow-sm"
@@ -102,7 +102,7 @@ export default function GeneratorPage() {
               <button
                 onClick={() => copy(password)}
                 className="flex-1 py-2.5 rounded-xl text-white text-sm font-medium transition-all hover:opacity-90 active:scale-95"
-                style={{ background: copied ? "#3A56D4" : "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}
+                style={{ background: copied ? "var(--accent2)" : "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}
               >
                 {copied ? "✓ Copied!" : "Copy Password"}
               </button>
@@ -129,7 +129,7 @@ export default function GeneratorPage() {
                 <label className="text-sm font-medium ">Length</label>
                 <span
                   className="text-sm font-semibold px-2.5 py-0.5 rounded-lg"
-                  style={{ background: "rgba(79,110,247,0.1)", color: "#4F6EF7" }}
+                  style={{ background: "var(--accent-dim)", color: "var(--accent)" }}
                 >
                   {length}
                 </span>
@@ -141,7 +141,7 @@ export default function GeneratorPage() {
                 value={length}
                 onChange={(e) => setLength(Number(e.target.value))}
                 className="w-full h-1.5 rounded-full appearance-none cursor-pointer"
-                style={{ accentColor: "#4F6EF7" }}
+                style={{ accentColor: "var(--accent)" }}
               />
               <div className="flex justify-between mt-1 text-xs ">
                 <span>8</span>

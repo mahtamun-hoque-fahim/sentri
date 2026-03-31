@@ -11,6 +11,7 @@ import {
   Zap, Shield, Users, Download, AlertTriangle, Settings,
   LogOut, Plus, Menu, X,
 } from "lucide-react";
+import ThemeToggle from "@/components/layout/ThemeToggle";
 
 const VAULT_NAV = [
   { href: "/dashboard",                icon: LayoutGrid, label: "All Items"  },
@@ -91,19 +92,22 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div className="px-4 pt-4 mt-4 border-t" style={{ borderColor: "var(--border)" }}>
-        <div className="text-xs px-2 py-1.5 rounded-md mb-2 font-mono"
-          style={{ background: "rgba(79,110,247,0.07)", color: "var(--text2)", border: "1px solid rgba(79,110,247,0.12)" }}>
-          <span style={{ color: "var(--success)" }}>●</span>
-          {" "}{itemCount} item{itemCount !== 1 ? "s" : ""} encrypted
+        <div className="flex items-center gap-2 px-2 py-2 rounded-lg text-xs font-mono"
+          style={{ background: "var(--accent-dim)", border: "1px solid rgba(0,255,148,0.1)", color: "var(--text2)" }}>
+          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--success)" }} />
+          {itemCount} item{itemCount !== 1 ? "s" : ""} encrypted
         </div>
-        <button onClick={handleLock}
-          className="flex items-center gap-2.5 px-2 py-2 rounded-lg text-sm w-full text-left transition-colors"
-          style={{ color: "var(--sub)" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--danger)"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--sub)"; }}>
-          <LogOut size={14} />
-          Lock &amp; Sign out
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button onClick={handleLock}
+            className="flex items-center gap-2 px-2 py-2 rounded-lg text-sm flex-1 text-left transition-colors"
+            style={{ color: "var(--sub)" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--danger)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--sub)"; }}>
+            <LogOut size={14} />
+            Lock &amp; Sign out
+          </button>
+        </div>
       </div>
     </div>
   );

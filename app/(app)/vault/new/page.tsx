@@ -128,9 +128,9 @@ export default function NewItemPage() {
                   onClick={() => setType(t.value)}
                   className="flex flex-col items-center gap-1.5 p-3 rounded-xl border text-center transition-all"
                   style={{
-                    borderColor: type === t.value ? "#4F6EF7" : "var(--border)",
-                    background:  type === t.value ? "rgba(79,110,247,0.08)" : "#fff",
-                    color:       type === t.value ? "#4F6EF7" : "var(--sub)",
+                    borderColor: type === t.value ? "var(--accent)" : "var(--border)",
+                    background:  type === t.value ? "var(--accent-dim)" : "#fff",
+                    color:       type === t.value ? "var(--accent)" : "var(--sub)",
                   }}
                 >
                   <span className="text-xl">{t.icon}</span>

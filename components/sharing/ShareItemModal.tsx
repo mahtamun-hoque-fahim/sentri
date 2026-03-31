@@ -83,7 +83,7 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: "var(--border)" }}>
           <div className="flex items-center gap-3">
-            <span className="text-xl"><Link2 size={20} style={{ color: "#4F6EF7" }} /></span>
+            <span className="text-xl"><Link2 size={20} style={{ color: "var(--accent)" }} /></span>
             <div>
               <p className="text-sm font-semibold ">Share Item</p>
               <p className="text-xs ">{item.title}</p>
@@ -100,8 +100,8 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
             <>
               {/* Security notice */}
               <div className="rounded-xl border px-4 py-3 text-sm flex items-start gap-2"
-                style={{ background: "rgba(79,110,247,0.06)", borderColor: "rgba(79,110,247,0.12)" }}>
-                <span><Lock size={20} style={{ color: "#4F6EF7" }} /></span>
+                style={{ background: "var(--accent-dim)", borderColor: "var(--accent-dim)" }}>
+                <span><Lock size={20} style={{ color: "var(--accent)" }} /></span>
                 <p className="text-xs  leading-relaxed">
                   The encryption key is embedded in the URL fragment and never sent to our servers.
                   Only someone with the full link can decrypt this item.
@@ -119,9 +119,9 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
                       onClick={() => setExpiry(o.hours)}
                       className="py-2 rounded-xl border text-sm font-medium transition-all"
                       style={{
-                        borderColor: expiry === o.hours ? "#4F6EF7" : "var(--border)",
-                        background:  expiry === o.hours ? "rgba(79,110,247,0.1)" : "#fff",
-                        color:       expiry === o.hours ? "#4F6EF7" : "var(--sub)",
+                        borderColor: expiry === o.hours ? "var(--accent)" : "var(--border)",
+                        background:  expiry === o.hours ? "var(--accent-dim)" : "#fff",
+                        color:       expiry === o.hours ? "var(--accent)" : "var(--sub)",
                       }}>
                       {o.label}
                     </button>
@@ -140,9 +140,9 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
                       onClick={() => setMaxViews(v)}
                       className="py-2 rounded-xl border text-sm font-medium transition-all"
                       style={{
-                        borderColor: maxViews === v ? "#4F6EF7" : "var(--border)",
-                        background:  maxViews === v ? "rgba(79,110,247,0.1)" : "#fff",
-                        color:       maxViews === v ? "#4F6EF7" : "var(--sub)",
+                        borderColor: maxViews === v ? "var(--accent)" : "var(--border)",
+                        background:  maxViews === v ? "var(--accent-dim)" : "#fff",
+                        color:       maxViews === v ? "var(--accent)" : "var(--sub)",
                       }}>
                       {v === 1 ? "1 — One-time" : v}
                     </button>
@@ -166,8 +166,8 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
           ) : (
             <>
               {/* Share link ready */}
-              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#4F6EF7" }}>
-                <span className="text-base"><CheckCircle size={15} style={{ color: "#4F6EF7" }} /></span>
+              <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "var(--accent)" }}>
+                <span className="text-base"><CheckCircle size={15} style={{ color: "var(--accent)" }} /></span>
                 Share link created
               </div>
 
@@ -187,9 +187,9 @@ export default function ShareItemModal({ item, onClose }: ShareItemModalProps) {
               <button onClick={copy}
                 className="w-full py-2.5 rounded-xl border text-sm font-medium transition-all"
                 style={{
-                  borderColor: copied ? "#4F6EF7" : "var(--border)",
-                  background:  copied ? "rgba(79,110,247,0.1)" : "#fff",
-                  color:       copied ? "#4F6EF7" : "var(--text)",
+                  borderColor: copied ? "var(--accent)" : "var(--border)",
+                  background:  copied ? "var(--accent-dim)" : "#fff",
+                  color:       copied ? "var(--accent)" : "var(--text)",
                 }}>
                 {copied ? "✓ Copied to clipboard!" : "Copy Link"}
               </button>

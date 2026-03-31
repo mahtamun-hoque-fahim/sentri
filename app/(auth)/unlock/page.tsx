@@ -84,7 +84,7 @@ function UnlockForm() {
         <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
             style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)", color: "var(--bg)" }}>S</div>
-          <span className="text-2xl font-bold" style={{ color: "#4F6EF7", fontFamily: "Geist" }}>Sentri</span>
+          <span className="text-2xl font-bold" style={{ color: "var(--accent)", fontFamily: "Geist" }}>Sentri</span>
         </div>
 
         <div className="rounded-2xl border p-8 animate-fade-up delay-1"
@@ -92,15 +92,15 @@ function UnlockForm() {
 
           {welcome && (
             <div className="mb-5 px-4 py-3 rounded-xl border text-sm flex items-center gap-2"
-              style={{ background: "rgba(79,110,247,0.07)", borderColor: "rgba(79,110,247,0.25)", color: "#4F6EF7" }}>
+              style={{ background: "var(--accent-dim)", borderColor: "rgba(0,255,148,0.0.25)", color: "var(--accent)" }}>
               <CheckCircle size={15} />
               Account created! Unlock your vault to get started.
             </div>
           )}
 
           <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-            style={{ background: "rgba(79,110,247,0.1)", border: "1px solid rgba(79,110,247,0.15)" }}>
-            <Lock size={22} style={{ color: "#4F6EF7" }} />
+            style={{ background: "var(--accent-dim)", border: "1px solid rgba(79,110,247,0.15)" }}>
+            <Lock size={22} style={{ color: "var(--accent)" }} />
           </div>
 
           <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--text)" }}>Unlock vault</h1>

@@ -106,12 +106,12 @@ export default function SessionsPage() {
                 <div key={session.id}
                   className="flex items-center gap-4 px-5 py-4  rounded-xl border animate-fade-up"
                   style={{
-                    borderColor: isCurrent ? "#4F6EF7" : "var(--border)",
+                    borderColor: isCurrent ? "var(--accent)" : "var(--border)",
                     borderWidth: isCurrent ? "1.5px" : "1px",
                     animationDelay: `${idx * 0.04}s`,
                   }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                    style={{ background: isCurrent ? "rgba(79,110,247,0.1)" : "var(--bg)" }}>
+                    style={{ background: isCurrent ? "var(--accent-dim)" : "var(--bg)" }}>
                     {device.icon}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -121,7 +121,7 @@ export default function SessionsPage() {
                       </p>
                       {isCurrent && (
                         <span className="text-xs px-2 py-0.5 rounded-full font-medium"
-                          style={{ background: "rgba(79,110,247,0.1)", color: "#4F6EF7" }}>
+                          style={{ background: "var(--accent-dim)", color: "var(--accent)" }}>
                           Current
                         </span>
                       )}

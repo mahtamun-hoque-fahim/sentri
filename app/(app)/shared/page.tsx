@@ -163,7 +163,7 @@ export default function SharedVaultsPage() {
                       className="flex items-center gap-4 px-5 py-4  rounded-xl border animate-fade-up"
                       style={{ borderColor: "var(--border)", animationDelay: `${i * 0.05}s` }}>
                       <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0"
-                        style={{ background: "rgba(79,110,247,0.08)" }}>
+                        style={{ background: "var(--accent-dim)" }}>
                         👥
                       </div>
                       <div className="flex-1 min-w-0">
@@ -187,7 +187,7 @@ export default function SharedVaultsPage() {
             {sharedVaults.length === 0 && (
               <div className="text-center py-10">
                 <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
-                  style={{ background: "rgba(79,110,247,0.08)" }}><Users size={16} style={{ color: "var(--sub)" }} /></div>
+                  style={{ background: "var(--accent-dim)" }}><Users size={16} style={{ color: "var(--sub)" }} /></div>
                 <h3 className="text-base font-semibold  mb-1"
                   style={{ fontFamily: "'Geist', serif" }}>No shared vaults yet</h3>
                 <p className="text-sm ">Create one above and invite your trusted circle.</p>
@@ -205,7 +205,7 @@ export default function SharedVaultsPage() {
                     className="flex items-center gap-4 px-5 py-4  rounded-xl border"
                     style={{ borderColor: "var(--border)" }}>
                     <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                      style={{ background: "rgba(79,110,247,0.08)" }}><Lock size={20} style={{ color: "#4F6EF7" }} /></div>
+                      style={{ background: "var(--accent-dim)" }}><Lock size={20} style={{ color: "var(--accent)" }} /></div>
                     <div className="flex-1">
                       <p className="text-sm font-semibold ">{vault.name}</p>
                       <p className="text-xs  mt-0.5">Your private vault</p>

@@ -7,7 +7,7 @@ export default function EmptyVault() {
   return (
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-5"
-        style={{ background: "rgba(79,110,247,0.07)", border: "1px solid rgba(79,110,247,0.12)" }}>
+        style={{ background: "var(--accent-dim)", border: "1px solid rgba(79,110,247,0.12)" }}>
         <ShieldOff size={28} style={{ color: "var(--border)" }} />
       </div>
       <h3 className="text-base font-bold mb-2" style={{ color: "var(--text)" }}>Your vault is empty</h3>

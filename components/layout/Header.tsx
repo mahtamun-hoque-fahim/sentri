@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Search, Plus } from "lucide-react";
+import ThemeToggle from "@/components/layout/ThemeToggle";
 
 interface HeaderProps {
   title?: string;
@@ -17,7 +18,7 @@ export default function Header({ title = "Vault", showSearch = true, onSearch }:
     <header className="sticky top-0 z-30 flex items-center justify-between px-6 py-3.5 border-b backdrop-blur-sm"
       style={{ background: "rgba(10,14,23,0.9)", borderColor: "var(--border)" }}>
       <h1 className="text-sm font-semibold" style={{ color: "var(--text)" }}>{title}</h1>
-      <div className="flex items-center gap-2.5">
+      <div className="flex items-center gap-2">
         {showSearch && (
           <div className="relative">
             <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "var(--sub)" }} />
@@ -28,8 +29,9 @@ export default function Header({ title = "Vault", showSearch = true, onSearch }:
               style={{ borderRadius: "8px" }} />
           </div>
         )}
+        <ThemeToggle />
         <Link href="/vault/new"
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold btn-accent text-white">
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold btn-accent">
           <Plus size={13} strokeWidth={2.5} />
           Add
         </Link>
