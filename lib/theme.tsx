@@ -10,7 +10,14 @@ const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  // Initialize from the DOM class that was already set by the flash-prevention
+  // script — this avoids a theme flash on first render
+  const [theme, setTheme] = useState<Theme>(() => {
+    if (typeof window !== "undefined") {
+      return document.documentElement.classList.contains("light") ? "light" : "dark";
+    }
+    return "dark";
+  });
 
   useEffect(() => {
     const stored = localStorage.getItem("sentri-theme") as Theme | null;

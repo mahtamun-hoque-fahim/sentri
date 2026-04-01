@@ -11,6 +11,7 @@ import {
   LogOut, Plus, Menu, X,
 } from "lucide-react";
 import ThemeToggle from "@/components/layout/ThemeToggle";
+import { SentriLogo } from "@/components/ui/SentriLogo";
 
 const VAULT_NAV = [
   { href: "/dashboard",                icon: LayoutGrid, label: "All Items"  },
@@ -87,14 +88,8 @@ export default function Sidebar() {
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 
       {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 16px", marginBottom: "20px" }}>
-        <div style={{
-          width: 28, height: 28, borderRadius: 8,
-          background: "var(--accent)", color: "var(--bg)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          fontWeight: 700, fontSize: 12,
-        }}>S</div>
-        <span style={{ fontSize: 15, fontWeight: 600, color: "var(--text)" }}>Sentri</span>
+      <div style={{ padding: "0 16px", marginBottom: "20px" }}>
+        <SentriLogo height={26} />
       </div>
 
       {/* New Item button */}
@@ -175,7 +170,6 @@ export default function Sidebar() {
       {/* Desktop sidebar */}
       <aside
         style={{
-          display: "none",
           flexDirection: "column",
           width: 220,
           flexShrink: 0,
@@ -186,7 +180,7 @@ export default function Sidebar() {
           padding: "20px 0",
           background: "var(--surface)",
         }}
-        className="md:flex"
+        className="hidden md:flex"
       >
         {content}
       </aside>

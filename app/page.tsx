@@ -12,7 +12,7 @@ export default function LandingPage() {
 
       {/* Nav */}
       <nav className="flex items-center justify-between px-8 py-5 border-b sticky top-0 z-50 backdrop-blur-md"
-        style={{ background: "rgba(10,14,23,0.92)", borderColor: "var(--border)" }}>
+        style={{ background: "var(--surface-nav)", borderColor: "var(--border)" }}>
         <div className="flex items-center gap-3">
           <SentriLogo height={24} />
         </div>

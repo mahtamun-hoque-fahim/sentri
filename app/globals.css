@@ -29,6 +29,7 @@
   --gold:       #C8A96A;
   --purple:     #A78BFA;
   --scheme:     dark;
+  --surface-nav: rgba(8,11,18,0.92);
 }
 
 /* ── Light mode ──────────────────────────────────────────────────── */
@@ -52,6 +53,7 @@ html.light {
   --gold:       #92400E;
   --purple:     #7C3AED;
   --scheme:     light;
+  --surface-nav: rgba(244,246,249,0.92);
 }
 
 * { box-sizing: border-box; }
