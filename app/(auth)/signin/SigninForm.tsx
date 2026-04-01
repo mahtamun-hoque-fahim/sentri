@@ -28,12 +28,34 @@ export default function SigninForm() {
     if (!isLoaded) return;
     setError(""); setLoading(true);
     try {
-      const result = await signIn.create({ identifier: email, password });
-      if (result.status !== "complete") throw new Error("Sign-in incomplete.");
-      await setActive({ session: result.createdSessionId });
-      router.push("/unlock");
+      // Start the sign-in attempt
+      const attempt = await signIn.create({ identifier: email, password });
+
+      if (attempt.status === "complete") {
+        await setActive({ session: attempt.createdSessionId });
+        router.push("/unlock");
+        return;
+      }
+
+      // Clerk may require a first factor attempt (password verification step)
+      if (attempt.status === "needs_first_factor") {
+        const result = await signIn.attemptFirstFactor({
+          strategy: "password",
+          password,
+        });
+        if (result.status === "complete") {
+          await setActive({ session: result.createdSessionId });
+          router.push("/unlock");
+          return;
+        }
+      }
+
+      // If still not complete, surface the status for debugging
+      throw new Error(`Sign-in incomplete (status: ${attempt.status}). Please try again.`);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Invalid email or password.");
+      const msg = err instanceof Error ? err.message : "Invalid email or password.";
+      // Clean up Clerk's verbose error messages
+      setError(msg.replace(/^Error: /, ""));
     } finally { setLoading(false); }
   }
 
@@ -64,7 +86,6 @@ export default function SigninForm() {
       <div style={{ width: "100%", maxWidth: 400 }} className="animate-fade-up">
         <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: "36px 32px" }}>
 
-          {/* Logo — inside card, safe from browser overlays */}
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
             <SentriLogo height={28} />
           </div>
