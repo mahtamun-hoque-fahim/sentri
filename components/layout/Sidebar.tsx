@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useClerk } from "@clerk/nextjs";
 import { useVaultStore } from "@/store/vault";
-import { cn } from "@/lib/utils";
 import {
   LayoutGrid, Key, CreditCard, FileText, Terminal,
   Zap, Shield, Users, Download, AlertTriangle, Settings,
@@ -34,26 +33,48 @@ function NavItem({ href, icon: Icon, label }: { href: string; icon: React.Elemen
   const pathname = usePathname();
   const base     = href.split("?")[0];
   const active   = pathname === base || (pathname === "/dashboard" && href === "/dashboard");
+
   return (
-    <Link href={href}
-      className={cn(
-        "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-all relative",
-        active ? "nav-active font-medium" : "hover:bg-sentri-surface2"
-      )}
-      style={!active ? { color: "var(--sub)" } : { color: "var(--accent)" }}
-      onMouseEnter={e => { if (!active) (e.currentTarget as HTMLAnchorElement).style.color = "var(--text2)"; }}
-      onMouseLeave={e => { if (!active) (e.currentTarget as HTMLAnchorElement).style.color = "var(--sub)"; }}>
-      <Icon size={15} strokeWidth={active ? 2 : 1.7} />
+    <Link
+      href={href}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "10px",
+        padding: "7px 12px",
+        borderRadius: "8px",
+        fontSize: "13px",
+        fontWeight: active ? 500 : 400,
+        color: active ? "var(--accent)" : "var(--sub)",
+        background: active ? "var(--accent-dim)" : "transparent",
+        borderLeft: active ? "2px solid var(--accent)" : "2px solid transparent",
+        transition: "color 0.15s, background 0.15s",
+        textDecoration: "none",
+      }}
+      onMouseEnter={e => {
+        if (!active) {
+          (e.currentTarget as HTMLAnchorElement).style.color = "var(--text2)";
+          (e.currentTarget as HTMLAnchorElement).style.background = "var(--surface2)";
+        }
+      }}
+      onMouseLeave={e => {
+        if (!active) {
+          (e.currentTarget as HTMLAnchorElement).style.color = "var(--sub)";
+          (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
+        }
+      }}
+    >
+      <Icon size={15} strokeWidth={active ? 2 : 1.6} />
       <span>{label}</span>
     </Link>
   );
 }
 
 export default function Sidebar() {
-  const router    = useRouter();
+  const router      = useRouter();
   const { signOut } = useClerk();
-  const lock      = useVaultStore((s) => s.lock);
-  const itemCount = useVaultStore((s) => s.items.length);
+  const lock        = useVaultStore((s) => s.lock);
+  const itemCount   = useVaultStore((s) => s.items.length);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   async function handleLock() {
@@ -63,47 +84,84 @@ export default function Sidebar() {
   }
 
   const content = (
-    <div className="flex flex-col h-full">
+    <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
+
       {/* Logo */}
-      <div className="flex items-center gap-2.5 px-4 mb-6">
-        <div className="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs text-white"
-          style={{ background: "var(--accent)", boxShadow: "0 2px 8px rgba(79,110,247,0.35)" }}>S</div>
-        <span className="text-base font-semibold" style={{ color: "var(--text)" }}>Sentri</span>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "0 16px", marginBottom: "20px" }}>
+        <div style={{
+          width: 28, height: 28, borderRadius: 8,
+          background: "var(--accent)", color: "var(--bg)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontWeight: 700, fontSize: 12,
+        }}>S</div>
+        <span style={{ fontSize: 15, fontWeight: 600, color: "var(--text)" }}>Sentri</span>
       </div>
 
-      {/* New Item */}
-      <Link href="/vault/new"
-        className="flex items-center justify-center gap-2 mx-3 mb-5 py-2 rounded-lg text-sm font-semibold btn-accent text-white"
-        onClick={() => setMobileOpen(false)}>
+      {/* New Item button */}
+      <Link
+        href="/vault/new"
+        onClick={() => setMobileOpen(false)}
+        style={{
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+          margin: "0 12px 16px",
+          padding: "8px 0",
+          borderRadius: 8,
+          fontSize: 13,
+          fontWeight: 600,
+          background: "var(--accent)",
+          color: "var(--bg)",
+          textDecoration: "none",
+          transition: "opacity 0.15s",
+        }}
+        onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
+        onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+      >
         <Plus size={14} strokeWidth={2.5} />
         New Item
       </Link>
 
       {/* Nav */}
-      <nav className="flex flex-col gap-0.5 flex-1 px-1">
-        <p className="text-xs font-semibold uppercase tracking-widest px-3 mb-1.5"
-          style={{ color: "var(--border2)", letterSpacing: "0.1em", fontSize: "10px" }}>Vault</p>
-        {VAULT_NAV.map((item) => <NavItem key={item.href} {...item} />)}
+      <nav style={{ flex: 1, display: "flex", flexDirection: "column", gap: 1, padding: "0 8px" }}>
+        <p style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", padding: "0 12px", marginBottom: 4, color: "var(--border2)" }}>
+          Vault
+        </p>
+        {VAULT_NAV.map(item => <NavItem key={item.href} {...item} />)}
 
-        <p className="text-xs font-semibold uppercase tracking-widest px-3 mt-5 mb-1.5"
-          style={{ color: "var(--border2)", letterSpacing: "0.1em", fontSize: "10px" }}>Tools</p>
-        {TOOLS_NAV.map((item) => <NavItem key={item.href} {...item} />)}
+        <p style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", padding: "0 12px", marginTop: 20, marginBottom: 4, color: "var(--border2)" }}>
+          Tools
+        </p>
+        {TOOLS_NAV.map(item => <NavItem key={item.href} {...item} />)}
       </nav>
 
       {/* Footer */}
-      <div className="px-4 pt-4 mt-4 border-t" style={{ borderColor: "var(--border)" }}>
-        <div className="flex items-center gap-2 px-2 py-2 rounded-lg text-xs font-mono"
-          style={{ background: "var(--accent-dim)", border: "1px solid rgba(0,255,148,0.1)", color: "var(--text2)" }}>
-          <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: "var(--success)" }} />
+      <div style={{ padding: "12px 12px 0", marginTop: 12, borderTop: "1px solid var(--border)" }}>
+        {/* Vault status */}
+        <div style={{
+          display: "flex", alignItems: "center", gap: 6,
+          padding: "6px 10px", borderRadius: 7, marginBottom: 6,
+          background: "var(--accent-dim)",
+          border: "1px solid color-mix(in srgb, var(--accent) 15%, transparent)",
+          fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text2)",
+        }}>
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--success)", flexShrink: 0 }} />
           {itemCount} item{itemCount !== 1 ? "s" : ""} encrypted
         </div>
-        <div className="flex items-center gap-2">
+
+        {/* Theme + Lock row */}
+        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <ThemeToggle />
-          <button onClick={handleLock}
-            className="flex items-center gap-2 px-2 py-2 rounded-lg text-sm flex-1 text-left transition-colors"
-            style={{ color: "var(--sub)" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--danger)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = "var(--sub)"; }}>
+          <button
+            onClick={handleLock}
+            style={{
+              display: "flex", alignItems: "center", gap: 8,
+              flex: 1, padding: "7px 8px", borderRadius: 7,
+              background: "transparent", border: "none", cursor: "pointer",
+              fontSize: 13, color: "var(--sub)", textAlign: "left",
+              transition: "color 0.15s",
+            }}
+            onMouseEnter={e => (e.currentTarget.style.color = "var(--danger)")}
+            onMouseLeave={e => (e.currentTarget.style.color = "var(--sub)")}
+          >
             <LogOut size={14} />
             Lock &amp; Sign out
           </button>
@@ -114,22 +172,57 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className="hidden md:flex flex-col w-56 shrink-0 border-r h-screen sticky top-0 py-5"
-        style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+      {/* Desktop sidebar */}
+      <aside
+        style={{
+          display: "none",
+          flexDirection: "column",
+          width: 220,
+          flexShrink: 0,
+          borderRight: "1px solid var(--border)",
+          height: "100vh",
+          position: "sticky",
+          top: 0,
+          padding: "20px 0",
+          background: "var(--surface)",
+        }}
+        className="md:flex"
+      >
         {content}
       </aside>
-      <button className="md:hidden fixed top-4 left-4 z-50 w-9 h-9 rounded-xl flex items-center justify-center border"
-        style={{ background: "var(--surface)", borderColor: "var(--border)", color: "var(--sub)" }}
-        onClick={() => setMobileOpen(o => !o)}>
+
+      {/* Mobile toggle */}
+      <button
+        className="md:hidden"
+        style={{
+          position: "fixed", top: 16, left: 16, zIndex: 50,
+          width: 36, height: 36, borderRadius: 10,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: "var(--surface)", border: "1px solid var(--border)",
+          color: "var(--sub)", cursor: "pointer",
+        }}
+        onClick={() => setMobileOpen(o => !o)}
+      >
         {mobileOpen ? <X size={15} /> : <Menu size={15} />}
       </button>
+
+      {/* Mobile overlay + sidebar */}
       {mobileOpen && (
         <>
-          <div className="md:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm"
-            onClick={() => setMobileOpen(false)} />
-          <aside className="md:hidden fixed inset-y-0 left-0 z-50 flex flex-col w-56 border-r py-5"
-            style={{ background: "var(--surface)", borderColor: "var(--border)" }}
-            onClick={() => setMobileOpen(false)}>
+          <div
+            className="md:hidden"
+            style={{ position: "fixed", inset: 0, zIndex: 40, background: "rgba(0,0,0,0.5)" }}
+            onClick={() => setMobileOpen(false)}
+          />
+          <aside
+            className="md:hidden"
+            style={{
+              position: "fixed", insetBlock: 0, left: 0, zIndex: 50,
+              width: 220, padding: "20px 0",
+              background: "var(--surface)", borderRight: "1px solid var(--border)",
+            }}
+            onClick={() => setMobileOpen(false)}
+          >
             {content}
           </aside>
         </>

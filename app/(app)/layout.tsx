@@ -20,16 +20,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   if (!isLoaded || !isSignedIn || !isUnlocked) {
     return (
-      <div className="min-h-screen vault-pattern flex items-center justify-center">
-        <div className="text-sm font-mono animate-pulse" style={{ color: "#8892A4" }}>Loading…</div>
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)" }}>
+        <div style={{ fontSize: 13, color: "var(--sub)", fontFamily: "var(--font-mono)" }}>Loading…</div>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen" style={{ background: "var(--bg)" }}>
+    <div style={{ display: "flex", minHeight: "100vh", background: "var(--bg)" }}>
       <Sidebar />
-      <main className="flex-1 flex flex-col min-h-screen overflow-x-hidden">
+      <main style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: "100vh", overflow: "hidden", background: "var(--bg)" }}>
         {children}
       </main>
       <InactivityLock />

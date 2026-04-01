@@ -180,9 +180,4 @@ html.light .btn-accent { color: #fff; }
 }
 .vault-input::placeholder { color: var(--sub); }
 
-/* ── Nav active ─── */
-.nav-active {
-  background: var(--accent-dim);
-  color: var(--accent) !important;
-  border-left: 2px solid var(--accent);
-}
+/* ── Nav active — handled inline in Sidebar component ─── */
