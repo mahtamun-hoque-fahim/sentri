@@ -15,7 +15,7 @@ export default function Header({ title = "Vault", showSearch = true, onSearch }:
   const [q, setQ] = useState("");
 
   return (
-    <header style={{
+    <header className="pl-16 lg:pl-6" style={{
       position: "sticky", top: 0, zIndex: 30,
       display: "flex", alignItems: "center", justifyContent: "space-between",
       padding: "12px 24px",

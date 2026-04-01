@@ -88,8 +88,8 @@ export default function Sidebar() {
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 
       {/* Logo */}
-      <div style={{ padding: "0 16px", marginBottom: "20px" }}>
-        <SentriLogo height={26} />
+      <div style={{ padding: "0 20px", marginBottom: "20px", display: "flex", alignItems: "center", height: 40 }}>
+        <SentriLogo height={22} />
       </div>
 
       {/* New Item button */}
@@ -180,14 +180,14 @@ export default function Sidebar() {
           padding: "20px 0",
           background: "var(--surface)",
         }}
-        className="hidden md:flex"
+        className="hidden lg:flex"
       >
         {content}
       </aside>
 
       {/* Mobile toggle */}
       <button
-        className="md:hidden"
+        className="lg:hidden"
         style={{
           position: "fixed", top: 16, left: 16, zIndex: 50,
           width: 36, height: 36, borderRadius: 10,
@@ -204,12 +204,12 @@ export default function Sidebar() {
       {mobileOpen && (
         <>
           <div
-            className="md:hidden"
+            className="lg:hidden"
             style={{ position: "fixed", inset: 0, zIndex: 40, background: "rgba(0,0,0,0.5)" }}
             onClick={() => setMobileOpen(false)}
           />
           <aside
-            className="md:hidden"
+            className="lg:hidden"
             style={{
               position: "fixed", insetBlock: 0, left: 0, zIndex: 50,
               width: 220, padding: "20px 0",
