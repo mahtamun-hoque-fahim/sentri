@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSignIn, useAuth } from "@clerk/nextjs";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, ArrowRight, CheckCircle } from "lucide-react";
+import { SentriLogo } from "@/components/ui/SentriLogo";
 
 export default function SigninForm() {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -36,77 +37,83 @@ export default function SigninForm() {
     } finally { setLoading(false); }
   }
 
-  const inputBase = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-all font-mono";
-  const inputStyle = { background: "var(--surface2)", borderColor: "var(--border)", color: "var(--text)" };
   const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.style.borderColor = "rgba(79,110,247,0.5)";
-    e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.1)";
+    e.target.style.borderColor = "var(--accent)";
+    e.target.style.boxShadow = "0 0 0 3px var(--accent-dim)";
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.style.borderColor = "var(--border)";
     e.target.style.boxShadow = "none";
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%", padding: "10px 14px", borderRadius: 10,
+    border: "1px solid var(--border)", background: "var(--surface2)",
+    color: "var(--text)", fontSize: 13, fontFamily: "var(--font-mono)",
+    outline: "none", transition: "border-color 0.15s, box-shadow 0.15s",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: "block", fontSize: 11, fontWeight: 600,
+    textTransform: "uppercase", letterSpacing: "0.1em",
+    color: "var(--sub)", marginBottom: 6, fontFamily: "var(--font-mono)",
+  };
+
   return (
-    <div className="min-h-screen vault-pattern flex items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md">
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)", padding: "24px 16px" }}>
+      <div style={{ width: "100%", maxWidth: 400 }} className="animate-fade-up">
+        <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: "36px 32px" }}>
 
-        {/* Logo */}
-        <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
-            style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)", color: "var(--bg)" }}>S</div>
-          <span className="text-2xl font-bold" style={{ color: "var(--accent)", fontFamily: "Geist" }}>Sentri</span>
-        </div>
+          {/* Logo — inside card, safe from browser overlays */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
+            <SentriLogo height={28} />
+          </div>
 
-        <div className="rounded-2xl border p-8 animate-fade-up delay-1"
-          style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text)", marginBottom: 4 }}>Sign in</h1>
+          <p style={{ fontSize: 13, color: "var(--sub)", marginBottom: 24 }}>
+            You&apos;ll enter your Secret Key on the next step.
+          </p>
 
           {welcome && (
-            <div className="mb-5 px-4 py-3 rounded-xl border text-sm flex items-center gap-2"
-              style={{ background: "var(--accent-dim)", borderColor: "rgba(0,255,148,0.0.25)", color: "var(--accent)" }}>
-              <CheckCircle size={15} />
-              Vault created! Sign in to continue.
+            <div style={{ marginBottom: 20, padding: "10px 14px", borderRadius: 10, background: "var(--accent-dim)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)", color: "var(--accent)", fontSize: 13, display: "flex", alignItems: "center", gap: 8 }}>
+              <CheckCircle size={14} /> Vault created! Sign in to continue.
             </div>
           )}
 
-          <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--text)" }}>Sign in</h1>
-          <p className="text-sm mb-6" style={{ color: "var(--sub)" }}>You&apos;ll enter your Secret Key on the next step.</p>
-
           {error && (
-            <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-              style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>
+            <div style={{ marginBottom: 16, padding: "10px 14px", borderRadius: 10, background: "rgba(240,81,106,0.08)", border: "1px solid rgba(240,81,106,0.25)", color: "var(--danger)", fontSize: 13 }}>
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Email</label>
+              <label style={labelStyle}>Email</label>
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
+                placeholder="you@example.com" style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
             </div>
             <div>
-              <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Master Password</label>
-              <div className="relative">
+              <label style={labelStyle}>Master Password</label>
+              <div style={{ position: "relative" }}>
                 <input type={showPw ? "text" : "password"} required value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Your master password" className={inputBase + " pr-10"} style={inputStyle}
-                  onFocus={onFocus} onBlur={onBlur} />
+                  placeholder="Your master password"
+                  style={{ ...inputStyle, paddingRight: 40 }} onFocus={onFocus} onBlur={onBlur} />
                 <button type="button" onClick={() => setShowPw(s => !s)} tabIndex={-1}
-                  className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: "var(--sub)" }}>
+                  style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: "var(--sub)", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                   {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                 </button>
               </div>
             </div>
-            <button type="submit" disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-bold mt-2 flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
+            <button type="submit" disabled={loading} className="btn-accent"
+              style={{ width: "100%", padding: "11px 0", borderRadius: 10, fontSize: 13, fontWeight: 700, marginTop: 4, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.5 : 1, border: "none", transition: "opacity 0.15s" }}>
               {loading ? "Signing in…" : (<>Continue <ArrowRight size={14} /></>)}
             </button>
           </form>
 
-          <p className="text-center text-sm mt-6" style={{ color: "var(--sub)" }}>
+          <p style={{ textAlign: "center", fontSize: 13, marginTop: 20, color: "var(--sub)" }}>
             No vault yet?{" "}
-            <Link href="/signup" className="font-bold" style={{ color: "var(--accent)" }}>Create one</Link>
+            <Link href="/signup" style={{ color: "var(--accent)", fontWeight: 600 }}>Create one</Link>
           </p>
         </div>
       </div>

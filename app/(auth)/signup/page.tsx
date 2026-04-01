@@ -6,6 +6,7 @@ import { useSignUp, useAuth } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { generateSecretKey, generateSalt, deriveKey, encryptData, uint8ToBase64 } from "@/lib/crypto";
 import { Eye, EyeOff, ArrowRight, Copy, Check, Mail, Key } from "lucide-react";
+import { SentriLogo } from "@/components/ui/SentriLogo";
 
 type Step = "form" | "verify" | "key-reveal" | "done";
 
@@ -74,8 +75,7 @@ export default function SignupPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          sessionId,
-          email,
+          sessionId, email,
           secretKeyHint:     secretKey.slice(-4),
           encryptedVaultKey: ciphertext,
           vaultKeySalt:      uint8ToBase64(salt),
@@ -101,73 +101,81 @@ export default function SignupPage() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  const inputBase = "w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-all";
-  const inputStyle = { background: "var(--surface2)", borderColor: "var(--border)", color: "var(--text)" };
   const onFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    e.target.style.borderColor = "rgba(79,110,247,0.5)";
-    e.target.style.boxShadow = "0 0 0 3px rgba(79,110,247,0.1)";
+    e.target.style.borderColor = "var(--accent)";
+    e.target.style.boxShadow = "0 0 0 3px var(--accent-dim)";
   };
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     e.target.style.borderColor = "var(--border)";
     e.target.style.boxShadow = "none";
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%", padding: "10px 14px", borderRadius: 10,
+    border: "1px solid var(--border)", background: "var(--surface2)",
+    color: "var(--text)", fontSize: 13, fontFamily: "var(--font-mono)",
+    outline: "none", transition: "border-color 0.15s, box-shadow 0.15s",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: "block", fontSize: 11, fontWeight: 600,
+    textTransform: "uppercase", letterSpacing: "0.1em",
+    color: "var(--sub)", marginBottom: 6, fontFamily: "var(--font-mono)",
+  };
+
   return (
-    <div className="min-h-screen vault-pattern flex items-center justify-center px-4 py-16">
-      <div className="w-full max-w-md">
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--bg)", padding: "24px 16px" }}>
+      <div style={{ width: "100%", maxWidth: 400 }} className="animate-fade-up">
+        <div style={{ background: "var(--surface)", border: "1px solid var(--border)", borderRadius: 20, padding: "36px 32px" }}>
 
-        <div className="flex items-center gap-2.5 mb-8 justify-center animate-fade-up">
-          <div className="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-sm"
-            style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)", color: "var(--bg)" }}>S</div>
-          <span className="text-2xl font-bold" style={{ color: "var(--accent)", fontFamily: "Geist" }}>Sentri</span>
-        </div>
-
-        <div className="rounded-2xl border p-8 animate-fade-up delay-1"
-          style={{ background: "var(--surface)", borderColor: "var(--border)" }}>
+          {/* Logo inside card */}
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
+            <SentriLogo height={28} />
+          </div>
 
           {/* Step 1: Register */}
           {step === "form" && (
             <>
-              <h1 className="text-2xl font-bold mb-1" style={{ color: "var(--text)" }}>Create your vault</h1>
-              <p className="text-sm mb-6" style={{ color: "var(--sub)" }}>One master password. Everything encrypted.</p>
+              <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text)", marginBottom: 4 }}>Create your vault</h1>
+              <p style={{ fontSize: 13, color: "var(--sub)", marginBottom: 24 }}>One master password. Everything encrypted.</p>
 
               {error && (
-                <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
+                <div style={{ marginBottom: 16, padding: "10px 14px", borderRadius: 10, background: "rgba(240,81,106,0.08)", border: "1px solid rgba(240,81,106,0.25)", color: "var(--danger)", fontSize: 13 }}>{error}</div>
               )}
 
-              <form onSubmit={handleRegister} className="flex flex-col gap-4">
+              <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Email</label>
+                  <label style={labelStyle}>Email</label>
                   <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
+                    placeholder="you@example.com" style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Master Password</label>
-                  <div className="relative">
+                  <label style={labelStyle}>Master Password</label>
+                  <div style={{ position: "relative" }}>
                     <input type={showPw ? "text" : "password"} required minLength={10} value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="At least 10 characters" className={inputBase + " pr-10"} style={inputStyle}
-                      onFocus={onFocus} onBlur={onBlur} />
+                      placeholder="At least 10 characters"
+                      style={{ ...inputStyle, paddingRight: 40 }} onFocus={onFocus} onBlur={onBlur} />
                     <button type="button" onClick={() => setShowPw(s => !s)} tabIndex={-1}
-                      className="absolute right-3 top-1/2 -translate-y-1/2" style={{ color: "var(--sub)" }}>
+                      style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: "var(--sub)", background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                       {showPw ? <EyeOff size={14} /> : <Eye size={14} />}
                     </button>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Confirm Password</label>
+                  <label style={labelStyle}>Confirm Password</label>
                   <input type="password" required value={confirm} onChange={(e) => setConfirm(e.target.value)}
-                    placeholder="Repeat master password" className={inputBase} style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
+                    placeholder="Repeat master password" style={inputStyle} onFocus={onFocus} onBlur={onBlur} />
                 </div>
-                <button type="submit" disabled={loading}
-                  className="w-full py-3 rounded-xl text-sm font-bold mt-2 flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
+                <button type="submit" disabled={loading} className="btn-accent"
+                  style={{ width: "100%", padding: "11px 0", borderRadius: 10, fontSize: 13, fontWeight: 700, marginTop: 4, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.5 : 1, border: "none", transition: "opacity 0.15s" }}>
                   {loading ? "Creating account…" : (<>Continue <ArrowRight size={14} /></>)}
                 </button>
               </form>
-              <p className="text-center text-sm mt-6" style={{ color: "var(--sub)" }}>
+
+              <p style={{ textAlign: "center", fontSize: 13, marginTop: 20, color: "var(--sub)" }}>
                 Already have a vault?{" "}
-                <Link href="/signin" className="font-bold" style={{ color: "var(--accent)" }}>Sign in</Link>
+                <Link href="/signin" style={{ color: "var(--accent)", fontWeight: 600 }}>Sign in</Link>
               </p>
             </>
           )}
@@ -175,29 +183,28 @@ export default function SignupPage() {
           {/* Step 2: Verify Email */}
           {step === "verify" && (
             <>
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.15)" }}>
-                <Mail size={22} style={{ color: "var(--accent)" }} />
+              <div style={{ width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, background: "rgba(0,212,255,0.08)", border: "1px solid rgba(0,212,255,0.15)" }}>
+                <Mail size={20} style={{ color: "var(--accent)" }} />
               </div>
-              <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text)" }}>Check your email</h1>
-              <p className="text-sm mb-6" style={{ color: "var(--sub)" }}>
-                We sent a 6-digit code to <span className="font-mono" style={{ color: "var(--text)" }}>{email}</span>
+              <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>Check your email</h1>
+              <p style={{ fontSize: 13, color: "var(--sub)", marginBottom: 24 }}>
+                We sent a 6-digit code to <span style={{ fontFamily: "var(--font-mono)", color: "var(--text2)" }}>{email}</span>
               </p>
+
               {error && (
-                <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
+                <div style={{ marginBottom: 16, padding: "10px 14px", borderRadius: 10, background: "rgba(240,81,106,0.08)", border: "1px solid rgba(240,81,106,0.25)", color: "var(--danger)", fontSize: 13 }}>{error}</div>
               )}
-              <form onSubmit={handleVerify} className="flex flex-col gap-4">
+
+              <form onSubmit={handleVerify} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest mb-1.5 font-mono" style={{ color: "var(--sub)" }}>Verification Code</label>
+                  <label style={labelStyle}>Verification Code</label>
                   <input type="text" required value={code} onChange={(e) => setCode(e.target.value)}
                     placeholder="123456" maxLength={6}
-                    className={inputBase + " font-mono text-center text-2xl tracking-widest"}
-                    style={{ ...inputStyle, letterSpacing: "0.3em" }}
+                    style={{ ...inputStyle, textAlign: "center", fontSize: 22, letterSpacing: "0.3em" }}
                     onFocus={onFocus} onBlur={onBlur} />
                 </div>
-                <button type="submit" disabled={loading}
-                  className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
+                <button type="submit" disabled={loading} className="btn-accent"
+                  style={{ width: "100%", padding: "11px 0", borderRadius: 10, fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.5 : 1, border: "none", transition: "opacity 0.15s" }}>
                   {loading ? "Verifying…" : (<>Verify Email <ArrowRight size={14} /></>)}
                 </button>
               </form>
@@ -207,48 +214,39 @@ export default function SignupPage() {
           {/* Step 3: Secret Key Reveal */}
           {step === "key-reveal" && (
             <>
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: "var(--accent-dim)", border: "1px solid rgba(79,110,247,0.15)" }}>
-                <Key size={22} style={{ color: "var(--accent)" }} />
+              <div style={{ width: 44, height: 44, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16, background: "var(--accent-dim)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)" }}>
+                <Key size={20} style={{ color: "var(--accent)" }} />
               </div>
-              <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--text)" }}>Your Secret Key</h1>
-              <p className="text-sm mb-6 leading-relaxed" style={{ color: "var(--sub)" }}>
+              <h1 style={{ fontSize: 22, fontWeight: 700, color: "var(--text)", marginBottom: 8 }}>Your Secret Key</h1>
+              <p style={{ fontSize: 13, color: "var(--sub)", marginBottom: 24, lineHeight: 1.6 }}>
                 Shown <strong style={{ color: "var(--text)" }}>only once</strong>. Store it safely — without it, your vault cannot be recovered.
               </p>
 
-              <div className="rounded-xl p-4 mb-5 border"
-                style={{ background: "var(--accent-dim)", borderColor: "rgba(0,255,148,0.0.25)" }}>
-                <p className="text-center text-sm font-bold select-all font-mono "
-                  style={{ color: "var(--accent)", letterSpacing: "0.08em", wordBreak: "break-all" }}>
+              <div style={{ borderRadius: 10, padding: "16px", marginBottom: 16, background: "var(--accent-dim)", border: "1px solid color-mix(in srgb, var(--accent) 20%, transparent)" }}>
+                <p style={{ textAlign: "center", fontSize: 13, fontWeight: 700, fontFamily: "var(--font-mono)", color: "var(--accent)", letterSpacing: "0.08em", wordBreak: "break-all", userSelect: "all" }}>
                   {secretKey}
                 </p>
               </div>
 
               <button onClick={copyKey}
-                className="w-full py-2.5 rounded-xl text-sm font-bold border mb-5 transition-all flex items-center justify-center gap-2"
-                style={{
-                  borderColor: copied ? "rgba(79,110,247,0.5)" : "var(--border)",
-                  color:       copied ? "var(--accent)" : "var(--text)",
-                  background:  copied ? "var(--accent-dim)" : "var(--surface2)",
-                }}>
+                style={{ width: "100%", padding: "9px 0", borderRadius: 10, fontSize: 13, fontWeight: 700, marginBottom: 16, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, cursor: "pointer", border: `1px solid ${copied ? "color-mix(in srgb, var(--accent) 40%, transparent)" : "var(--border)"}`, color: copied ? "var(--accent)" : "var(--text)", background: copied ? "var(--accent-dim)" : "var(--surface2)", transition: "all 0.15s" }}>
                 {copied ? <><Check size={14} /> Copied!</> : <><Copy size={14} /> Copy Secret Key</>}
               </button>
 
-              <label className="flex items-start gap-3 cursor-pointer mb-6">
+              <label style={{ display: "flex", alignItems: "flex-start", gap: 10, cursor: "pointer", marginBottom: 20 }}>
                 <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)}
-                  className="mt-0.5 w-4 h-4 rounded" style={{ accentColor: "var(--accent)" }} />
-                <span className="text-sm leading-relaxed" style={{ color: "var(--sub)" }}>
+                  style={{ marginTop: 2, width: 14, height: 14, accentColor: "var(--accent)", flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: "var(--sub)", lineHeight: 1.5 }}>
                   I have saved my Secret Key. I understand it cannot be recovered if lost.
                 </span>
               </label>
 
               {error && (
-                <div className="mb-4 px-4 py-3 rounded-xl border text-sm"
-                  style={{ background: "rgba(240,81,106,0.08)", borderColor: "rgba(240,81,106,0.25)", color: "var(--danger)" }}>{error}</div>
+                <div style={{ marginBottom: 16, padding: "10px 14px", borderRadius: 10, background: "rgba(240,81,106,0.08)", border: "1px solid rgba(240,81,106,0.25)", color: "var(--danger)", fontSize: 13 }}>{error}</div>
               )}
 
-              <button onClick={handleConfirm} disabled={loading || !agreed}
-                className="w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all  disabled:opacity-40 btn-accent">
+              <button onClick={handleConfirm} disabled={loading || !agreed} className="btn-accent"
+                style={{ width: "100%", padding: "11px 0", borderRadius: 10, fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", gap: 8, cursor: (loading || !agreed) ? "not-allowed" : "pointer", opacity: (loading || !agreed) ? 0.5 : 1, border: "none", transition: "opacity 0.15s" }}>
                 {loading ? "Setting up vault…" : (<>Create my vault <ArrowRight size={14} /></>)}
               </button>
             </>
