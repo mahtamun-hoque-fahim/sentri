@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { Shield, Lock, Eye, Zap, ArrowRight, CheckCircle, Users, Key } from "lucide-react";
+import { SentriLogo } from "@/components/ui/SentriLogo";
+import { SentriLogoDuotone } from "@/components/ui/SentriLogoDuotone";
+import { SentriIcon } from "@/components/ui/SentriIcon";
 
 export default function LandingPage() {
   return (
@@ -11,11 +14,7 @@ export default function LandingPage() {
       <nav className="flex items-center justify-between px-8 py-5 border-b sticky top-0 z-50 backdrop-blur-md"
         style={{ background: "rgba(10,14,23,0.92)", borderColor: "var(--border)" }}>
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm"
-            style={{ background: "var(--accent)", color: "#fff", boxShadow: "0 2px 12px rgba(79,110,247,0.4)" }}>
-            S
-          </div>
-          <span className="text-base font-semibold tracking-tight" style={{ color: "var(--text)" }}>Sentri</span>
+          <SentriLogo height={24} />
         </div>
         <div className="flex items-center gap-2">
           <Link href="/signin" className="text-sm font-medium px-4 py-2 rounded-lg transition-colors"
@@ -40,6 +39,11 @@ export default function LandingPage() {
           style={{ background: "radial-gradient(ellipse at center, rgba(79,110,247,0.08) 0%, transparent 70%)" }} />
 
         <div className="animate-fade-up max-w-3xl relative z-10">
+
+          {/* Logo */}
+          <div className="flex justify-center mb-10">
+            <SentriLogoDuotone height={44} />
+          </div>
 
           {/* Trust badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-10 border"
@@ -197,8 +201,7 @@ export default function LandingPage() {
       <footer className="border-t px-8 py-6 flex items-center justify-between text-xs"
         style={{ borderColor: "var(--border)", color: "var(--sub)" }}>
         <div className="flex items-center gap-2">
-          <div className="w-5 h-5 rounded flex items-center justify-center font-bold text-xs"
-            style={{ background: "var(--accent)", color: "#fff" }}>S</div>
+          <SentriIcon size={18} />
           <span>© 2026 Sentri</span>
         </div>
         <span>Zero-knowledge. Always.</span>

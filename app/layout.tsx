@@ -6,6 +6,17 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Sentri — Secure Vault",
   description: "Zero-knowledge password manager for your trusted circle.",
+  icons: {
+    icon: [
+      { url: "/logos/sentri-icon-dark.svg", media: "(prefers-color-scheme: dark)" },
+      { url: "/logos/sentri-icon-light.svg", media: "(prefers-color-scheme: light)" },
+    ],
+  },
+  openGraph: {
+    title: "Sentri — Secure Vault",
+    description: "Zero-knowledge password manager for your trusted circle.",
+    images: [{ url: "/logos/sentri-logo-white.svg" }],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
