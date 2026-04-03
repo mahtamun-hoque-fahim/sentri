@@ -48,8 +48,8 @@ function NavItem({ href, icon: Icon, label, onNav }: { href: string; icon: React
         fontSize: "13px",
         fontWeight: active ? 600 : 400,
         color: active ? "#ffffff" : "var(--sub)",
-        background: active ? "var(--accent)" : "transparent",
-        borderLeft: "2px solid transparent",
+        background: active ? "var(--accent-dim)" : "transparent",
+        borderLeft: active ? "2px solid var(--accent)" : "2px solid transparent",
         transition: "color 0.15s, background 0.15s",
         textDecoration: "none",
       }}
