@@ -54,7 +54,7 @@ export default function LandingPage() {
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-normal leading-tight mb-6"
             style={{ fontFamily: "Instrument Serif, Georgia, serif", color: "var(--text)", letterSpacing: "-0.02em" }}>
-            The vault built for{" "}
+            Built for{" "}
             <span className="italic" style={{ color: "var(--accent)" }}>people who know</span>
             <br />what&apos;s at stake.
           </h1>
