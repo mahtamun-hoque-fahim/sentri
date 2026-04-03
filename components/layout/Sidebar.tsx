@@ -8,7 +8,7 @@ import { useVaultStore } from "@/store/vault";
 import {
   LayoutGrid, Key, CreditCard, FileText, Terminal,
   Zap, Shield, Users, Download, AlertTriangle, Settings,
-  LogOut, Plus, Menu, X,
+  LogOut, Plus, Menu,
 } from "lucide-react";
 import ThemeToggle from "@/components/layout/ThemeToggle";
 import { SentriLogoDuotone } from "@/components/ui/SentriLogoDuotone";
@@ -88,25 +88,12 @@ export default function Sidebar() {
   const content = (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 
-      {/* Logo row — hamburger lives here on mobile */}
+      {/* Logo row */}
       <div style={{
-        padding: "0 12px 0 20px", marginBottom: "20px",
-        display: "flex", alignItems: "center", justifyContent: "space-between", height: 40,
+        padding: "0 20px", marginBottom: "20px",
+        display: "flex", alignItems: "center", height: 40,
       }}>
         <SentriLogoDuotone height={22} accentColor="#ffffff" secondaryColor="#00e676" />
-        {/* Close button — mobile only */}
-        <button
-          className="lg:hidden"
-          onClick={() => setMobileOpen(false)}
-          style={{
-            width: 28, height: 28, borderRadius: 7,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: "var(--surface2)", border: "1px solid var(--border)",
-            color: "var(--sub)", cursor: "pointer",
-          }}
-        >
-          <X size={13} />
-        </button>
       </div>
 
       {/* New Item button */}
