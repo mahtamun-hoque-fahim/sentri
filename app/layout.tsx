@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/lib/theme";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -8,8 +7,7 @@ export const metadata: Metadata = {
   description: "Zero-knowledge password manager for your trusted circle.",
   icons: {
     icon: [
-      { url: "/logos/sentri-icon-dark.svg", media: "(prefers-color-scheme: dark)" },
-      { url: "/logos/sentri-icon-light.svg", media: "(prefers-color-scheme: light)" },
+      { url: "/logos/sentri-icon-dark.svg" },
     ],
   },
   openGraph: {
@@ -22,25 +20,18 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en">
         <head>
           {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link
-            href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Onest:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
             rel="stylesheet"
           />
-          {/* Prevent flash of wrong theme */}
-          <script dangerouslySetInnerHTML={{ __html: `
-            (function() {
-              var t = localStorage.getItem('sentri-theme') || 'dark';
-              if (t === 'light') document.documentElement.classList.add('light');
-            })();
-          ` }} />
         </head>
         <body>
-          <ThemeProvider>
-            {children}
-          </ThemeProvider>
+          {children}
         </body>
       </html>
     </ClerkProvider>

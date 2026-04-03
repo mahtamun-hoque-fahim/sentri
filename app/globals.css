@@ -1,64 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Onest:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
-
-/* ── Dark mode (default) ─────────────────────────────────────────── */
 :root {
-  --font-display: 'Instrument Serif';
-  --font-body:    'Geist';
-  --font-mono:    'Geist Mono';
+  --font-display: 'Syne', sans-serif;
+  --font-body:    'Onest', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
 
-  --bg:         #080B12;
-  --bg2:        #0C1019;
-  --surface:    #0F1623;
-  --surface2:   #141C2E;
-  --surface3:   #1A2236;
-  --border:     #1F2E47;
-  --border2:    #283D5E;
-  --text:       #E2EAF4;
-  --text2:      #8EA4C2;
-  --sub:        #4E637F;
-  --accent:     #00FF94;
-  --accent2:    #00CC77;
-  --accent-dim: rgba(0,255,148,0.08);
-  --success:    #00FF94;
+  --bg:         #0a0a0a;
+  --bg2:        #0f0f0f;
+  --surface:    #141414;
+  --surface2:   #1a1a1a;
+  --surface3:   #202020;
+  --border:     #1f1f1f;
+  --border2:    #2a2a2a;
+  --text:       #f0ede6;
+  --text2:      #c8c4bc;
+  --sub:        #8a8a8a;
+  --accent:     #00e676;
+  --accent2:    #00b85a;
+  --accent-dim: rgba(0, 230, 118, 0.08);
+  --success:    #00e676;
   --danger:     #FF4D6A;
   --warning:    #FFB547;
   --gold:       #C8A96A;
   --purple:     #A78BFA;
-  --scheme:     dark;
-  --surface-nav: rgba(8,11,18,0.92);
-}
-
-/* ── Light mode ──────────────────────────────────────────────────── */
-html.light {
-  --bg:         #F4F6F9;
-  --bg2:        #ECEEF2;
-  --surface:    #FFFFFF;
-  --surface2:   #F0F2F6;
-  --surface3:   #E5E8EF;
-  --border:     #D0D7E3;
-  --border2:    #B8C2D6;
-  --text:       #111827;
-  --text2:      #374151;
-  --sub:        #6B7A99;
-  --accent:     #059669;
-  --accent2:    #047857;
-  --accent-dim: rgba(5,150,105,0.08);
-  --success:    #059669;
-  --danger:     #DC2626;
-  --warning:    #D97706;
-  --gold:       #92400E;
-  --purple:     #7C3AED;
-  --scheme:     light;
-  --surface-nav: rgba(244,246,249,0.92);
+  --surface-nav: rgba(10,10,10,0.92);
 }
 
 * { box-sizing: border-box; }
 
-html { color-scheme: var(--scheme); }
+html { color-scheme: dark; }
 
 body {
   font-family: var(--font-body), sans-serif;
@@ -66,7 +40,6 @@ body {
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background 0.2s ease, color 0.2s ease;
 }
 
 /* Noise texture */
@@ -76,23 +49,27 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
 }
 
-/* ── Scrollbar ─── */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 99px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
-/* ── Focus ─── */
+/* Selection */
+::selection { background: var(--accent); color: #000; }
+
+/* Focus */
 *:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* ── Kill browser autofill yellow ─── */
+/* Kill browser autofill yellow */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -103,7 +80,7 @@ input:-webkit-autofill:active {
   transition: background-color 9999s ease-in-out 0s;
 }
 
-/* ── Auth background ─── */
+/* Auth background */
 .vault-bg {
   background-color: var(--bg);
   background-image:
@@ -112,14 +89,19 @@ input:-webkit-autofill:active {
   background-size: 64px 64px;
 }
 
-/* ── Hero glow ─── */
+/* Hero glow */
 .hero-glow {
   background:
     radial-gradient(ellipse 80% 50% at 50% -10%, var(--accent-dim) 0%, transparent 70%),
     var(--bg);
 }
 
-/* ── Shimmer ─── */
+/* Border glow */
+.border-glow {
+  box-shadow: 0 0 0 1px var(--accent), 0 0 20px rgba(0, 230, 118, 0.1);
+}
+
+/* Shimmer */
 .shimmer {
   background: linear-gradient(90deg, var(--surface2) 25%, var(--surface3) 50%, var(--surface2) 75%);
   background-size: 400px 100%;
@@ -130,7 +112,7 @@ input:-webkit-autofill:active {
   100% { background-position: 400px 0; }
 }
 
-/* ── Animations ─── */
+/* Animations */
 @keyframes fade-up {
   0%   { opacity: 0; transform: translateY(14px); }
   100% { opacity: 1; transform: translateY(0); }
@@ -148,28 +130,27 @@ input:-webkit-autofill:active {
 .delay-4 { animation-delay: 0.24s; }
 .delay-5 { animation-delay: 0.30s; }
 
-/* ── Card ─── */
+/* Card */
 .vault-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 .vault-card:hover {
   border-color: var(--border2);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
-/* ── Accent button ─── */
+/* Accent button */
 .btn-accent {
   background: var(--accent);
-  color: #080B12;
+  color: #000;
   font-weight: 600;
   border: none;
   cursor: pointer;
   transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
 }
-html.light .btn-accent { color: #fff; }
 .btn-accent:hover {
   background: var(--accent2);
   box-shadow: 0 4px 16px var(--accent-dim);
@@ -177,14 +158,14 @@ html.light .btn-accent { color: #fff; }
 }
 .btn-accent:active { transform: scale(0.98); }
 
-/* ── Input ─── */
+/* Input */
 .vault-input {
   background: var(--surface2);
   border: 1px solid var(--border);
   color: var(--text);
   border-radius: 10px;
   font-family: var(--font-body);
-  transition: border-color 0.15s, box-shadow 0.15s, background 0.2s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 .vault-input:focus {
   border-color: var(--accent);
@@ -193,4 +174,8 @@ html.light .btn-accent { color: #fff; }
 }
 .vault-input::placeholder { color: var(--sub); }
 
-/* ── Nav active — handled inline in Sidebar component ─── */
+/* Mask fade */
+.mask-fade-right {
+  -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%);
+  mask-image: linear-gradient(to right, black 70%, transparent 100%);
+}
