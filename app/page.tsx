@@ -14,7 +14,7 @@ export default function LandingPage() {
       <nav className="flex items-center justify-between px-8 py-5 border-b sticky top-0 z-50 backdrop-blur-md"
         style={{ background: "var(--surface-nav)", borderColor: "var(--border)" }}>
         <div className="flex items-center gap-3">
-          <SentriLogo height={24} />
+          <SentriLogo height={24} color="#ffffff" />
         </div>
         <div className="flex items-center gap-2">
           <Link href="/signin" className="text-sm font-medium px-4 py-2 rounded-lg transition-colors"
@@ -109,7 +109,7 @@ export default function LandingPage() {
           {[
             {
               icon: Lock,
-              color: "var(--accent)",
+              color: "#ffffff",
               title: "Zero-Knowledge Architecture",
               desc: "Your master password and secret key never leave your device. We mathematically cannot access your vault — even if compelled.",
             },
@@ -173,8 +173,8 @@ export default function LandingPage() {
       <section className="px-8 py-24 text-center animate-fade-up">
         <div className="max-w-xl mx-auto">
           <div className="w-12 h-12 rounded-2xl flex items-center justify-center mx-auto mb-6"
-            style={{ background: "var(--accent)", boxShadow: "0 4px 24px rgba(79,110,247,0.4)" }}>
-            <Lock size={20} color="#fff" strokeWidth={2} />
+            style={{ background: "var(--accent)", boxShadow: "0 4px 24px rgba(0,230,118,0.3)" }}>
+            <SentriIcon size={24} color="#000" />
           </div>
           <h2 className="text-3xl font-normal mb-4" style={{ fontFamily: "Instrument Serif, serif", color: "var(--text)" }}>
             Ready to secure your digital life?
