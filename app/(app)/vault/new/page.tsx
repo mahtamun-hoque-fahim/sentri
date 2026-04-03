@@ -196,7 +196,7 @@ export default function NewItemPage() {
                   <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Card Number</label>
                   <input type="text" value={cardNumber} onChange={(e) => setCardNumber(e.target.value)}
                     placeholder="•••• •••• •••• ••••" maxLength={19} className={input}
-                    style={{ ...inputStyle, fontFamily: "'Geist Mono', monospace" }}
+                    style={{ ...inputStyle, fontFamily: "var(--font-mono)" }}
                     onFocus={(e) => Object.assign(e.target.style, focusStyle)} onBlur={(e) => (e.target.style.boxShadow = "none")} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">

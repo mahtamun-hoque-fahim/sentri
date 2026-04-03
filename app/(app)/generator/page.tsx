@@ -173,7 +173,7 @@ export default function GeneratorPage() {
                   >
                     <span
                       className="flex-1 text-xs truncate"
-                      style={{ fontFamily: "'Geist Mono', monospace", color: "var(--sub)" }}
+                      style={{ fontFamily: "var(--font-mono)", color: "var(--sub)" }}
                     >
                       {pw}
                     </span>

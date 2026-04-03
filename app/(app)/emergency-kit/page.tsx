@@ -55,7 +55,7 @@ export default function EmergencyKitPage() {
             </div>
             <div>
               <h2 className="text-lg font-semibold  mb-1"
-                style={{ fontFamily: "'Geist', serif" }}>
+                style={{ fontFamily: "var(--font-display)" }}>
                 Emergency Kit
               </h2>
               <p className="text-sm  leading-relaxed">

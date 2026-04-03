@@ -297,7 +297,7 @@ export default function VaultItemPage() {
                     <input type="text" value={editData.totp_secret ?? ""}
                       onChange={(e) => setEditData({ ...editData, totp_secret: e.target.value })}
                       placeholder="otpauth://totp/... or base32 secret"
-                      className={input} style={{ ...iStyle, fontFamily: "'Geist Mono',monospace", letterSpacing: "0.05em" }}
+                      className={input} style={{ ...iStyle, fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}
                       {...iFocus} />
                     <p className="text-xs  mt-1">Paste your TOTP secret to generate live 2FA codes.</p>
                   </div>
@@ -321,7 +321,7 @@ export default function VaultItemPage() {
                     <label className="block text-xs font-medium uppercase tracking-widest  mb-1.5">Card Number</label>
                     <input type="text" value={editData.number}
                       onChange={(e) => setEditData({ ...editData, number: e.target.value })}
-                      className={input} style={{ ...iStyle, fontFamily: "'Geist Mono',monospace" }} {...iFocus} />
+                      className={input} style={{ ...iStyle, fontFamily: "var(--font-mono)" }} {...iFocus} />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>

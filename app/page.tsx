@@ -8,7 +8,7 @@ import { SentriIcon } from "@/components/ui/SentriIcon";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "var(--bg)", fontFamily: "Geist, sans-serif", color: "var(--text)" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "var(--bg)", fontFamily: "var(--font-body)", color: "var(--text)" }}>
 
       {/* Nav */}
       <nav className="flex items-center justify-between px-8 py-5 border-b sticky top-0 z-50 backdrop-blur-md"
@@ -53,7 +53,7 @@ export default function LandingPage() {
           </div>
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-normal leading-tight mb-6"
-            style={{ fontFamily: "Instrument Serif, Georgia, serif", color: "var(--text)", letterSpacing: "-0.02em" }}>
+            style={{ fontFamily: "var(--font-display)", color: "var(--text)", letterSpacing: "-0.02em" }}>
             Built for{" "}
             <span className="italic" style={{ color: "var(--accent)" }}>people who know</span>
             <br />what&apos;s at stake.
@@ -100,7 +100,7 @@ export default function LandingPage() {
       <section className="px-8 py-24 max-w-5xl mx-auto w-full">
         <div className="text-center mb-16 animate-fade-up">
           <p className="text-xs uppercase tracking-widest font-semibold mb-3" style={{ color: "var(--accent)" }}>Why Sentri</p>
-          <h2 className="text-3xl font-normal" style={{ fontFamily: "Instrument Serif, serif", color: "var(--text)" }}>
+          <h2 className="text-3xl font-normal" style={{ fontFamily: "var(--font-display)", color: "var(--text)" }}>
             Engineered for trust. Designed for people.
           </h2>
         </div>
@@ -144,7 +144,7 @@ export default function LandingPage() {
       <section className="px-8 py-20 border-y" style={{ borderColor: "var(--border)", background: "var(--bg2)" }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12 animate-fade-up">
-            <h2 className="text-3xl font-normal" style={{ fontFamily: "Instrument Serif, serif", color: "var(--text)" }}>
+            <h2 className="text-3xl font-normal" style={{ fontFamily: "var(--font-display)", color: "var(--text)" }}>
               Everything worth protecting, in one place.
             </h2>
           </div>
@@ -176,7 +176,7 @@ export default function LandingPage() {
             style={{ background: "var(--accent)", boxShadow: "0 4px 24px rgba(0,230,118,0.3)" }}>
             <SentriIcon size={24} color="#000" />
           </div>
-          <h2 className="text-3xl font-normal mb-4" style={{ fontFamily: "Instrument Serif, serif", color: "var(--text)" }}>
+          <h2 className="text-3xl font-normal mb-4" style={{ fontFamily: "var(--font-display)", color: "var(--text)" }}>
             Ready to secure your digital life?
           </h2>
           <p className="text-sm mb-8 leading-relaxed" style={{ color: "var(--text2)" }}>

@@ -83,7 +83,7 @@ export default function TOTPDisplay({ secret }: TOTPDisplayProps) {
         <p
           className="text-2xl font-bold tracking-[0.18em] leading-none"
           style={{
-            fontFamily: "'Geist Mono', monospace",
+            fontFamily: "var(--font-mono)",
             color: urgent ? "var(--danger)" : "var(--accent)",
           }}
         >

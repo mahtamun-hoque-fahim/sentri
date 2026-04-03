@@ -341,7 +341,7 @@ export default function ImportPage() {
               style={{ background: "var(--accent-dim)" }}><Lock size={20} style={{ color: "var(--accent)" }} /></div>
             <div className="text-center">
               <p className="text-lg font-semibold  mb-1"
-                style={{ fontFamily: "'Geist', serif" }}>
+                style={{ fontFamily: "var(--font-display)" }}>
                 Encrypting &amp; importing…
               </p>
               <p className="text-sm ">
@@ -365,7 +365,7 @@ export default function ImportPage() {
               style={{ background: "var(--accent-dim)" }}><CheckCircle size={15} style={{ color: "var(--accent)" }} /></div>
             <div className="text-center">
               <h2 className="text-2xl font-normal  mb-2"
-                style={{ fontFamily: "'Geist', serif" }}>
+                style={{ fontFamily: "var(--font-display)" }}>
                 Import complete
               </h2>
               <p className="text-sm ">

@@ -124,7 +124,7 @@ export default function SharePage() {
 
   const Center = ({ children }: { children: React.ReactNode }) => (
     <div className="min-h-screen vault-pattern flex items-center justify-center px-6"
-      style={{ fontFamily: "'Geist', sans-serif" }}>
+      style={{ fontFamily: "var(--font-body)" }}>
       <div className="text-center max-w-sm">{children}</div>
     </div>
   );
@@ -146,7 +146,7 @@ export default function SharePage() {
     <Center>
       <div className="text-4xl mb-4">⏱</div>
       <h1 className="text-xl font-semibold  mb-2"
-        style={{ fontFamily: "'Geist', serif" }}>Link expired</h1>
+        style={{ fontFamily: "var(--font-display)" }}>Link expired</h1>
       <p className="text-sm ">This share link has expired. Ask the sender to create a new one.</p>
     </Center>
   );
@@ -155,7 +155,7 @@ export default function SharePage() {
     <Center>
       <div className="text-4xl mb-4">👁</div>
       <h1 className="text-xl font-semibold  mb-2"
-        style={{ fontFamily: "'Geist', serif" }}>Already viewed</h1>
+        style={{ fontFamily: "var(--font-display)" }}>Already viewed</h1>
       <p className="text-sm ">This link has reached its maximum view count.</p>
     </Center>
   );
@@ -164,7 +164,7 @@ export default function SharePage() {
     <Center>
       <div className="text-4xl mb-4">❌</div>
       <h1 className="text-xl font-semibold  mb-2"
-        style={{ fontFamily: "'Geist', serif" }}>Could not decrypt</h1>
+        style={{ fontFamily: "var(--font-display)" }}>Could not decrypt</h1>
       <p className="text-sm ">The link may be incomplete or the key is missing from the URL.</p>
     </Center>
   );
@@ -172,7 +172,7 @@ export default function SharePage() {
   // ─── Ready — show decrypted item ──────────────────────────────────────────
 
   return (
-    <div className="min-h-screen vault-pattern" style={{ fontFamily: "'Geist', sans-serif" }}>
+    <div className="min-h-screen vault-pattern" style={{ fontFamily: "var(--font-body)" }}>
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 border-b /80 backdrop-blur-sm"
         style={{ borderColor: "var(--border)" }}>
@@ -180,7 +180,7 @@ export default function SharePage() {
           <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
             style={{ background: "linear-gradient(135deg, #4F6EF7, #3A56D4)" }}>S</div>
           <span className="text-lg font-semibold"
-            style={{ fontFamily: "'Geist', serif", color: "var(--accent)" }}>Sentri</span>
+            style={{ fontFamily: "var(--font-display)", color: "var(--accent)" }}>Sentri</span>
         </div>
         <Link href="/signin"
           className="text-sm font-medium px-4 py-1.5 rounded-lg text-white transition-all hover:opacity-90"
@@ -198,7 +198,7 @@ export default function SharePage() {
               Shared with you via Sentri
             </p>
             <h1 className="text-2xl font-normal "
-              style={{ fontFamily: "'Geist', serif" }}>
+              style={{ fontFamily: "var(--font-display)" }}>
               {payload.title}
             </h1>
           </div>

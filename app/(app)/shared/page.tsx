@@ -189,7 +189,7 @@ export default function SharedVaultsPage() {
                 <div className="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl mx-auto mb-4"
                   style={{ background: "var(--accent-dim)" }}><Users size={16} style={{ color: "var(--sub)" }} /></div>
                 <h3 className="text-base font-semibold  mb-1"
-                  style={{ fontFamily: "'Geist', serif" }}>No shared vaults yet</h3>
+                  style={{ fontFamily: "var(--font-display)" }}>No shared vaults yet</h3>
                 <p className="text-sm ">Create one above and invite your trusted circle.</p>
               </div>
             )}
