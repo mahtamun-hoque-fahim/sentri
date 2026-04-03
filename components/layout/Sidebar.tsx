@@ -11,7 +11,7 @@ import {
   LogOut, Plus, Menu, X,
 } from "lucide-react";
 import ThemeToggle from "@/components/layout/ThemeToggle";
-import { SentriLogo } from "@/components/ui/SentriLogo";
+import { SentriLogoDuotone } from "@/components/ui/SentriLogoDuotone";
 
 const VAULT_NAV = [
   { href: "/dashboard",                icon: LayoutGrid, label: "All Items"  },
@@ -30,7 +30,7 @@ const TOOLS_NAV = [
   { href: "/settings",      icon: Settings,      label: "Settings"      },
 ];
 
-function NavItem({ href, icon: Icon, label }: { href: string; icon: React.ElementType; label: string }) {
+function NavItem({ href, icon: Icon, label, onNav }: { href: string; icon: React.ElementType; label: string; onNav?: () => void }) {
   const pathname = usePathname();
   const base     = href.split("?")[0];
   const active   = pathname === base || (pathname === "/dashboard" && href === "/dashboard");
@@ -38,6 +38,7 @@ function NavItem({ href, icon: Icon, label }: { href: string; icon: React.Elemen
   return (
     <Link
       href={href}
+      onClick={onNav}
       style={{
         display: "flex",
         alignItems: "center",
@@ -45,10 +46,10 @@ function NavItem({ href, icon: Icon, label }: { href: string; icon: React.Elemen
         padding: "7px 12px",
         borderRadius: "8px",
         fontSize: "13px",
-        fontWeight: active ? 500 : 400,
-        color: active ? "var(--accent)" : "var(--sub)",
-        background: active ? "var(--accent-dim)" : "transparent",
-        borderLeft: active ? "2px solid var(--accent)" : "2px solid transparent",
+        fontWeight: active ? 600 : 400,
+        color: active ? "#ffffff" : "var(--sub)",
+        background: active ? "var(--accent)" : "transparent",
+        borderLeft: "2px solid transparent",
         transition: "color 0.15s, background 0.15s",
         textDecoration: "none",
       }}
@@ -65,7 +66,7 @@ function NavItem({ href, icon: Icon, label }: { href: string; icon: React.Elemen
         }
       }}
     >
-      <Icon size={15} strokeWidth={active ? 2 : 1.6} />
+      <Icon size={15} strokeWidth={active ? 2.2 : 1.6} style={{ color: active ? "#ffffff" : undefined }} />
       <span>{label}</span>
     </Link>
   );
@@ -87,9 +88,25 @@ export default function Sidebar() {
   const content = (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
 
-      {/* Logo */}
-      <div style={{ padding: "0 20px", marginBottom: "20px", display: "flex", alignItems: "center", height: 40 }}>
-        <SentriLogo height={22} />
+      {/* Logo row — hamburger lives here on mobile */}
+      <div style={{
+        padding: "0 12px 0 20px", marginBottom: "20px",
+        display: "flex", alignItems: "center", justifyContent: "space-between", height: 40,
+      }}>
+        <SentriLogoDuotone height={22} accentColor="#ffffff" secondaryColor="#00e676" />
+        {/* Close button — mobile only */}
+        <button
+          className="lg:hidden"
+          onClick={() => setMobileOpen(false)}
+          style={{
+            width: 28, height: 28, borderRadius: 7,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: "var(--surface2)", border: "1px solid var(--border)",
+            color: "var(--sub)", cursor: "pointer",
+          }}
+        >
+          <X size={13} />
+        </button>
       </div>
 
       {/* New Item button */}
@@ -104,7 +121,7 @@ export default function Sidebar() {
           fontSize: 13,
           fontWeight: 600,
           background: "var(--accent)",
-          color: "var(--bg)",
+          color: "#000",
           textDecoration: "none",
           transition: "opacity 0.15s",
         }}
@@ -120,12 +137,12 @@ export default function Sidebar() {
         <p style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", padding: "0 12px", marginBottom: 4, color: "var(--border2)" }}>
           Vault
         </p>
-        {VAULT_NAV.map(item => <NavItem key={item.href} {...item} />)}
+        {VAULT_NAV.map(item => <NavItem key={item.href} {...item} onNav={() => setMobileOpen(false)} />)}
 
         <p style={{ fontSize: 10, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.1em", padding: "0 12px", marginTop: 20, marginBottom: 4, color: "var(--border2)" }}>
           Tools
         </p>
-        {TOOLS_NAV.map(item => <NavItem key={item.href} {...item} />)}
+        {TOOLS_NAV.map(item => <NavItem key={item.href} {...item} onNav={() => setMobileOpen(false)} />)}
       </nav>
 
       {/* Footer */}
@@ -142,7 +159,7 @@ export default function Sidebar() {
           {itemCount} item{itemCount !== 1 ? "s" : ""} encrypted
         </div>
 
-        {/* Theme + Lock row */}
+        {/* Lock row */}
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <ThemeToggle />
           <button
@@ -185,27 +202,29 @@ export default function Sidebar() {
         {content}
       </aside>
 
-      {/* Mobile toggle */}
-      <button
-        className="lg:hidden"
-        style={{
-          position: "fixed", top: 16, left: 16, zIndex: 50,
-          width: 36, height: 36, borderRadius: 10,
-          display: "flex", alignItems: "center", justifyContent: "center",
-          background: "var(--surface)", border: "1px solid var(--border)",
-          color: "var(--sub)", cursor: "pointer",
-        }}
-        onClick={() => setMobileOpen(o => !o)}
-      >
-        {mobileOpen ? <X size={15} /> : <Menu size={15} />}
-      </button>
+      {/* Mobile hamburger — fixed, only visible when sidebar is closed */}
+      {!mobileOpen && (
+        <button
+          className="lg:hidden"
+          style={{
+            position: "fixed", top: 16, left: 16, zIndex: 50,
+            width: 36, height: 36, borderRadius: 10,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: "var(--surface)", border: "1px solid var(--border)",
+            color: "var(--sub)", cursor: "pointer",
+          }}
+          onClick={() => setMobileOpen(true)}
+        >
+          <Menu size={15} />
+        </button>
+      )}
 
       {/* Mobile overlay + sidebar */}
       {mobileOpen && (
         <>
           <div
             className="lg:hidden"
-            style={{ position: "fixed", inset: 0, zIndex: 40, background: "rgba(0,0,0,0.5)" }}
+            style={{ position: "fixed", inset: 0, zIndex: 40, background: "rgba(0,0,0,0.6)" }}
             onClick={() => setMobileOpen(false)}
           />
           <aside
@@ -215,7 +234,6 @@ export default function Sidebar() {
               width: 220, padding: "20px 0",
               background: "var(--surface)", borderRight: "1px solid var(--border)",
             }}
-            onClick={() => setMobileOpen(false)}
           >
             {content}
           </aside>
