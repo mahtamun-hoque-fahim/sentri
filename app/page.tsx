@@ -52,8 +52,8 @@ export default function LandingPage() {
             Zero-knowledge — your data never reaches our servers
           </div>
 
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-normal leading-none mb-6"
-            style={{ fontFamily: "var(--font-display)", color: "var(--text)", letterSpacing: "0.02em" }}>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight mb-6"
+            style={{ fontFamily: "var(--font-display)", color: "var(--text)", letterSpacing: "-0.01em" }}>
             Built for{" "}
             <span className="italic" style={{ color: "var(--accent)" }}>people who know</span>
             <br />what&apos;s at stake.
