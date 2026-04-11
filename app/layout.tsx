@@ -25,11 +25,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* eslint-disable-next-line @next/next/no-page-custom-font */}
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
-          <link
-            href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
-            rel="stylesheet"
-          />
           <link
             href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
             rel="stylesheet"
