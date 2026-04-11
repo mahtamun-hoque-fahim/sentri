@@ -196,7 +196,7 @@ export default function Sidebar() {
           style={{
             position: "fixed", top: 16, left: 16, zIndex: 50,
             width: 36, height: 36, borderRadius: 10,
-            display: "flex", alignItems: "center", justifyContent: "center",
+            alignItems: "center", justifyContent: "center",
             background: "var(--surface)", border: "1px solid var(--border)",
             color: "var(--sub)", cursor: "pointer",
           }}
