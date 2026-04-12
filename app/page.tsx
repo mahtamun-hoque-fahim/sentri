@@ -125,10 +125,7 @@ export default function LandingPage() {
             },
           ].map((f) => (
             <div key={f.title} className="vault-card p-6 flex flex-col gap-4">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ background: `${f.color}14`, border: `1px solid ${f.color}28` }}>
-                <f.icon size={18} style={{ color: f.color }} strokeWidth={1.8} />
-              </div>
+              <f.icon size={22} style={{ color: f.color }} strokeWidth={1.6} />
               <div>
                 <p className="font-semibold mb-2 text-sm" style={{ color: "var(--text)" }}>{f.title}</p>
                 <p className="text-sm leading-relaxed" style={{ color: "var(--sub)" }}>{f.desc}</p>
