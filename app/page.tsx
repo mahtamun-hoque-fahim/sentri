@@ -54,7 +54,7 @@ export default function LandingPage() {
 
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold leading-tight mb-6"
             style={{ fontFamily: "var(--font-display)", color: "var(--text)", letterSpacing: "-0.01em" }}>
-            Built to Protect what's at stake.
+            Built to Protect what&apos;s at stake.
           </h1>
 
           <p className="text-lg max-w-xl mx-auto mb-10 leading-relaxed" style={{ color: "var(--text2)" }}>
